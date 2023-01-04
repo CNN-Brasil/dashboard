@@ -10,7 +10,7 @@ export const App = props => {
     return(
         
         <ContextReducer.Provider value={{state, dispatch}}>
-            <GlobalStyles padding={state?.actualRoute} />
+            <GlobalStyles theme={state?.actualRoute} />
             <Router />
         </ContextReducer.Provider>
 

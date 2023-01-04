@@ -8,14 +8,19 @@ export const Container = styled.div `
     ${props => props.themes === 'dark' && css`
         background-color: #0C0C0C;
         
+        ${Header} {
+            background-color: #282828;
+        }
 
-        ${Header},
+
         ${Types},
         ${Info},
         ${ContentChangeColor},
         ${ContentGraph},
-        ${Infos} {
-            background-color: #282828;
+        ${Infos},
+        ${GraphContent},
+        ${Body} {
+            background-color: #0C0C0C;
         }
         ${Title}, 
         ${TypesSpan},
@@ -30,7 +35,11 @@ export const Container = styled.div `
 export const ContentGraph = styled.div`
     display: flex;
     flex-flow: column;
-    width: 75%;
+    width: 820px;
+    
+    @media(min-width: 1920px) {
+        width: 75%;
+    }
 
     @media(max-width: 768px) {
         width: 100%;
@@ -40,15 +49,17 @@ export const ContentGraph = styled.div`
 
 export const Grid = styled.div`
     display: flex;
-    max-width: 1920px;
+    max-width: 1280px;
+    padding: 0 20px;
     width: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    margin: 0 auto;
 
     @media(min-width: 1920px) {
         max-width: 2500px;
         margin: auto;
-        justify-content: space-between;
+        
     }
 
     @media(max-width: 768px) {
@@ -106,10 +117,6 @@ export const ContentChangeColor = styled.div`
     padding: 10px 20px;
     justify-content: space-between;
 
-    ${props => props.themes === 'dark' && css`
-        background-color: #282828 !important;
-    `}
-
 
     @media(max-width: 768px) {
         display: flex;
@@ -133,9 +140,13 @@ export const Title = styled.h2`
     dispay: block;
     margin-left: 30px;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 16px;
     color: #464646;
     margin-right: 40px;
+
+    @media(min-width: 1920px) {
+        font-size: 24px;
+    }
 
     @media(max-width: 768px) {
         font-size: 16px;
@@ -143,6 +154,11 @@ export const Title = styled.h2`
         margin-left: 20px;
     }
 
+`
+
+export const ContentLogo = styled.div`
+    width: 52px;
+    height: 52px;
 `
 
 export const Types = styled.div`
@@ -175,8 +191,13 @@ export const Types = styled.div`
 
 export const TypesSpan = styled.span`
     font-weight: 700;
-    font-size: 20px;
+    font-size: 16px;
     color: #464646;
+    white-space: nowrap;
+
+    @media(min-width: 1920px) {
+        font-size: 20px;
+    }
 
     @media(max-width: 768px) {
         font-size: 16px;
@@ -185,25 +206,23 @@ export const TypesSpan = styled.span`
 
 export const Graph = styled.div`
     width: 100%;
-    height: 400px;
-    margin-bottom: 110px;
 ` 
 
 export const Body = styled.div`
     width: 100%;
-    min-width: 1920px;
     position: relative;
     display: flex;
     justify-content: space-between;
-    
-    @media(max-width: 768px) {
-        min-width: inherit;
-    }
+    min-width: inherit;
     
 ` 
 
 export const Infos = styled.div`
-    width: 20%;
+    width: 370px;
+
+    @media(min-width: 1920px) {
+        width: 20%;
+    }
 
     @media(max-width: 768px) {
         width: 100%;
@@ -216,9 +235,14 @@ export const SubTitle = styled.h4`
     font-size: 16px;
     font-weight: 700;
     display: block;
-    margin-bottom: 40px;
     display: flex;
     align-items: center;
+
+
+    ${props => props.margin && css`
+        margin-bottom: 40px;
+        justify-content: center;
+    `}
 
     svg {
         margin-right: 20px;
@@ -250,21 +274,32 @@ export const Info = styled.div`
 
 export const InfoGeral = styled.div`
     position: relative;
+
+    @media(min-width: 1920px) {
+        min-width: 70%;
+    }
 `
 
 export const InfoLogo = styled.div`
-    width: 100%;
+    min-width: 110px;
     height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-right: 1px solid #E6E6E6;
 
-    @media(max-width: 768px) {
-        min-width: 110px;
+    @media(min-width: 1920px) {
+        min-width: 30%;
     }
 `
 
 export const GraphContent = styled.div`
+    border: 1px solid #E6E6E6;
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 40px 0;
+
     @media(max-width: 768px) {
         overflow-x: auto;
         overflow-y: hidden;
@@ -272,11 +307,12 @@ export const GraphContent = styled.div`
 `
 
 export const InfoNumbers = styled.div`
-    width: 325px;
+    width: 100%;
     height: 45px;
     font-size: 16px;
     font-weight: 400;
     line-height: 45px;
+    padding-left: 30px;
 
     ${props => props.border && css`
         border-bottom: 1px solid #E6E6E6;
@@ -335,10 +371,6 @@ export const CheckBox = styled.div`
         ${props => props.mobile && css`
             width: 30px;
             height: 15px;
-        `}
-
-        ${props => props.themes === 'dark' && css`
-            background-color: #D0D0D0 !important;
         `}
     }
 `

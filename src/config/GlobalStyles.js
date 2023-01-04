@@ -11,7 +11,7 @@ const GlobalStyles = createGlobalStyle`
 
   #root {
     background-color: #F8F9FA;
-    height: 100%;
+    height: 100vh;
 
   }
 
@@ -20,18 +20,16 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
   }
 
-  ${props => props.padding === '' && css `
-    html {
-      padding-top: 0;
-    }
-  `}
-
   html, body {
     font: 300 13px/1.2, sans-serif;
     font-family: 'Open Sans', sans-serif;
     overflow-x: hidden !important;
     scroll-behavior: smooth;
-    height: 100%;
+    background-color: #FAFAFA;
+
+    ${props => props.themes === 'dark' && css`
+      background-color: #0C0C0C;
+    `}
 }
 
   input:not([type="checkbox"]),

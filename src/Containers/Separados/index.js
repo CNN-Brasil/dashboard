@@ -27,7 +27,8 @@ import {
     TitleChangeColor,
     GraphContent,
     ContentAnchor,
-    ContentIcon
+    ContentIcon,
+    ContentLogo
 } from './styles'
 
 import {ContextReducer} from "../../reducer/AdminReducer";
@@ -125,13 +126,13 @@ export default props => {
         var options = {
             legend: 'none',
             curveType: "function",
-            backgroundColor: ball ? 'transparent' : '#fff',
+            backgroundColor:'transparent',
             chartArea: {
                 width:"90%",
-                left: 80,
-                right: 50,
-                top: 50,
-                bottom: 50
+                top: 40,
+                bottom: 40,
+                left: 40,
+                right: 40
             },
             vAxis: {    
                 format: 'short',
@@ -183,7 +184,9 @@ export default props => {
                             </CheckBoxContent>
                         </ContentChangeColor>
                         <Content>
-                            <CNNLogo />
+                            <ContentLogo>
+                                <CNNLogo />
+                            </ContentLogo>
                             <Title>Audiência em tempo real.</Title>
                             <ContentAnchor mbl={mobile}>
                                 <ContentIcon act={activeGraph} onClick={handleAnchorGraph}>
@@ -263,7 +266,7 @@ export default props => {
                         </Graph>
                     </ContentGraph>
                     <Infos id='infos'>
-                        <SubTitle>Audiência em tempo real</SubTitle>
+                        <SubTitle margin>Audiência em tempo real</SubTitle>
                         <Info>
                             <InfoLogo>
                                 {ball ? <CNNLogo /> : <CNNLogoWhite />}
