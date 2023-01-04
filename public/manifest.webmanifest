@@ -1,9 +1,9 @@
 {
-	"short_name": "Vurdere",
-	"name": "Vurdere | Social+Insights™",
+	"short_name": "CNN Brasil",
+	"name": "CNN Brasil | Dashboard",
 	"lang": "en",
 	"description": "Harness the power of social and step change conversion rates.",
-	"start_url": "/login",
+	"start_url": "/detalhado",
 	"background_color": "#000000",
 	"theme_color": "#000000",
 	"dir": "auto",
