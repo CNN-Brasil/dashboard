@@ -24,10 +24,16 @@
     "sass": "^1.56.1",
     "styled-components": "^5.3.6"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
   "scripts": {
     "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "prod": "babel src -d dist --copy-files",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,5 +53,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.5"
   }
 }
