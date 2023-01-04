@@ -29,7 +29,6 @@ const GlobalStyles = createGlobalStyle`
   html, body {
     font: 300 13px/1.2, sans-serif;
     font-family: 'Open Sans', sans-serif;
-    background-color: #F8F9FA;
     overflow-x: hidden !important;
     scroll-behavior: smooth;
     height: 100%;
