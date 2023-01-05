@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/cnn-ibope-metrics/node_modules
 /.pnp
 .idea
 .pnp.js
