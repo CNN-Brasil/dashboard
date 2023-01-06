@@ -52,7 +52,7 @@ import {ReactComponent as IcoGraph} from '../../assets/ico-graph.svg';
 import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
 import { Chart } from "react-google-charts";
 
-import {getIbope} from '../../actions/ReviewsAction.js'
+import {getIbope, getYoutube} from '../../actions/ReviewsAction.js'
 
 
 export default props => {
@@ -66,9 +66,16 @@ export default props => {
 
     useEffect(() => {
         getIbope(dispatch)
+        getYoutube(dispatch)
+
+        setInterval(() => {
+            getIbope(dispatch)
+            getYoutube(dispatch)
+        }, 60000)
     }, [])
 
     useEffect(() => {
+        console.log('state ', state.youtube)
         renderMobile()
     }, [])
 
@@ -102,30 +109,10 @@ export default props => {
         }
     }
 
-    const renderData = () => {
-        const data = [
-            [
-              "Horário",
-              "CNN Brasil",
-              "Globo News",
-              "Record News",
-              "Jovem Pan News",
-              "Band News"
-            ],
-            ['09:20', 37.8, 80.8, 41.8, 100, 150],
-            ['09:21', 30.9, 69.5, 32.4, 150, 150],
-            ['09:22', 25.4, 57, 25.7, 200, 150],
-            ['09:23', 11.7, 18.8, 10.5, 300, 150],
-            ['09:24', 11.9, 17.6, 10.4, 400, 150],
-            ['09:25', 8.8, 13.6, 7.7, 500, 150],
-            ['09:26', 7.6, 12.3, 9.6, 600, 150],
-        ];
-
-        return data
-    }
 
     const renderOptions = () => {
         var options = {
+            width: (state.youtube && state.youtube.length > 26) ? state.youtube.length * 65 : '1200px',
             legend: 'none',
             curveType: "function",
             backgroundColor:'transparent',
@@ -148,7 +135,7 @@ export default props => {
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',
-                }
+                },
             },
             series: {
                 0: { color: '#CC0000' },
@@ -259,7 +246,7 @@ export default props => {
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
-                                    data={state.ibope}
+                                    data={state.youtube}
                                     width={mobile ? '1200px' : '100%'}
                                     height="400px"
                                     options={renderOptions()} 
@@ -274,9 +261,9 @@ export default props => {
                                 {ball ? <CNNLogo /> : <CNNLogoWhite />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube 955.989 UV</InfoNumbers>
-                                <InfoNumbers border>Ibope 5.955.989 UV</InfoNumbers>
-                                <InfoNumbers><strong>Total 15.955.989 UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[1]}  UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[1]} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[1] + state?.youtube?.slice(-1).pop()[1]} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -285,9 +272,9 @@ export default props => {
                                 <GloboNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube 955.989 UV</InfoNumbers>
-                                <InfoNumbers border>Ibope 5.955.989 UV</InfoNumbers>
-                                <InfoNumbers><strong>Total 15.955.989 UV</strong></InfoNumbers>
+                                <InfoNumbers border>Não tem canal no Youtube </InfoNumbers>
+                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[2]} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[2] + state?.youtube?.slice(-1).pop()[2]} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -296,9 +283,9 @@ export default props => {
                                 {ball ? <RecordNewsLogoDark /> : <RecordNewsLogo />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube 955.989 UV</InfoNumbers>
-                                <InfoNumbers border>Ibope 5.955.989 UV</InfoNumbers>
-                                <InfoNumbers><strong>Total 15.955.989 UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[3]} UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[3]} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[3] + state?.youtube?.slice(-1).pop()[3]} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -307,9 +294,9 @@ export default props => {
                                 <JPNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube 955.989 UV</InfoNumbers>
-                                <InfoNumbers border>Ibope 5.955.989 UV</InfoNumbers>
-                                <InfoNumbers><strong>Total 15.955.989 UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[4]} UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[4]} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[4] + state?.youtube?.slice(-1).pop()[4]} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -318,9 +305,9 @@ export default props => {
                                 <BandNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube 955.989 UV</InfoNumbers>
-                                <InfoNumbers border>Ibope 5.955.989 UV</InfoNumbers>
-                                <InfoNumbers><strong>Total 15.955.989 UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[5]} UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[5]} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[5] + state?.youtube?.slice(-1).pop()[5]} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
                     </Infos>

@@ -304,6 +304,17 @@ export const GraphContent = styled.div`
         overflow-x: auto;
         overflow-y: hidden;
     }
+
+    #reactgooglegraph-1,
+    #reactgooglegraph-2 {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    #reactgooglegraph-1::-webkit-scrollbar,
+    #reactgooglegraph-2::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 export const InfoNumbers = styled.div`
