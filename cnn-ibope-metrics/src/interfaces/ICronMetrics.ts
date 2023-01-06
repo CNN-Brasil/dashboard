@@ -1,5 +1,6 @@
 interface ICronMetrics {
-  CronRunBot(): Promise<void>;
+  CronRunBotIbope(): Promise<void>;
+  CronRunBotYoutube(): Promise<void>;
   RunCron(): void;
 }
 
