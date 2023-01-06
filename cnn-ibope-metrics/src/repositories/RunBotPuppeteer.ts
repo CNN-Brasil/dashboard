@@ -6,7 +6,7 @@ class RunBotPuppeteer implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
   
     const {url, key}   = params;
-    const browser      = await puppeteer.launch();
+    const browser      = await puppeteer.launch({ headless: false });
 
     const pageInit     = await browser.newPage();
     const selectLive   = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
@@ -15,7 +15,8 @@ class RunBotPuppeteer implements IRunBot {
  
     let arrayViews = [];
 
-    await pageInit.goto(url);
+    await pageInit.setDefaultNavigationTimeout(0);
+    await pageInit.goto(url, { waitUntil: 'load',timeout: 0 });
     await pageInit.content();
     
     if (0 === (await pageInit.$$(selectLive)).length ) {
@@ -47,8 +48,9 @@ class RunBotPuppeteer implements IRunBot {
       /**
         *  Open page live youtube
       **/
-      if (pageLive)		
-      await pageInit.goto(pageLive);
+      if (pageLive)	
+      await pageInit.setDefaultNavigationTimeout(0);	
+      await pageInit.goto(pageLive, { waitUntil: 'load',timeout: 0 });
       await pageInit.bringToFront();
       await pageInit.content();
 

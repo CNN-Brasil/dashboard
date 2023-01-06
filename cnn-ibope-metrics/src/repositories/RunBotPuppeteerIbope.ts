@@ -6,10 +6,11 @@ class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
 
     const { url } = params;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
-    await page.goto(url);
+    await page.setDefaultNavigationTimeout(0);
+    await page.goto(url, { waitUntil: 'load',timeout: 0 });
     await page.waitForSelector("[for='TOSCheckBox']");
     await page.waitForSelector("[for='saveInfoCheckbox']");
     await page.waitForSelector("[type='submit']");
@@ -87,6 +88,8 @@ class RubBotPuppeteerIbope implements IRunBot {
         return JSON.stringify(objtableArr);
       });
     }, getValues);
+
+    await browser.close();
 
     return this.MountJson(data);
   }
