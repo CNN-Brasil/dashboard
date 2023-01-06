@@ -50,9 +50,6 @@ class CronMetrics implements ICronMetrics {
         hour: "numeric",
         minute: "numeric"
       }));
-
-      this.CronRunBotIbope();
-      this.CronRunBotYoutube();
     });
   }
 }
