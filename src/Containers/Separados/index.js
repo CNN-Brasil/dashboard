@@ -52,6 +52,8 @@ import {ReactComponent as IcoGraph} from '../../assets/ico-graph.svg';
 import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
 import { Chart } from "react-google-charts";
 
+import {getIbope} from '../../actions/ReviewsAction.js'
+
 
 export default props => {
     const { state, dispatch } = useContext(ContextReducer);
@@ -63,8 +65,8 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
-        console.log('state ', state.graph)
-    }, [state.graph])
+        getIbope()
+    }, [])
 
     useEffect(() => {
         renderMobile()
@@ -245,7 +247,7 @@ export default props => {
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
-                                    data={state.graph}
+                                    data={state.ibope}
                                     width={mobile ? '1200px' : '100%'}
                                     height="400px"
                                     options={renderOptions()} 
@@ -257,7 +259,7 @@ export default props => {
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
-                                    data={state.graph}
+                                    data={state.ibope}
                                     width={mobile ? '1200px' : '100%'}
                                     height="400px"
                                     options={renderOptions()} 

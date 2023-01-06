@@ -1,21 +1,22 @@
-export const getGraphic = (dispatch, ecomm, token) => {
-    let _url = `https://${ecomm.domain}/api/admin/intelligence/graphics`;
-
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
+export const getIbope = (dispatch) => {
+    let _url = 'http://localhost:9999/view/ibope';
 
     var requestOptions = {
         method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
+        mode:"no-cors"
     };
 
-    fetch(_url, requestOptions).then(async (response) => {
-        let resp = await response.json();
-
-        dispatch({
-            type: "GET_GRAPHIC",
-            payload: resp
+    fetch(_url, requestOptions).then((response) => {
+        console.log('response ', response)
+        response.text().then((data) => {
+            console.log('data ', data)
+            
+            let resp = data;
+        
+            dispatch({
+                type: "GET_IBOPE",
+                payload: resp
+            })
         })
     })
 }
