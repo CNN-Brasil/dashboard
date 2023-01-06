@@ -1,11 +1,10 @@
 import puppeteer from 'puppeteer';
 import { IRunBot, IRunBotParamsDTO } from '../interfaces/IRunBot';
 import { ConverterDataChannel } from '../useCase/ibope/ConverterDataChannel';
-import { JsonMetricFS } from './JsonMetricFS';
 
 class RubBotPuppeteerIbope implements IRunBot { 
-  async RunBot(params: IRunBotParamsDTO): Promise<any> {
-
+  async RunBot(params: IRunBotParamsDTO): Promise<object> {
+    
     const { url } = params;
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -55,11 +54,11 @@ class RubBotPuppeteerIbope implements IRunBot {
           let channelArray = [];
           let payTVArray = [];
 
-          for (let index = 0; index < data.length; index++) {
-            const element = data[index];
+          //for (let index = 0; index < data.length; index++) {
+            //const element = data[index];
 
-            let share = element.querySelectorAll('td')[0].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
-            let hours = time[index].querySelector('td span')?.textContent;
+            let share = data[0].querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
+            let hours = time[0].querySelector('td span')?.textContent;
 
             if ("TOTALPAYTV" === nameChannel) {
               const payTV = ` { "payTV": "${share}" } `;
@@ -70,7 +69,7 @@ class RubBotPuppeteerIbope implements IRunBot {
               const channelObjData = ` {"share": "${share}", "time": "${hours}"} `;
               channelArray.push(channelObjData);
             }
-          }
+          //}
 
           if ("TOTALPAYTV" !== nameChannel) {
             let channelObj = `{ "${nameChannel}": [${channelArray}] }`;
@@ -88,12 +87,11 @@ class RubBotPuppeteerIbope implements IRunBot {
         return JSON.stringify(objtableArr);
       });
     }, getValues);
-
-    console.log(this.BU(data));
-    return data;
+    
+    return this.MountJson(data);
   }
 
-  BU(data: any) {
+  MountJson(data: any): string[] {
     let ibopeFinal: string[] = [];
     let ibopeArr: string[] = [];
 
@@ -109,20 +107,21 @@ class RubBotPuppeteerIbope implements IRunBot {
             obj.PAYTV.forEach((channnelShare: any) => {
               (Object.keys(channnelShare) as (keyof typeof channnelShare)[]).forEach((key, indexs) => {
                 const sharePayTV = channnelShare[key].payTV;
+                const shareChannel = element.share?.replace('-', '0');
                 const converterDataChannel = new ConverterDataChannel();
-                const views = converterDataChannel.CalculationChannel(sharePayTV, element.share);
+                const views = converterDataChannel.CalculationChannel(sharePayTV, shareChannel);
                 ibopeArr.push(`{"time": "${element.time.toString()}", "view": "${views.toString()}" }`);
               });
             });
           }
-          const finalString = `{"${keyChannel.toString()}": [${ibopeArr}]}`;
+          const finalString = `{"${keyChannel.toString()}": ${ibopeArr}}`;
           const finalJson   = JSON.parse(finalString);
           ibopeFinal.push(finalJson);
         });
       });
     });
-    const jsonMetric = new JsonMetricFS();
-    jsonMetric.SaveJson({key: JSON.stringify(ibopeFinal), view: "", time:""}, 'ibope-metric');
+
+    return ibopeFinal;
   }
 }
 

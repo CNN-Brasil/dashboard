@@ -1,10 +1,9 @@
 import { IRunBot, IRunBotParamsDTO } from "../interfaces/IRunBot";
-import { JsonMetricFS } from "./JsonMetricFS";
 import puppeteer from 'puppeteer';
 
 class RunBotPuppeteer implements IRunBot {
   
-  async RunBot(params: IRunBotParamsDTO): Promise<any> {
+  async RunBot(params: IRunBotParamsDTO): Promise<object> {
   
     const {url, key}   = params;
     const browser      = await puppeteer.launch();
@@ -13,15 +12,17 @@ class RunBotPuppeteer implements IRunBot {
     const selectLive   = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
     const resultsViews = '#above-the-fold yt-formatted-string#original-info .style-scope:first-child';
     const resultTitle  = '#above-the-fold #title h1';
-
-    let a = [];
+ 
+    let arrayViews = [];
 
     await pageInit.goto(url);
     await pageInit.content();
     
     if (0 === (await pageInit.$$(selectLive)).length ) {
       await browser.close();
-      return false;
+      return { "time": new Date().toLocaleTimeString('pt-BR', { hour12: false, 
+        hour: "numeric", 
+        minute: "numeric"}), "view": 0 };
     }
     
     /**
@@ -36,7 +37,9 @@ class RunBotPuppeteer implements IRunBot {
     if (0 === newPage.length) {
       console.log(newPage.length);
       await browser.close();
-      return false;
+      return { "time": new Date().toLocaleTimeString('pt-BR', { hour12: false, 
+        hour: "numeric", 
+        minute: "numeric"}), "view": 0 };
     }
 
     for await (const pageLive of newPage) {
@@ -60,33 +63,23 @@ class RunBotPuppeteer implements IRunBot {
       const view = await pageInit.evaluate((resultsViews) => {
         let getViewsElement = document.querySelector(resultsViews);
         const  view = getViewsElement?.textContent?.replace(/\D/g,'') ?? "0";
+
         return view;
       }, resultsViews, index++);
-
-      /**
-        *  get title video youtube live
-      **/
-      const time = await pageInit.evaluate((resultTitle) => {
-        let getViewsElement = document.querySelector(resultTitle);
-        const title = getViewsElement?.textContent?.trim() ?? ' - ';
-        return title;
-      }, resultTitle, index++);
-
-      const hours = new Date();
-      const hourss = hours.getHours() +":"+ hours.getMinutes();  
-      const JsonMetric = new JsonMetricFS();
-      const json = `{
-        "${key}": [
-          { "time": "${hourss}", "view": "${view}" }
-        ]
-      }`;
-      const finalJson = [JSON.parse(json)];
-      JsonMetric.SaveJson({key:JSON.stringify(finalJson), time, view}, 'youtube-metric');
-      a.push({ key, view, time });
+      
+      arrayViews.push(parseInt(view));
     }
 
+    const view = arrayViews.reduce(function(soma, i) {
+      return soma + i;
+    });
+
+    const json = JSON.parse(`{ "time": "${new Date().toLocaleTimeString('pt-BR', { hour12: false, 
+      hour: "numeric", 
+      minute: "numeric"})}", "view": "${view}" }`)
+
     await browser.close();
-    return a;
+    return json;
   }
 }
 
