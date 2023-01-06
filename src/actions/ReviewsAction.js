@@ -3,20 +3,15 @@ export const getIbope = (dispatch) => {
 
     var requestOptions = {
         method: 'GET',
-        mode:"no-cors"
+        mode:"cors"
     };
 
-    fetch(_url, requestOptions).then((response) => {
-        console.log('response ', response)
-        response.text().then((data) => {
-            console.log('data ', data)
-            
-            let resp = data;
-        
-            dispatch({
-                type: "GET_IBOPE",
-                payload: resp
-            })
+    fetch(_url, requestOptions).then(async (response) => {
+        let resp = await response.json();
+        console.log('resp ', resp)
+        dispatch({
+            type: "GET_IBOPE",
+            payload: resp
         })
     })
 }

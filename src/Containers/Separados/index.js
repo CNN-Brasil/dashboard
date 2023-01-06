@@ -65,7 +65,7 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
-        getIbope()
+        getIbope(dispatch)
     }, [])
 
     useEffect(() => {
