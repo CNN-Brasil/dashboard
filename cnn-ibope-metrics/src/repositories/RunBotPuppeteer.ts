@@ -6,7 +6,7 @@ class RunBotPuppeteer implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
   
     const {url, key}   = params;
-    const browser      = await puppeteer.launch();
+    const browser      = await puppeteer.launch({ headless: false });
 
     const pageInit     = await browser.newPage();
     const selectLive   = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
@@ -76,7 +76,7 @@ class RunBotPuppeteer implements IRunBot {
 
     const json = JSON.parse(`{ "time": "${new Date().toLocaleTimeString('pt-BR', { hour12: false, 
       hour: "numeric", 
-      minute: "numeric"})}", "view": "${view}" }`)
+      minute: "numeric"})}", "view": ${parseInt(view.toString())} }`)
 
     await browser.close();
     return json;

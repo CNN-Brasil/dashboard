@@ -7,7 +7,7 @@ const cron = require('node-cron');
 
 class CronMetrics implements ICronMetrics {
 
-  private jsonMetric =  new JsonMetricFS();
+  private jsonMetric = new JsonMetricFS();
 
 
   async CronRunBotIbope(): Promise<void> {
@@ -15,11 +15,10 @@ class CronMetrics implements ICronMetrics {
     const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     const sringIbope = JSON.stringify(objIbope);
 
-    this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric'});
+    this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric' });
   }
 
   async CronRunBotYoutube(): Promise<void> {
-    
     const youtubeClass = new RunBotPuppeteer();
     const cnn = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@CNNbrasil', key: 'CNNBRASIL' });
     const jovempannews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@jovempannews', key: 'JOVEMPANNEWS' });
@@ -31,24 +30,30 @@ class CronMetrics implements ICronMetrics {
       "JOVEMPANNEWS": jovempannews,
       "BANDNEWS": bandjornalismo,
       "RECORDNEWS": recordnews,
-      "GLOBONEWS": { "time": new Date().toLocaleTimeString('pt-BR', { hour12: false, 
-        hour: "numeric", 
-        minute: "numeric"}), "view": 0 }
+      "GLOBONEWS": {
+        "time": new Date().toLocaleTimeString('pt-BR', {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric"
+        }), "view": 0
+      }
     }];
 
     const stringChannels = JSON.stringify(objChannels);
-    this.jsonMetric.SaveJson({ json: stringChannels, archive: 'youtube-metric'});
+    this.jsonMetric.SaveJson({ json: stringChannels, archive: 'youtube-metric' });
   }
 
   RunCron(): void {
     cron.schedule('* * * * *', () => {
-      console.log('Minute : ' + new Date().toLocaleTimeString('pt-BR', { hour12: false, 
-        hour: "numeric", 
-        minute: "numeric"}));
+      console.log('Minute : ' + new Date().toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+      }));
+
       this.CronRunBotIbope();
       this.CronRunBotYoutube();
-    }
-    );
+    });
   }
 }
 

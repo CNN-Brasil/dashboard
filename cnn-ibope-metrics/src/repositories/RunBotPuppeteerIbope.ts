@@ -2,9 +2,9 @@ import puppeteer from 'puppeteer';
 import { IRunBot, IRunBotParamsDTO } from '../interfaces/IRunBot';
 import { ConverterDataChannel } from '../useCase/ibope/ConverterDataChannel';
 
-class RubBotPuppeteerIbope implements IRunBot { 
+class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
-    
+
     const { url } = params;
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -55,20 +55,20 @@ class RubBotPuppeteerIbope implements IRunBot {
           let payTVArray = [];
 
           //for (let index = 0; index < data.length; index++) {
-            //const element = data[index];
+          //const element = data[index];
 
-            let share = data[0].querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
-            let hours = time[0].querySelector('td span')?.textContent;
+          let share = data[0].querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
+          let hours = time[0].querySelector('td span')?.textContent;
 
-            if ("TOTALPAYTV" === nameChannel) {
-              const payTV = ` { "payTV": "${share}" } `;
-              payTVArray.push(payTV);
-            }
+          if ("TOTALPAYTV" === nameChannel) {
+            const payTV = ` { "payTV": "${share}" } `;
+            payTVArray.push(payTV);
+          }
 
-            if ("TOTALPAYTV" !== nameChannel) {
-              const channelObjData = ` {"share": "${share}", "time": "${hours}"} `;
-              channelArray.push(channelObjData);
-            }
+          if ("TOTALPAYTV" !== nameChannel) {
+            const channelObjData = ` {"share": "${share}", "time": "${hours}"} `;
+            channelArray.push(channelObjData);
+          }
           //}
 
           if ("TOTALPAYTV" !== nameChannel) {
@@ -87,7 +87,7 @@ class RubBotPuppeteerIbope implements IRunBot {
         return JSON.stringify(objtableArr);
       });
     }, getValues);
-    
+
     return this.MountJson(data);
   }
 
@@ -110,12 +110,12 @@ class RubBotPuppeteerIbope implements IRunBot {
                 const shareChannel = element.share?.replace('-', '0');
                 const converterDataChannel = new ConverterDataChannel();
                 const views = converterDataChannel.CalculationChannel(sharePayTV, shareChannel);
-                ibopeArr.push(`{"time": "${element.time.toString()}", "view": "${views.toString()}" }`);
+                ibopeArr.push(`{"time": "${element.time.toString()}", "view": ${parseInt(views.toString())} }`);
               });
             });
           }
           const finalString = `{"${keyChannel.toString()}": ${ibopeArr}}`;
-          const finalJson   = JSON.parse(finalString);
+          const finalJson = JSON.parse(finalString);
           ibopeFinal.push(finalJson);
         });
       });
