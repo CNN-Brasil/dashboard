@@ -8,29 +8,51 @@ class RubBotPuppeteerIbope implements IRunBot {
     const { url } = params;
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+    const navigationPromise = page.waitForNavigation({waitUntil: "domcontentloaded"});
 
     await page.setDefaultNavigationTimeout(0);
     await page.goto(url, { waitUntil: 'load',timeout: 0 });
-    await page.waitForSelector("[for='TOSCheckBox']");
-    await page.waitForSelector("[for='saveInfoCheckbox']");
-    await page.waitForSelector("[type='submit']");
+
+    await navigationPromise;
+
+    await page.waitForSelector("[for='TOSCheckBox']", {timeout:0});
+    await navigationPromise;
+    await page.waitForSelector("[for='saveInfoCheckbox']", {timeout:0});
+    await navigationPromise;
+    await page.waitForSelector("[type='submit']", {timeout:0});
+
+    await navigationPromise;
 
     const saveCheckbox = await page.$$("[for='saveInfoCheckbox']");
+    await navigationPromise;
     const TOS = await page.$$("[for='TOSCheckBox']");
+    
+    await navigationPromise;
+
     const submit = await page.$$("[type='submit']");
 
+    await navigationPromise;
+
     await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
+    await navigationPromise;
     await page.type("[name='password']", "fsfbI0rHLv1%");
+    await navigationPromise;
     await saveCheckbox[0].click();
+    await navigationPromise;
     await TOS[0].click();
-    await page.waitForTimeout(5000);
+
+    await navigationPromise;
+
     await submit[0].click();
+
+    await navigationPromise;
 
     const getValues = ".dataTable.desktop > div:last-child";
 
-    await page.waitForSelector(getValues);
-    await page.waitForTimeout(5000);
-
+    await page.waitForSelector(getValues, {timeout:0});
+     
+    await navigationPromise;
+    
     const data = await page.evaluate(getValues => {
 
       return [...document.querySelectorAll(getValues)].map(anchor => {
@@ -88,9 +110,9 @@ class RubBotPuppeteerIbope implements IRunBot {
         return JSON.stringify(objtableArr);
       });
     }, getValues);
-
+ 
+    await page.waitForTimeout(5000);
     await browser.close();
-
     return this.MountJson(data);
   }
 

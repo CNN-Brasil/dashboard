@@ -7,15 +7,14 @@ class RunBotPuppeteer implements IRunBot {
   
     const {url, key}   = params;
     const browser      = await puppeteer.launch();
-
     const pageInit     = await browser.newPage();
+
     const selectLive   = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
     const resultsViews = '#above-the-fold yt-formatted-string#original-info .style-scope:first-child';
     const resultTitle  = '#above-the-fold #title h1';
  
     let arrayViews = [];
-
-    await pageInit.setDefaultNavigationTimeout(0);
+    
     await pageInit.goto(url, { waitUntil: 'load',timeout: 0 });
     await pageInit.content();
     
@@ -44,17 +43,15 @@ class RunBotPuppeteer implements IRunBot {
     }
 
     for await (const pageLive of newPage) {
+      
       let index = 0;
       /**
         *  Open page live youtube
       **/
       if (pageLive)	
-      await pageInit.setDefaultNavigationTimeout(0);	
+
       await pageInit.goto(pageLive, { waitUntil: 'load',timeout: 0 });
       await pageInit.bringToFront();
-      await pageInit.content();
-
-      await pageInit.waitForTimeout(5000);
 
       await pageInit.waitForSelector(resultsViews, {timeout:0});
       await pageInit.waitForSelector(resultTitle, {timeout:0});

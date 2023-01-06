@@ -14,7 +14,7 @@ class CronMetrics implements ICronMetrics {
     const ibopeClass = new RubBotPuppeteerIbope();
     const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     const sringIbope = JSON.stringify(objIbope);
-
+    console.log(sringIbope)
     this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric' });
   }
 
@@ -40,18 +40,25 @@ class CronMetrics implements ICronMetrics {
     }];
 
     const stringChannels = JSON.stringify(objChannels);
+    console.log(stringChannels);
+
     this.jsonMetric.SaveJson({ json: stringChannels, archive: 'youtube-metric' });
   }
 
   RunCron(): void {
     cron.schedule('* * * * *', () => {
-      console.log('Minute : ' + new Date().toLocaleTimeString('pt-BR', {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric"
-      }));
-      this.CronRunBotIbope();
-      this.CronRunBotYoutube();
+      try {
+        console.log('Minute : ' + new Date().toLocaleTimeString('pt-BR', {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric"
+        }));
+        this.CronRunBotIbope();
+        this.CronRunBotYoutube();
+      } catch (error) {
+        console.log(error);
+      }
+
     });
   }
 }
