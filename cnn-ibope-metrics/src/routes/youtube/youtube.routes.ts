@@ -5,7 +5,7 @@ const botRoutes = Router();
 const cors = require('cors');
 
 botRoutes.get("/youtube", cors(), (request, response) => {
-  jsonMetricController.handle(request, response, 'youtube-metric');
+  jsonMetricController.handle('youtube-metric', response);
 });
 
 export { botRoutes };

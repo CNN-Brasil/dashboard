@@ -6,7 +6,7 @@ class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
 
     const { url } = params;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     const navigationPromise = page.waitForNavigation({waitUntil: "domcontentloaded"});
 
@@ -42,17 +42,15 @@ class RubBotPuppeteerIbope implements IRunBot {
     await TOS[0].click();
 
     await navigationPromise;
-
     await submit[0].click();
-
     await navigationPromise;
 
     const getValues = ".dataTable.desktop > div:last-child";
 
     await page.waitForSelector(getValues, {timeout:0});
-     
     await navigationPromise;
-    
+    await page.waitForTimeout(8000);
+
     const data = await page.evaluate(getValues => {
 
       return [...document.querySelectorAll(getValues)].map(anchor => {
@@ -77,9 +75,6 @@ class RubBotPuppeteerIbope implements IRunBot {
           let channelArray = [];
           let payTVArray = [];
 
-          //for (let index = 0; index < data.length; index++) {
-          //const element = data[index];
-
           let share = data[0].querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
           let hours = time[0].querySelector('td span')?.textContent;
 
@@ -92,7 +87,6 @@ class RubBotPuppeteerIbope implements IRunBot {
             const channelObjData = ` {"share": "${share}", "time": "${hours}"} `;
             channelArray.push(channelObjData);
           }
-          //}
 
           if ("TOTALPAYTV" !== nameChannel) {
             let channelObj = `{ "${nameChannel}": [${channelArray}] }`;
@@ -110,9 +104,7 @@ class RubBotPuppeteerIbope implements IRunBot {
         return JSON.stringify(objtableArr);
       });
     }, getValues);
- 
-    await page.waitForTimeout(5000);
-    await browser.close();
+
     return this.MountJson(data);
   }
 

@@ -3,7 +3,8 @@ import { JsonMetricFS } from "./JsonMetricFS";
 import { RunBotPuppeteer } from "./RunBotPuppeteer";
 import { RubBotPuppeteerIbope } from "./RunBotPuppeteerIbope";
 
-const cron = require('node-cron');
+const ibope = require('node-cron');
+const youtube = require('node-cron');
 
 class CronMetrics implements ICronMetrics {
 
@@ -46,20 +47,24 @@ class CronMetrics implements ICronMetrics {
   }
 
   RunCron(): void {
-    cron.schedule('* * * * *', () => {
-      try {
-        console.log('Minute : ' + new Date().toLocaleTimeString('pt-BR', {
+    youtube.schedule('* * * * *', () => {
+        console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
           hour12: false,
           hour: "numeric",
           minute: "numeric"
         }));
-        this.CronRunBotIbope();
         this.CronRunBotYoutube();
-      } catch (error) {
-        console.log(error);
-      }
-
     });
+
+    ibope.schedule('* * * * *', () => {
+      console.log('Minute Ibope : ' + new Date().toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+      }));
+      this.CronRunBotIbope();
+  });
+
   }
 }
 
