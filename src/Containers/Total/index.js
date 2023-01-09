@@ -51,7 +51,7 @@ import {ReactComponent as IbopeDark} from '../../assets/ibope_dark.svg';
 import {ReactComponent as IcoGraph} from '../../assets/ico-graph.svg';
 import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
 import { Chart } from "react-google-charts";
-
+import {getTotal} from '../../actions/ReviewsAction.js'
 
 export default props => {
     const { state, dispatch } = useContext(ContextReducer);
@@ -63,7 +63,13 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
-        console.log('state ', state.graph)
+        useEffect(() => {
+            getTotal(dispatch)
+    
+            setInterval(() => {
+                getTotal(dispatch)
+            }, 60000)
+        }, [])
     }, [state.graph])
 
     useEffect(() => {
@@ -99,11 +105,13 @@ export default props => {
             setMobile(true)
         }
     }
+    
     const renderOptions = () => {
         var options = {
             legend: 'none',
             curveType: "function",
             backgroundColor:'transparent',
+            lineWidth: 5,
             chartArea: {
                 width:"90%",
                 top: 40,
@@ -116,10 +124,10 @@ export default props => {
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',
-                },
+                }
             },
             hAxis: {
-                format: 'date',
+                showTextEvery: 20,
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',

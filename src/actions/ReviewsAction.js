@@ -35,7 +35,7 @@ export const getYoutube = (dispatch) => {
 }
 
 export const getTotal = (dispatch) => {
-    let _url = 'http://localhost:9999/view/youtube';
+    let _url = 'http://localhost:9999/view/total';
 
     var requestOptions = {
         method: 'GET',
@@ -46,7 +46,7 @@ export const getTotal = (dispatch) => {
         let resp = await response.json();
 
         dispatch({
-            type: "GET_YOUTUBE",
+            type: "GET_TOTAL",
             payload: resp
         })
     })

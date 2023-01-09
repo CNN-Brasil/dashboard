@@ -3,8 +3,7 @@ export const ContextReducer = React.createContext();
 
 export const initialUserState = {
     ibope: [],
-    youtube: []
-,
+    youtube: [],
     total: []
 };
 
