@@ -75,9 +75,19 @@ export default props => {
     }, [])
 
     useEffect(() => {
-        console.log('state ', state.youtube)
-        renderMobile()
-    }, [])
+        
+        if(state.youtube.slice(-1).pop()) {
+        let _ibope = state.youtube.at(-1)[1];
+        let _ibope2 = state.youtube.at(-2)[1];
+
+        let _ibopetotal = ((_ibope2 / _ibope) - 1) * 100;
+
+        console.log('1 ', _ibope);
+        console.log('2 ', _ibope2);
+        console.log('_ibopetotal ', _ibopetotal);
+        }
+        //renderMobile()
+    }, [state.youtube])
 
     const handleAnchorGraph = () => {
         setActiveGraph(true)
@@ -109,13 +119,16 @@ export default props => {
         }
     }
 
+    const renderNumberWitchCommas = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
 
     const renderOptions = () => {
         var options = {
-            width: (state.youtube && state.youtube.length > 26) ? state.youtube.length * 65 : '1200px',
             legend: 'none',
             curveType: "function",
             backgroundColor:'transparent',
+            lineWidth: 5,
             chartArea: {
                 width:"90%",
                 top: 40,
@@ -128,14 +141,14 @@ export default props => {
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',
-                },
+                }
             },
             hAxis: {
-                format: 'date',
+                showTextEvery: 20,
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',
-                },
+                }
             },
             series: {
                 0: { color: '#CC0000' },
@@ -261,9 +274,9 @@ export default props => {
                                 {ball ? <CNNLogo /> : <CNNLogoWhite />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[1]}  UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[1]} UV</InfoNumbers>
-                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[1] + state?.youtube?.slice(-1).pop()[1]} UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[1]) : '0'}  UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[1]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[1] + state.youtube.slice(-1).pop()[1]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -273,8 +286,8 @@ export default props => {
                             </InfoLogo>
                             <InfoGeral>
                                 <InfoNumbers border>Não tem canal no Youtube </InfoNumbers>
-                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[2]} UV</InfoNumbers>
-                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[2] + state?.youtube?.slice(-1).pop()[2]} UV</strong></InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[2]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[2] + state.youtube.slice(-1).pop()[2]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -283,9 +296,9 @@ export default props => {
                                 {ball ? <RecordNewsLogoDark /> : <RecordNewsLogo />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[3]} UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[3]} UV</InfoNumbers>
-                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[3] + state?.youtube?.slice(-1).pop()[3]} UV</strong></InfoNumbers>
+                            <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[3]) : '0'}  UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[3]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[3] + state.youtube.slice(-1).pop()[3]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -294,9 +307,9 @@ export default props => {
                                 <JPNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[4]} UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[4]} UV</InfoNumbers>
-                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[4] + state?.youtube?.slice(-1).pop()[4]} UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[4]) : '0'}  UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[4]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[4] + state.youtube.slice(-1).pop()[4]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -305,9 +318,9 @@ export default props => {
                                 <BandNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state?.youtube?.slice(-1).pop() && state?.youtube?.slice(-1).pop()[5]} UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {state?.ibope?.slice(-1).pop() && state?.ibope?.slice(-1).pop()[5]} UV</InfoNumbers>
-                                <InfoNumbers><strong>Total {(state?.ibope?.slice(-1).pop() && state?.youtube?.slice(-1).pop()) && state?.ibope?.slice(-1).pop()[5] + state?.youtube?.slice(-1).pop()[5]} UV</strong></InfoNumbers>
+                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[5]) : '0'}  UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[5]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[5] + state.youtube.slice(-1).pop()[5]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
                     </Infos>
