@@ -5,7 +5,7 @@ class ConsolidatedUseCase {
 
     GetConsolidated(archive: String[]): object {
         const consolidade = this.consolidatedUseCase.GetConsolidated(archive);
-        return Object.assign({}, consolidade);
+        return Object.assign([], consolidade);
     }
 }
 
