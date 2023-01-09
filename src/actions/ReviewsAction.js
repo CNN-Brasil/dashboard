@@ -35,7 +35,7 @@ export const getYoutube = (dispatch) => {
 }
 
 export const getTotal = (dispatch) => {
-    let _url = 'http://localhost:9999/view/total';
+    let _url = 'http://localhost:9999/view/consolidated';
 
     var requestOptions = {
         method: 'GET',
