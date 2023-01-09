@@ -6,7 +6,7 @@ class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
 
     const { url } = params;
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const navigationPromise = page.waitForNavigation({waitUntil: "domcontentloaded"});
 
@@ -104,7 +104,8 @@ class RubBotPuppeteerIbope implements IRunBot {
         return JSON.stringify(objtableArr);
       });
     }, getValues);
-
+    
+    await browser.close();
     return this.MountJson(data);
   }
 

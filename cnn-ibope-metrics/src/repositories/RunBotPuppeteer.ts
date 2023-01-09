@@ -35,7 +35,6 @@ class RunBotPuppeteer implements IRunBot {
     }, selectLive);
     
     if (0 === newPage.length) {
-      console.log(newPage.length);
       await browser.close();
       return { "time": new Date().toLocaleTimeString('pt-BR', { hour12: false, 
         hour: "numeric", 
@@ -52,7 +51,6 @@ class RunBotPuppeteer implements IRunBot {
 
       await pageInit.goto(pageLive, { waitUntil: 'load',timeout: 0 });
       await pageInit.bringToFront();
-
       await pageInit.waitForSelector(resultsViews, {timeout:0});
       await pageInit.waitForSelector(resultTitle, {timeout:0});
       

@@ -15,7 +15,6 @@ class CronMetrics implements ICronMetrics {
     const ibopeClass = new RubBotPuppeteerIbope();
     const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     const sringIbope = JSON.stringify(objIbope);
-    console.log(sringIbope)
     this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric' });
   }
 
