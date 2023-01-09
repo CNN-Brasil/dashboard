@@ -313,6 +313,9 @@ export const InfoNumbers = styled.div`
     font-weight: 400;
     line-height: 45px;
     padding-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     ${props => props.border && css`
         border-bottom: 1px solid #E6E6E6;
@@ -440,5 +443,41 @@ export const ContentIcon = styled.div`
 
     ${props => props.act && css`
         background-color: #E6E6E6;
+    `}
+`
+
+export const Porcentage = styled.div`
+    border: 1px solid #E6E6E6;
+    font-size: 12px;
+    font-weight: 700;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 20px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+
+    ${props => props.porcentange === 'positive' && css `
+        &:before {
+            content: '';
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #489624;
+            margin-right: 5px;
+        }
+    `}
+
+    ${props => props.porcentange === 'negative' && css `
+        &:before {
+            content: '';
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #CC0000;
+            margin-right: 5px;
+        }
     `}
 `

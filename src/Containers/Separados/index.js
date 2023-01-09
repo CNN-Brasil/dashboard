@@ -28,7 +28,8 @@ import {
     GraphContent,
     ContentAnchor,
     ContentIcon,
-    ContentLogo
+    ContentLogo,
+    Porcentage
 } from './styles'
 
 import {ContextReducer} from "../../reducer/AdminReducer";
@@ -63,6 +64,11 @@ export default props => {
     const [mobile, setMobile] = useState(false)
     const [activeGraph, setActiveGraph] = useState(false)
     const [activeInfo, setActiveInfo] = useState(false)
+    const [yt, setYt] = useState(0);
+    const [ibp, setIbp] = useState(0);
+    const [pctYt, setPctYt] = useState('');
+    const [pctIbp, setPctIbp] = useState('');
+    const [pctTotal, setPctTotal] = useState('');
 
     useEffect(() => {
         getIbope(dispatch)
@@ -76,18 +82,34 @@ export default props => {
 
     useEffect(() => {
         
-        if(state.youtube.slice(-1).pop()) {
-        let _ibope = state.youtube.at(-1)[1];
-        let _ibope2 = state.youtube.at(-2)[1];
+        if(state.youtube.slice(-1).pop() && state.ibope.slice(-1).pop()) {
+            let _youtube = state.youtube.at(-1)[1];
+            let _youtube2 = state.youtube.at(-2)[1];  
+            
+            let _ibope = state.ibope.at(-1)[1];
+            let _ibope2 = state.ibope.at(-2)[1]
 
-        let _ibopetotal = ((_ibope2 / _ibope) - 1) * 100;
+            let _youtubeTotal = ((_youtube2 / _youtube) - 1) * 100;
+            let _ibopeTotal = ((_ibope2 / _ibope) - 1) * 100;
 
-        console.log('1 ', _ibope);
-        console.log('2 ', _ibope2);
-        console.log('_ibopetotal ', _ibopetotal);
+            if(_youtubeTotal < 0 || _ibopeTotal < 0) {
+                setPctYt('negative')
+                setPctIbp('positive')
+            } else {
+                setPctYt('positive')
+                setPctIbp('positive')
+            }
+
+            setIbp(_ibopeTotal.toFixed(2))
+            setYt(_youtubeTotal.toFixed(2))
+
         }
-        //renderMobile()
-    }, [state.youtube])
+        
+    }, [state.youtube, state.ibope])
+
+    useEffect(() => {
+        renderMobile()
+    }, [])
 
     const handleAnchorGraph = () => {
         setActiveGraph(true)
@@ -162,7 +184,6 @@ export default props => {
         return options
     }
     
-
     return (
         <>
             <Container themes={theme}>
@@ -274,8 +295,8 @@ export default props => {
                                 {ball ? <CNNLogo /> : <CNNLogoWhite />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[1]) : '0'}  UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[1]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[1]) : '0'}  UV <Porcentage porcentange={pctYt}>{yt}%</Porcentage> </InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[1]) : '0'} UV <Porcentage porcentange={pctIbp}>{ibp}%</Porcentage> </InfoNumbers>
                                 <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[1] + state.youtube.slice(-1).pop()[1]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
@@ -286,7 +307,7 @@ export default props => {
                             </InfoLogo>
                             <InfoGeral>
                                 <InfoNumbers border>Não tem canal no Youtube </InfoNumbers>
-                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[2]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[2]) : '0'} UV <Porcentage porcentange={pctIbp}>{ibp}%</Porcentage></InfoNumbers>
                                 <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[2] + state.youtube.slice(-1).pop()[2]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
@@ -296,8 +317,8 @@ export default props => {
                                 {ball ? <RecordNewsLogoDark /> : <RecordNewsLogo />}
                             </InfoLogo>
                             <InfoGeral>
-                            <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[3]) : '0'}  UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[3]) : '0'} UV</InfoNumbers>
+                            <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[3]) : '0'}  UV <Porcentage porcentange={pctYt}>{yt}%</Porcentage></InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[3]) : '0'} UV <Porcentage porcentange={pctIbp}>{ibp}%</Porcentage></InfoNumbers>
                                 <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[3] + state.youtube.slice(-1).pop()[3]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
@@ -307,8 +328,8 @@ export default props => {
                                 <JPNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[4]) : '0'}  UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[4]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[4]) : '0'}  UV <Porcentage porcentange={pctYt}>{yt}%</Porcentage></InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[4]) : '0'} UV <Porcentage porcentange={pctIbp}>{ibp}%</Porcentage></InfoNumbers>
                                 <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[4] + state.youtube.slice(-1).pop()[4]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
@@ -318,8 +339,8 @@ export default props => {
                                 <BandNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[5]) : '0'}  UV</InfoNumbers>
-                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[5]) : '0'} UV</InfoNumbers>
+                                <InfoNumbers border>Youtube {(state.youtube.length > 1 && state.youtube.slice(-1).pop()) ? renderNumberWitchCommas(state.youtube.slice(-1).pop()[5]) : '0'}  UV <Porcentage porcentange={pctYt}>{yt}%</Porcentage></InfoNumbers>
+                                <InfoNumbers border>Ibope {(state.ibope.length > 1 && state.ibope.slice(-1).pop()) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[5]) : '0'} UV <Porcentage porcentange={pctIbp}>{ibp}%</Porcentage></InfoNumbers>
                                 <InfoNumbers><strong>Total {((state.ibope.length > 0 && state.youtube.length > 1) && (state.ibope.slice(-1).pop() && state.youtube?.slice(-1).pop())) ? renderNumberWitchCommas(state.ibope.slice(-1).pop()[5] + state.youtube.slice(-1).pop()[5]) : '0'} UV</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
