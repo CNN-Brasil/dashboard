@@ -44,7 +44,7 @@ export const getTotal = (dispatch) => {
 
     fetch(_url, requestOptions).then(async (response) => {
         let resp = await response.json();
-
+        console.log('resp ', resp);
         dispatch({
             type: "GET_TOTAL",
             payload: resp
