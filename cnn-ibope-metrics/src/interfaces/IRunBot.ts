@@ -4,7 +4,7 @@ interface IRunBotParamsDTO {
 }
 
 interface IRunBot {
-  RunBot(params: IRunBotParamsDTO): Promise<object>
+  RunBot(params: IRunBotParamsDTO): Promise<void>|Promise<object>
 }
 
 export { IRunBot, IRunBotParamsDTO };

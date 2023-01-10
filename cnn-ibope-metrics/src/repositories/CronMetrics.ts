@@ -10,59 +10,96 @@ class CronMetrics implements ICronMetrics {
 
   private jsonMetric = new JsonMetricFS();
 
+  async CronRunBotIbope(): Promise<object> {
+    let object = {};
 
-  async CronRunBotIbope(): Promise<void> {
-    const ibopeClass = new RubBotPuppeteerIbope();
-    const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
-    const sringIbope = JSON.stringify(objIbope);
-    this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric' });
+    try {
+      const ibopeClass = new RubBotPuppeteerIbope();
+      const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
+      let sringIbope:any = [new Date().toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+      }), 0, 0, 0, 0, 0];
+
+      if (0 !== Object.keys(Object.assign([], objIbope)).length) {
+        sringIbope = JSON.stringify(objIbope);
+      }
+      console.log(sringIbope)
+      
+      this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric' });
+      
+      return JSON.parse(sringIbope);
+    } catch (error) {
+      return object = { message: "Error Ibope" };
+    }
   }
 
-  async CronRunBotYoutube(): Promise<void> {
-    const youtubeClass = new RunBotPuppeteer();
-    const cnn = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@CNNbrasil', key: 'CNNBRASIL' });
-    const jovempannews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@jovempannews', key: 'JOVEMPANNEWS' });
-    const bandjornalismo = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@RadioBandNewsFM', key: 'BANDNEWS' });
-    const recordnews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@recordnews', key: 'RECORDNEWS' });
+  async CronRunBotYoutube(): Promise<object> {
 
-    const objChannels = [{
-      "CNNBRASIL": cnn,
-      "JOVEMPANNEWS": jovempannews,
-      "BANDNEWS": bandjornalismo,
-      "RECORDNEWS": recordnews,
-      "GLOBONEWS": {
-        "time": new Date().toLocaleTimeString('pt-BR', {
-          hour12: false,
-          hour: "numeric",
-          minute: "numeric"
-        }), "view": 0
-      }
-    }];
+    let object = {};
 
-    const stringChannels = JSON.stringify(objChannels);
-    console.log(stringChannels);
+    try {
+      const youtubeClass = new RunBotPuppeteer();
+      const cnn = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@CNNbrasil', key: 'CNNBRASIL' });
+      const jovempannews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@jovempannews', key: 'JOVEMPANNEWS' });
+      const bandjornalismo = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@RadioBandNewsFM', key: 'BANDNEWS' });
+      const recordnews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@recordnews', key: 'RECORDNEWS' });
 
-    this.jsonMetric.SaveJson({ json: stringChannels, archive: 'youtube-metric' });
+      const objChannels = [{
+        "CNNBRASIL": cnn,
+        "JOVEMPANNEWS": jovempannews,
+        "BANDNEWS": bandjornalismo,
+        "RECORDNEWS": recordnews,
+        "GLOBONEWS": {
+          "time": new Date().toLocaleTimeString('pt-BR', {
+            hour12: false,
+            hour: "numeric",
+            minute: "numeric",
+          }), "view": 0
+        }
+      }];
+
+      const stringChannels = JSON.stringify(objChannels);
+      this.jsonMetric.SaveJson({ json: stringChannels, archive: 'youtube-metric' });
+      return JSON.parse(stringChannels);
+    } catch (error) {
+      return object = { message: "Error Ibope" };
+    }
   }
 
   RunCron(): void {
     youtube.schedule('* * * * *', () => {
-        console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
-          hour12: false,
-          hour: "numeric",
-          minute: "numeric"
-        }));
-        this.CronRunBotYoutube();
-    });
-
-    ibope.schedule('* * * * *', () => {
-      console.log('Minute Ibope : ' + new Date().toLocaleTimeString('pt-BR', {
+      console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
         hour12: false,
         hour: "numeric",
-        minute: "numeric"
+        minute: "numeric",
+        second: "numeric"
       }));
-      this.CronRunBotIbope();
-  });
+
+      try {
+        this.CronRunBotYoutube();
+      } catch (error) {
+        return error;
+      }
+    });
+
+    this.CronRunBotIbope();
+    // ibope.schedule('* * * * *', () => {
+     
+    //   console.log('Minute Ibope : ' + new Date().toLocaleTimeString('pt-BR', {
+    //     hour12: false,
+    //     hour: "numeric",
+    //     minute: "numeric",
+    //     second: "numeric"
+    //   }));
+
+    //   try {
+    //     this.CronRunBotIbope();
+    //   } catch (error) {
+    //     return error;
+    //   }
+    // });
 
   }
 }

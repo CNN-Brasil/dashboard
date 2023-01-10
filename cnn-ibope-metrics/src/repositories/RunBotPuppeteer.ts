@@ -35,6 +35,7 @@ class RunBotPuppeteer implements IRunBot {
     }, selectLive);
     
     if (0 === newPage.length) {
+
       await browser.close();
       return { "time": new Date().toLocaleTimeString('pt-BR', { hour12: false, 
         hour: "numeric", 
@@ -42,7 +43,6 @@ class RunBotPuppeteer implements IRunBot {
     }
 
     for await (const pageLive of newPage) {
-      
       let index = 0;
       /**
         *  Open page live youtube
@@ -51,6 +51,7 @@ class RunBotPuppeteer implements IRunBot {
 
       await pageInit.goto(pageLive, { waitUntil: 'load',timeout: 0 });
       await pageInit.bringToFront();
+
       await pageInit.waitForSelector(resultsViews, {timeout:0});
       await pageInit.waitForSelector(resultTitle, {timeout:0});
       
@@ -64,16 +65,17 @@ class RunBotPuppeteer implements IRunBot {
         return view;
       }, resultsViews, index++);
       
-      arrayViews.push(parseInt(view));
+      arrayViews.push(view);
     }
 
-    const view = arrayViews.reduce(function(soma, i) {
-      return soma + i;
+    const view = arrayViews.reduce((soma , i) => {
+      let somaTotal =  parseInt(soma) + parseInt(i);
+      return somaTotal.toString();
     });
 
     const json = JSON.parse(`{ "time": "${new Date().toLocaleTimeString('pt-BR', { hour12: false, 
       hour: "numeric", 
-      minute: "numeric"})}", "view": ${parseInt(view.toString())} }`)
+      minute: "numeric"})}", "view": ${parseInt(view)} }`)
 
     await browser.close();
     return json;
