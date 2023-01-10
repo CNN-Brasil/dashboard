@@ -24,14 +24,14 @@ class Consolidated implements Consolidated {
     ibope = JSON.parse(ibope).splice(1);
     youtube = JSON.parse(youtube).splice(1);
 
-    let ale = 0;
+    let count = 0;
 
     for (let index = 0; index < ibope.length; index++) {
       const element:any = ibope[index];
-      var sum:any = element.map(function (num:any, idx:any) {
+      var sum:any = element?.map(function (num:any, idx:any) {
         if (0 !== idx) {
-          if (0 !== Object.keys(Object.assign([], youtube[ale])).length) {
-            return num + youtube[ale][idx];
+          if (0 !== Object.keys(Object.assign([], youtube[count])).length) {
+            return num + youtube[count][idx];
           }
           return num;
         }  
