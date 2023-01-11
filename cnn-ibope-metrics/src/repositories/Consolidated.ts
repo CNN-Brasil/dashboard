@@ -22,18 +22,12 @@ class Consolidated implements Consolidated {
     let youtube:string = jsonMetric.GetJson(archive[1].toString());
 
     ibope = JSON.parse(ibope).splice(1);
-    const dyoutube = JSON.parse(youtube).splice(1);
+    youtube = JSON.parse(youtube).splice(1);
 
     let count = 0;
 
     for (let index = 0; index < ibope.length; index++) {
       const element:any = ibope[index];
-
-
-      const found = dyoutube[index].find((ss:any) => ss === ibope[index][0]);
-      console.log(found);
-      
-
       var sum:any = element?.map(function (num:any, idx:any) {
         if (0 !== idx) {
           if (0 !== Object.keys(Object.assign([], youtube[count])).length) {
