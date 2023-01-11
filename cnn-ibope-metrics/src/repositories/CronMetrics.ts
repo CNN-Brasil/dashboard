@@ -10,28 +10,15 @@ class CronMetrics implements ICronMetrics {
 
   private jsonMetric = new JsonMetricFS();
 
-  async CronRunBotIbope(): Promise<object> {
+  async CronRunBotIbope(): Promise<void> {
     let object = {};
 
     try {
       const ibopeClass = new RubBotPuppeteerIbope();
       const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
-      let sringIbope:any = [new Date().toLocaleTimeString('pt-BR', {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric",
-      }), 0, 0, 0, 0, 0];
-
-      if (0 !== Object.keys(Object.assign([], objIbope)).length) {
-        sringIbope = JSON.stringify(objIbope);
-      }
-      console.log(sringIbope)
-      
-      this.jsonMetric.SaveJson({ json: sringIbope, archive: 'ibope-metric' });
-      
-      return JSON.parse(sringIbope);
     } catch (error) {
-      return object = { message: "Error Ibope" };
+      object = { message: "Error Ibope" };
+      console.log(object);
     }
   }
 
@@ -61,7 +48,7 @@ class CronMetrics implements ICronMetrics {
       }];
 
       const stringChannels = JSON.stringify(objChannels);
-      this.jsonMetric.SaveJson({ json: stringChannels, archive: 'youtube-metric' });
+      this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
       return JSON.parse(stringChannels);
     } catch (error) {
       return object = { message: "Error Ibope" };
@@ -85,21 +72,6 @@ class CronMetrics implements ICronMetrics {
     });
 
     this.CronRunBotIbope();
-    // ibope.schedule('* * * * *', () => {
-     
-    //   console.log('Minute Ibope : ' + new Date().toLocaleTimeString('pt-BR', {
-    //     hour12: false,
-    //     hour: "numeric",
-    //     minute: "numeric",
-    //     second: "numeric"
-    //   }));
-
-    //   try {
-    //     this.CronRunBotIbope();
-    //   } catch (error) {
-    //     return error;
-    //   }
-    // });
 
   }
 }
