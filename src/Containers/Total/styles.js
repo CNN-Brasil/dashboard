@@ -56,6 +56,10 @@ export const Grid = styled.div`
     justify-content: space-between;
     margin: 0 auto;
 
+    ${props => props.align === 'start' && css`
+        align-items: self-start;
+    `}
+
     @media(min-width: 1920px) {
         max-width: 2500px;
         margin: auto;
@@ -270,6 +274,12 @@ export const Info = styled.div`
     display: flex;
     border: 1px solid #E6E6E6;
     border-radius: 5px;
+
+    @media (max-width: 768px) {
+        flex-flow: column;
+        height: auto;
+        margin-bottom: 15px;
+    }
 `
 
 export const InfoGeral = styled.div`
@@ -290,6 +300,12 @@ export const InfoLogo = styled.div`
 
     @media(min-width: 1920px) {
         min-width: 30%;
+    }
+
+    @media (max-width: 768px) {
+        height: 70px;
+        border-right: none;
+        border-bottom: 1px solid #E6E6E6;
     }
 `
 
@@ -480,4 +496,26 @@ export const Porcentage = styled.div`
             margin-right: 5px;
         }
     `}
+`
+
+export const Clock = styled.div`
+    display: none;
+    border: 1px solid #D0D0D0;
+    border-radius: 5px;
+    align-items: center;
+    padding: 5px 10px;
+    margin-right: 25px;
+
+    p {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    svg {
+        margin-right: 10px;
+    }
+
+    @media (min-width: 1920px) {
+        display: flex;
+    }
 `
