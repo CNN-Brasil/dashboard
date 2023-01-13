@@ -2,143 +2,185 @@ import puppeteer from 'puppeteer';
 import { IRunBot, IRunBotParamsDTO } from '../interfaces/IRunBot';
 import { ConverterDataChannel } from '../useCase/ibope/ConverterDataChannel';
 import { JsonMetricFS } from './JsonMetricFS';
+const ibope = require('node-cron');
+
 class RubBotPuppeteerIbope implements IRunBot {
 
   private jsonMetric = new JsonMetricFS();
 
   async RunBot(params: IRunBotParamsDTO): Promise<void> {
+
     const url: any = params.url;
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     await page.setDefaultNavigationTimeout(0);
     await page.goto(url, { waitUntil: 'load', timeout: 0 });
 
-    await page.waitForSelector("[for='TOSCheckBox']", { timeout: 0 });
-    await page.waitForSelector("[for='saveInfoCheckbox']", { timeout: 0 });
-    await page.waitForSelector("[type='submit']", { timeout: 0 });
+    try {
+      await page.waitForSelector("[for='TOSCheckBox']");
+      await page.waitForSelector("[for='saveInfoCheckbox']");
+      await page.waitForSelector("[type='submit']");
 
-    const saveCheckbox = await page.$$("[for='saveInfoCheckbox']");
-    const TOS = await page.$$("[for='TOSCheckBox']");
-    const submit = await page.$$("[type='submit']");
+      const saveCheckbox = await page.$$("[for='saveInfoCheckbox']");
+      const TOS = await page.$$("[for='TOSCheckBox']");
+      const submit = await page.$$("[type='submit']");
 
-    await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
-    await page.waitForTimeout(2500);
-    await page.type("[name='password']", "fsfbI0rHLv1%");
-    await page.waitForTimeout(2500);
-    await saveCheckbox[0].click();
-    await page.waitForTimeout(2500);
-    await TOS[0].click();
-    await page.waitForTimeout(2500);
-    await submit[0].click();
-    await page.waitForTimeout(2500);
+      await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
+      await page.waitForTimeout(1000);
+      await page.type("[name='password']", "fsfbI0rHLv1%");
+      await page.waitForTimeout(1000);
+      await saveCheckbox[0].click();
+      await page.waitForTimeout(1000);
+      await TOS[0].click();
+      await page.waitForTimeout(1000);
+      await submit[0].click();
+      await page.waitForTimeout(1000);
 
-    const refreshIntervalId = setInterval(async () => {
       try {
 
-        const getValues = ".dataTable.desktop > div:last-child";
-        await page.waitForSelector(getValues, { timeout: 0 });
-        await page.waitForTimeout(2500);
+        ibope.schedule('* * * * *', async () => {
+          console.log('Minute Ibope: ' + new Date().toLocaleTimeString('pt-BR', {
+            hour12: false,
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric"
+          }));
 
-        const data: object[] = await page.evaluate(getValues => {
+          const getValues = ".dataTable.desktop > div:last-child";
+          await page.waitForSelector(getValues);
+          await page.waitForTimeout(30000);
 
-          return [...document.querySelectorAll(getValues)].map(anchor => {
+          const data = await page.evaluate(getValues => {
 
-            let title = anchor.querySelectorAll('.tableHeader td div');
-            let data = anchor.querySelectorAll('.tableRow.type1');
-            let channelObjArr = [];
-            let payTVObjArr = [];
+            return [...document.querySelectorAll(getValues)].map(anchor => {
 
-            for (let indexs = 0; indexs < title.length; indexs++) {
+              let title = anchor.querySelectorAll('.tableHeader td div');
+              let data = anchor.querySelectorAll('.tableRow.type1');
+              let time = document.querySelectorAll('#row-headers tr');
 
-              const element = title[indexs];
-              let nameChannel = element.querySelector('span')?.textContent;
+              let channelObjArr = [];
+              let payTVObjArr = [];
 
-              if (!nameChannel) {
-                nameChannel = element.querySelector('img')?.title;
+              for (let indexs = 0; indexs < title.length; indexs++) {
+
+                const element = title[indexs];
+                let nameChannel = element.querySelector('span')?.textContent;
+
+                if (!nameChannel) {
+                  nameChannel = element.querySelector('img')?.title;
+                }
+
+                nameChannel = nameChannel?.toString().split(' ').join('') ?? '';
+
+                let payTVArray = [];
+                let arrayShare = [];
+                let arrayTime = [];
+
+                for (let index = 0; index < data.length; index++) {
+                  const element = data[index];
+                  let share = element.querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
+                  let hours = time[index].querySelector('td span')?.textContent;
+
+                  if ("TOTALPAYTV" === nameChannel) {
+                    const payTV = ` ${share} `;
+                    payTVArray.push(payTV);
+                  }
+
+                  if ("TOTALPAYTV" !== nameChannel) {
+                    const channelObjs = ` "${share}" `;
+                    arrayShare.push(channelObjs);
+
+                    const timeObjs = ` "${hours}" `;
+                    arrayTime.push(timeObjs);
+                  }
+                }
+
+                if ("TOTALPAYTV" !== nameChannel) {
+                  let channelObjData = ` { "${nameChannel}": { "share": [ ${arrayShare} ], "time": [ ${arrayTime} ] } } `;
+                  const channelObjs = JSON.parse(channelObjData);
+                  channelObjArr.push(channelObjs);
+                }
+
+                if ("TOTALPAYTV" === nameChannel) {
+                  let payTVObj = ` { "payTV": [ ${payTVArray} ] } `;
+                  const payTVObjs = JSON.parse(payTVObj);
+                  payTVObjArr.push(payTVObjs);
+                }
               }
 
-              nameChannel = nameChannel?.toString().split(' ').join('') ?? '';
+              const objtableArr = { "CHANNEL": channelObjArr, "PAYTV": payTVObjArr };
+              return objtableArr;
+            });
+          }, getValues);
 
-              let channelArray = [];
-              let payTVArray = [];
+          this.jsonMetric.SaveJsonIbope({ json: JSON.stringify(this.MountJson(data)), archive: 'ibope-metric' });
+        });
 
-              let share = data[0].querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
-
-              if ("TOTALPAYTV" === nameChannel) {
-                const payTV = ` { "payTV": "${share}" } `;
-                payTVArray.push(payTV);
-              }
-
-              if ("TOTALPAYTV" !== nameChannel) {
-                const channelObjData = ` { "share": "${share}" } `;
-                channelArray.push(channelObjData);
-              }
-
-              if ("TOTALPAYTV" !== nameChannel) {
-                let channelObj = `{ "${nameChannel}": [${channelArray}] }`;
-                const channelObjs = JSON.parse(channelObj);
-                channelObjArr.push(channelObjs);
-              }
-
-              if ("TOTALPAYTV" === nameChannel) {
-                let payTVObj = ` [${payTVArray}] `;
-                const payTVObjs = JSON.parse(payTVObj);
-                payTVObjArr.push(payTVObjs);
-              }
-            }
-            const objtableArr = { "CHANNEL": channelObjArr, "PAYTV": payTVObjArr };
-            return objtableArr;
-          });
-        }, getValues);
-
-        this.jsonMetric.SaveJson({ json: JSON.stringify(this.MountJson(data)), archive: 'ibope-metric' });
       } catch (error) {
-        console.error('ERR');
-        clearInterval(refreshIntervalId);
+        console.error('error');
         browser.close();
         this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
       }
-    }, 60000);
 
+    } catch (error) {
+      console.error('error');
+      browser.close();
+      this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
+    }
   }
 
   MountJson(data: object[]): object {
-    let ibopeFinal: string[] = [];
-    let ibopeArr: string[] = [];
+    try {
+      let ibopeFinal: string[] = [];
+      let channelArr: string[] = [];
+      const converterDataChannel = new ConverterDataChannel();
 
-    data.forEach((data: any) => {
-      data.CHANNEL.forEach((channel: [key: any]) => {
-        (Object.keys(channel) as (keyof typeof channel)[]).forEach((keyChannel, indexs) => {
-          for (let index = 0; index < channel[keyChannel].length; index++) {
-            const element = channel[keyChannel][index];
+      data.forEach((data: any) => {
+        data.CHANNEL.forEach((channels: [key: any]) => {
+          (Object.keys(channels) as (keyof typeof channels)[]).forEach((keyChannel: any, indexs) => {
+            const channel = channels[keyChannel];
+            let arrayShare: string[] = [];
+            let timeShare: string[] = [];
 
-            ibopeArr.length = 0;
-
-            data.PAYTV.forEach((channnelShare: any) => {
-              (Object.keys(channnelShare) as (keyof typeof channnelShare)[]).forEach((key, indexs) => {
-                const sharePayTV = channnelShare[key].payTV;
-                const shareChannel = element.share?.replace('-', '0');
-                const converterDataChannel = new ConverterDataChannel();
-                const views = converterDataChannel.CalculationChannel(sharePayTV, shareChannel);
-                ibopeArr.push(`{"time": "${new Date().toLocaleTimeString('pt-BR', {
-                  hour12: false,
-                  hour: "numeric",
-                  minute: "numeric"
-                })}", "view": ${parseInt(views.toString())} }`);
-              });
+            channel.share.forEach((share: any) => {
+              arrayShare.push(share.replace('-', 0));
             });
-          }
 
-          const finalString = `{"${keyChannel.toString()}": ${ibopeArr}}`;
-          const finalJson = JSON.parse(finalString);
-          ibopeFinal.push(finalJson);
+            channel.time.forEach((time: string) => {
+              const timeString = ` "${time}"`;
+              timeShare.push(timeString);
+            });
+
+            const channelsString = `{ "${keyChannel}": { "share" : [${arrayShare}], "time": [${timeShare}] }  }`;
+            channelArr.push(JSON.parse(channelsString));
+          });
+        });
+
+        data.PAYTV.forEach((channnelShare: any) => {
+          channelArr.forEach((element: any) => {
+            let arrViews: string[] = [];
+            let arrTime: string[] = [];
+            (Object.keys(element) as (keyof typeof element)[]).forEach((keyChannel: any, d) => {
+              channnelShare.payTV.forEach((sharePayTV: string, indexs: number) => {
+                const views: any = converterDataChannel.CalculationChannel(sharePayTV, element[keyChannel].share[indexs]);
+                arrViews.push(views);
+                arrTime.push(`"${element[keyChannel].time[indexs]}"`);
+              });
+              ibopeFinal.push(JSON.parse(`{ "${keyChannel}": { "share" : [${arrViews}], "time": [${arrTime}] }  }`));
+            });
+          });
         });
       });
-    });
 
-    return ibopeFinal;
+      return ibopeFinal;
+    } catch (error) {
+      console.error('error');
+      this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
+      return { message: error }
+    }
   }
+
 }
 
 export { RubBotPuppeteerIbope };
