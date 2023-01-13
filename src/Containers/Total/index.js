@@ -1,5 +1,4 @@
 import React, {useState, useMemo, useContext, useRef, useEffect} from 'react';
-import {Navigate} from "react-router-dom";
 
 import {
     Container,
@@ -29,7 +28,8 @@ import {
     ContentAnchor,
     ContentIcon,
     ContentLogo,
-    Porcentage
+    Porcentage,
+    Clock
 } from './styles'
 
 import {ContextReducer} from "../../reducer/AdminReducer";
@@ -47,6 +47,7 @@ import {ReactComponent as SunDark} from '../../assets/sun_dark.svg';
 import {ReactComponent as MoonDark} from '../../assets/moon_dark.svg';
 import {ReactComponent as IcoGraph} from '../../assets/ico-graph.svg';
 import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
+import {ReactComponent as IcoClock} from '../../assets/clock.svg';
 import { Chart } from "react-google-charts";
 import {getTotal, getIbope, getYoutube} from '../../actions/ReviewsAction.js'
 
@@ -60,14 +61,14 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
-        getTotal(dispatch)
-        getIbope(dispatch)
-        getYoutube(dispatch)
+        //getTotal(dispatch)
+        //getIbope(dispatch)
+        //getYoutube(dispatch)
 
         setInterval(() => {
-            getTotal(dispatch)
-            getIbope(dispatch)
-            getYoutube(dispatch)
+            //getTotal(dispatch)
+            //getIbope(dispatch)
+            //getYoutube(dispatch)
         }, 60000)
     }, [])
 
@@ -227,6 +228,10 @@ export default props => {
                             </Types>
                         </Content>
                         <Content>
+                            <Clock>
+                                <IcoClock />
+                                <p>{state.total[1] && state.total[1][0]} - {state.total.at(-1) && state.total.at(-1)[0]}</p>
+                            </Clock>
                             <CheckBoxContent>
                                 <LightIcon>
                                 {ball ? <SunDark /> : <SunLight />}
@@ -245,7 +250,7 @@ export default props => {
                     </Grid>
                 </Header>
                 <Body>
-                    <Grid>
+                    <Grid align='start'>
                     <ContentGraph id='graph'>
                         <Graph>
                             <SubTitle>Gráfico de Usuários únicos (UV) • Horário do acesso (H)</SubTitle>

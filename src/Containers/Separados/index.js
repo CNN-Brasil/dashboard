@@ -29,7 +29,8 @@ import {
     ContentAnchor,
     ContentIcon,
     ContentLogo,
-    Porcentage
+    Porcentage,
+    Clock
 } from './styles'
 
 import {ContextReducer} from "../../reducer/AdminReducer";
@@ -51,6 +52,7 @@ import {ReactComponent as Ibope} from '../../assets/ibope.svg';
 import {ReactComponent as IbopeDark} from '../../assets/ibope_dark.svg';
 import {ReactComponent as IcoGraph} from '../../assets/ico-graph.svg';
 import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
+import {ReactComponent as IcoClock} from '../../assets/clock.svg';
 import { Chart } from "react-google-charts";
 
 import {getIbope, getTotal, getYoutube} from '../../actions/ReviewsAction.js'
@@ -66,14 +68,14 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
-        getIbope(dispatch)
-        getYoutube(dispatch)
-        getTotal(dispatch)
+        //getIbope(dispatch)
+        //getYoutube(dispatch)
+        //getTotal(dispatch)
 
         setInterval(() => {
-            getIbope(dispatch)
-            getYoutube(dispatch)
-            getTotal(dispatch)
+            //getIbope(dispatch)
+            //getYoutube(dispatch)
+            //getTotal(dispatch)
         }, 60000)
     }, [])
 
@@ -232,6 +234,10 @@ export default props => {
                             </Types>
                         </Content>
                         <Content>
+                            <Clock>
+                                <IcoClock />
+                                <p>{state.total[1] && state.total[1][0]} - {state.total.at(-1) && state.total.at(-1)[0]}</p>
+                            </Clock>
                             <CheckBoxContent>
                                 <LightIcon>
                                 {ball ? <SunDark /> : <SunLight />}
@@ -250,7 +256,7 @@ export default props => {
                     </Grid>
                 </Header>
                 <Body>
-                    <Grid>
+                    <Grid align='start'>
                     <ContentGraph id='graph'>
                         <Graph>
                             <SubTitle>{ball ? <IbopeDark /> : <Ibope />} Gráfico de Usuários únicos (UV) • Horário do acesso (H)</SubTitle>
