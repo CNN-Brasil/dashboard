@@ -29,6 +29,18 @@ export const Container = styled.div `
         ${TitleChangeColor} {
             color: #fff;
         }
+
+        ${Clock} {
+            p {
+                color: #fff;
+            }
+
+            svg {
+                path {
+                    stroke: #fff;
+                }
+            }
+        }
     `}
 `
 
@@ -230,7 +242,7 @@ export const Infos = styled.div`
 
     @media(max-width: 768px) {
         width: 100%;
-        padding: 0 20px;
+        padding: 0;
     }
 `
 
@@ -347,6 +359,10 @@ export const InfoNumbers = styled.div`
     ${props => props.border && css`
         border-bottom: 1px solid #E6E6E6;
     `}
+
+    @media(max-width: 768px) {
+        font-size: 14px;
+    }
 `
 
 export const CheckBoxContent = styled.div`
