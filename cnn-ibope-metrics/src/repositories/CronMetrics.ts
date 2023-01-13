@@ -2,9 +2,11 @@ import { ICronMetrics } from "../interfaces/ICronMetrics";
 import { JsonMetricFS } from "./JsonMetricFS";
 import { RunBotPuppeteer } from "./RunBotPuppeteer";
 import { RubBotPuppeteerIbope } from "./RunBotPuppeteerIbope";
+import { FixJsonDate } from "../includes/FixJsonDate";
 
-const ibope = require('node-cron');
 const youtube = require('node-cron');
+const jsonValid = require('node-cron');
+
 
 class CronMetrics implements ICronMetrics {
 
@@ -28,30 +30,38 @@ class CronMetrics implements ICronMetrics {
 
     try {
       const youtubeClass = new RunBotPuppeteer();
-      const cnn = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@CNNbrasil', key: 'CNNBRASIL' });
-      const jovempannews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@jovempannews', key: 'JOVEMPANNEWS' });
-      const bandjornalismo = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@RadioBandNewsFM', key: 'BANDNEWS' });
-      const recordnews = await youtubeClass.RunBot({ url: 'https://www.youtube.com/@recordnews', key: 'RECORDNEWS' });
+      let obj: any = {};
 
-      const objChannels = [{
-        "CNNBRASIL": cnn,
-        "JOVEMPANNEWS": jovempannews,
-        "BANDNEWS": bandjornalismo,
-        "RECORDNEWS": recordnews,
-        "GLOBONEWS": {
-          "time": new Date().toLocaleTimeString('pt-BR', {
-            hour12: false,
-            hour: "numeric",
-            minute: "numeric",
-          }), "view": 0
-        }
-      }];
+      const channels =
+      {
+        'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
+        'JOVEMPANNEWS': { url: 'https://www.youtube.com/@jovempannews' },
+        'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
+        'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
+      }
 
-      const stringChannels = JSON.stringify(objChannels);
+      console.log("PASSO 1")
+      for await (const [key, value] of Object.entries(channels)) {
+        const result: any = await youtubeClass.RunBot({ url: value.url, key: key });
+        obj[key] = result;
+      }
+      obj['GLOBONEWS'] = {
+        "time": new Date().toLocaleTimeString('pt-BR', {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric"
+        }), "view": 0
+      };
+
+
+      const stringChannels = JSON.stringify([obj]);
+      console.log("PASSO 5")
       this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
+
+
       return JSON.parse(stringChannels);
     } catch (error) {
-      return object = { message: "Error Ibope" };
+      return object = { message: error };
     }
   }
 
@@ -64,15 +74,23 @@ class CronMetrics implements ICronMetrics {
         second: "numeric"
       }));
 
-      try {
-        this.CronRunBotYoutube();
-      } catch (error) {
-        return error;
-      }
+      this.CronRunBotYoutube();
     });
 
     this.CronRunBotIbope();
 
+    jsonValid.schedule('*/2 * * * *', () => {
+      console.log('Minute Json Valid: ' + new Date().toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+      }));
+      
+      const fixJsonDate:any = new FixJsonDate();
+      fixJsonDate.fixJsonDate('ibope-metric');
+      fixJsonDate.fixJsonDate('youtube-metric');
+    });
   }
 }
 

@@ -13,12 +13,13 @@ class JsonMetricFS implements IJsonMetric {
     let channelsData = JSON.parse(json);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
+    console.log("PASSO 6");
     channelsData.forEach((element: any) => {
       (Object.keys(element) as (keyof typeof element)[]).forEach((key, indexs) => {
         a = [];
 
         let keyChannel = getJson[0].indexOf(key.toString());
-        newChannel[0] = element[key].time;
+        newChannel[0] = element['CNNBRASIL'].time;
         newChannel[keyChannel] = element[key].view;
         a.push(newChannel);
       });
@@ -26,7 +27,10 @@ class JsonMetricFS implements IJsonMetric {
 
     getJson = getJson.concat(a);
     getJson = JSON.stringify(getJson);
+    console.log("PASSO 7")
     fs.writeFile(urlJsonFile, getJson, 'utf8', this.JsonErrors);
+    var endTime = performance.now()
+    console.log(`Call to doSomething took END ${endTime} milliseconds`)
   }
 
   SaveJsonIbope(params: IJsonMetricDTO): void {
@@ -34,67 +38,57 @@ class JsonMetricFS implements IJsonMetric {
       const { archive, json } = params;
       const urlJsonFile = `${__dirname}\\..\\json\\${archive}.json`;
       const getJsonValueFile = fs.readFileSync(urlJsonFile);
-
-      let newChannel: any = [];
       let channelsData = JSON.parse(json);
       let getJson = JSON.parse(getJsonValueFile.toString());
+
       Object.freeze(getJson);
-      let arrCopy: String[] = [...getJson];
+      let arrCopy: any[] = [...getJson];
 
-      if (5 <= getJson.length) {
+      if (getJson.length > 6) {
 
-        let i: number = 0;
-        for (let index = 0; index < channelsData.length; index) {
+        let whileEnd = true;
+        let count: number = 0;
+        Object.freeze(getJson);
 
-          const element = channelsData[i];
-          let position: number = arrCopy.length - index;
+        console.log(channelsData)
+        const end = channelsData[0].RECORDNEWS.share.length;
 
-          if (element) {
-            (Object.keys(element) as (keyof typeof element)[]).forEach((key) => {
-              
+        while (whileEnd) {
+          let position: number = getJson.length - count;
+          const newTimesChannels: any[] = [];
+          const countShare = count;
 
-              if (i === 0) { newChannel[0] = element[key].time[index]; }
+          channelsData.forEach((element: any, index: any) => {
+            const c: any = (Object.keys(channelsData[index]) as (keyof typeof channelsData[])[]);
+            let keyChannel = getJson[0].indexOf(c.toString());
+            const view = element[c].share[countShare];
+            const time = element[c].time[countShare];
+            newTimesChannels[0] = time;
+            newTimesChannels[keyChannel] = parseInt(view);
+          });
 
-              const view = parseInt(element[key].share[index]);
-              let keyChannel = getJson[0].indexOf(key.toString());
-              newChannel[keyChannel] = view;
-            });
+          arrCopy.concat([this.returnArrayTimes(channelsData, getJson)]);
+
+          console.log(position);
+          console.log(newTimesChannels)
+          arrCopy[position] = newTimesChannels;
+          count++;
+
+          if (count === end) {
+            whileEnd = false;
           }
-
-          if (i === channelsData.length) {
-            arrCopy[position] = newChannel;
-            
-            const stringJson = JSON.stringify(arrCopy);
-            fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
-            
-            newChannel = [];
-            index++;
-            i = 0;
-            continue;
-          }
-
-          if (index === channelsData.length) {
-            break;
-          }
-
-          i++;
         }
+        console.log('cope fora while');
+        const stringJson = JSON.stringify(arrCopy);
+        fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
+        return;
       }
 
-      let arrJoin: String[] = [];
-      channelsData.forEach((element: any, count: any) => {
-        (Object.keys(element) as (keyof typeof element)[]).forEach((key, indexs) => {
-          arrJoin = [];
-
-          let keyChannel = arrCopy[0].indexOf(key.toString());
-          newChannel[0] = newChannel[0] = element[key].time[0];
-          newChannel[keyChannel] = parseInt(element[key].share[0]);
-          arrJoin.push(newChannel);
-        });
-      });
-
-      arrCopy = getJson.concat(arrJoin);
-      const stringJson = JSON.stringify(arrCopy);
+      const newTimesChannels = this.returnArrayTimes(channelsData, getJson);
+      console.log('fora while');
+      console.log(newTimesChannels)
+      const arrayJoin = getJson.concat([newTimesChannels]);
+      const stringJson = JSON.stringify(arrayJoin);
       fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
 
     } catch (error) {
@@ -113,6 +107,19 @@ class JsonMetricFS implements IJsonMetric {
     const urlJsonFile = `${__dirname}\\..\\json\\${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
     return getJsonValueFile.toString();
+  }
+
+  returnArrayTimes(a: [], b: string[]) {
+    const newTimesChannels: number[] = [];
+    a.forEach((element: any) => {
+      const c: any = (Object.keys(element) as (keyof typeof element)[]);
+      const keyChannel = b[0].indexOf(c.toString());
+      const view = parseInt(element[c].share[0]);
+      const time = element[c].time[0];
+      newTimesChannels[0] = time;
+      newTimesChannels[keyChannel] = view;
+    });
+    return newTimesChannels;
   }
 
 }

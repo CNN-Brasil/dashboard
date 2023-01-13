@@ -27,15 +27,15 @@ class RubBotPuppeteerIbope implements IRunBot {
       const submit = await page.$$("[type='submit']");
 
       await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
-      await page.waitForTimeout(0);
+      await page.waitForTimeout(1000);
       await page.type("[name='password']", "fsfbI0rHLv1%");
-      await page.waitForTimeout(0);
+      await page.waitForTimeout(1000);
       await saveCheckbox[0].click();
-      await page.waitForTimeout(0);
+      await page.waitForTimeout(1000);
       await TOS[0].click();
-      await page.waitForTimeout(0);
+      await page.waitForTimeout(1000);
       await submit[0].click();
-      await page.waitForTimeout(0);
+      await page.waitForTimeout(1000);
 
       try {
 
@@ -49,7 +49,7 @@ class RubBotPuppeteerIbope implements IRunBot {
 
           const getValues = ".dataTable.desktop > div:last-child";
           await page.waitForSelector(getValues);
-          await page.waitForTimeout(0);
+          await page.waitForTimeout(30000);
 
           const data = await page.evaluate(getValues => {
 
