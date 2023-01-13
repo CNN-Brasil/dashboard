@@ -9,7 +9,7 @@ class RunBotPuppeteer implements IRunBot {
 
     console.log(`Call to doSomething took START ${startTime} milliseconds`)
     const { url, key } = params;
-    const browser = await puppeteer.launch({ executablePath: `C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe` });
+    const browser = await puppeteer.launch();
     const pageInit = await browser.newPage();
 
     const selectLive = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
