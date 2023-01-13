@@ -61,14 +61,14 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
-        //getTotal(dispatch)
-        //getIbope(dispatch)
-        //getYoutube(dispatch)
+        getTotal(dispatch)
+        getIbope(dispatch)
+        getYoutube(dispatch)
 
         setInterval(() => {
-            //getTotal(dispatch)
-            //getIbope(dispatch)
-            //getYoutube(dispatch)
+            getTotal(dispatch)
+            getIbope(dispatch)
+            getYoutube(dispatch)
         }, 60000)
     }, [])
 
