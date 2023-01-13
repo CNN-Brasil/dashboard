@@ -20,12 +20,16 @@ class RubBotPuppeteerIbope implements IRunBot {
     try {
       await page.waitForSelector("[for='TOSCheckBox']");
       await page.waitForSelector("[for='saveInfoCheckbox']");
-      await page.waitForSelector("[type='submit']");
+      await page.waitForSelector("[type='submit']"); 
 
       const saveCheckbox = await page.$$("[for='saveInfoCheckbox']");
       const TOS = await page.$$("[for='TOSCheckBox']");
       const submit = await page.$$("[type='submit']");
 
+      // await page.type("[name='username']", "henrique.simoes@cnnbrasil.com.br");
+      // await page.waitForTimeout(1000);
+      // await page.type("[name='password']", "CNNrt2023!");
+      
       await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
       await page.waitForTimeout(1000);
       await page.type("[name='password']", "fsfbI0rHLv1%");
@@ -40,6 +44,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       try {
 
         ibope.schedule('* * * * *', async () => {
+          
           console.log('Minute Ibope: ' + new Date().toLocaleTimeString('pt-BR', {
             hour12: false,
             hour: "numeric",
@@ -163,6 +168,10 @@ class RubBotPuppeteerIbope implements IRunBot {
             let arrTime: string[] = [];
             (Object.keys(element) as (keyof typeof element)[]).forEach((keyChannel: any, d) => {
               channnelShare.payTV.forEach((sharePayTV: string, indexs: number) => {
+                console.log('-------------');
+                console.log(keyChannel);
+                console.log(element[keyChannel].share[indexs]);
+                console.log('-------------');
                 const views: any = converterDataChannel.CalculationChannel(sharePayTV, element[keyChannel].share[indexs]);
                 arrViews.push(views);
                 arrTime.push(`"${element[keyChannel].time[indexs]}"`);
