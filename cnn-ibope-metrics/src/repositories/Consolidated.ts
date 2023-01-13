@@ -3,46 +3,65 @@ import { JsonMetricFS } from "./JsonMetricFS";
 class Consolidated implements Consolidated {
   GetConsolidated(archive: String[]): any {
     const jsonMetric = new JsonMetricFS();
-    let object:[[
+    let object: [
       "Horário",
       "CNNBRASIL",
       "GLOBONEWS",
       "RECORDNEWS",
       "JOVEMPANNEWS",
       "BANDNEWS"
-      ]] = [[
-        "Horário",
-        "CNNBRASIL",
-        "GLOBONEWS",
-        "RECORDNEWS",
-        "JOVEMPANNEWS",
-        "BANDNEWS"
-      ]];
-    let ibope:string = jsonMetric.GetJson(archive[0].toString());
-    let youtube:string = jsonMetric.GetJson(archive[1].toString());
+    ] = [
+      "Horário",
+      "CNNBRASIL",
+      "GLOBONEWS",
+      "RECORDNEWS",
+      "JOVEMPANNEWS",
+      "BANDNEWS"
+    ];
 
-    ibope = JSON.parse(ibope).splice(1);
-    youtube = JSON.parse(youtube).splice(1);
-
-    let count = 0;
-
-    for (let index = 0; index < ibope.length; index++) {
-      const element:any = ibope[index];
-      var sum:any = element?.map(function (num:any, idx:any) {
-        if (0 !== idx) {
-          if (0 !== Object.keys(Object.assign([], youtube[count])).length) {
-            return num + youtube[count][idx];
-          }
-          return num;
-        }  
-        return num
-      });
-
-      object.push(sum);
-    }
+    let ibope: any = jsonMetric.GetJson(archive[0].toString());
+    let youtube: any = jsonMetric.GetJson(archive[1].toString());
+    ibope = JSON.parse(ibope.toString());
+    youtube = JSON.parse(youtube.toString())
  
+    const youtubeFilter = youtube.splice(1)
+    const ibopeFilter   = ibope.splice(1)
+    
+    let youtubeModified = youtubeFilter;
+    let ibopeModified = ibopeFilter;
 
-    return object;
+    youtubeModified.forEach((elementA: any) => {
+      const horaA = elementA[0];
+
+      let CNN = elementA[1];
+      let GLOBONEWS = elementA[2];
+      let Record = elementA[3];
+      let JOVEMPAN = elementA[4];
+      let bandnews = elementA[5]
+
+      for (let index = 0; index < ibopeModified.length; index++) {
+        const elementB = ibopeModified[index];
+        const horaB = elementB[0];
+        let CNNB = elementB[1];
+        let GLOBONEWSB = elementB[2];
+        let RecordB = elementB[3];
+        let JOVEMPANB = elementB[4];
+        let bandnewsB = elementB[5]
+
+        if (horaA === horaB) {
+          elementA[1] =  Math.trunc(CNN + CNNB);
+          elementA[2] =  Math.trunc(GLOBONEWS + GLOBONEWSB);
+          elementA[3] =  Math.trunc(Record + RecordB);
+          elementA[4] =  Math.trunc(JOVEMPAN + JOVEMPANB);
+          elementA[5] = Math.trunc(bandnews + bandnewsB);
+          continue;
+        }
+      }
+    })
+
+    youtubeModified.unshift(object);
+    return youtubeModified;
+  
   }
 }
 

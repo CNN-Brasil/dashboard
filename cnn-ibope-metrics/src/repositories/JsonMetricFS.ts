@@ -9,7 +9,7 @@ class JsonMetricFS implements IJsonMetric {
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
 
     let a;
-    let newChannel: string[] = [];
+    let newChannel: number[] = [];
     let channelsData = JSON.parse(json);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
@@ -20,7 +20,7 @@ class JsonMetricFS implements IJsonMetric {
 
         let keyChannel = getJson[0].indexOf(key.toString());
         newChannel[0] = element['CNNBRASIL'].time;
-        newChannel[keyChannel] = element[key].view;
+        newChannel[keyChannel] =  Math.trunc(element[key].view);
         a.push(newChannel);
       });
     });
@@ -64,7 +64,7 @@ class JsonMetricFS implements IJsonMetric {
             const view = element[c].share[countShare];
             const time = element[c].time[countShare];
             newTimesChannels[0] = time;
-            newTimesChannels[keyChannel] = parseInt(view);
+            newTimesChannels[keyChannel] =  Math.trunc(view);
           });
 
           arrCopy.concat([this.returnArrayTimes(channelsData, getJson)]);
@@ -114,10 +114,10 @@ class JsonMetricFS implements IJsonMetric {
     a.forEach((element: any) => {
       const c: any = (Object.keys(element) as (keyof typeof element)[]);
       const keyChannel = b[0].indexOf(c.toString());
-      const view = parseInt(element[c].share[0]);
+      const view = parseFloat(element[c].share[0]);
       const time = element[c].time[0];
       newTimesChannels[0] = time;
-      newTimesChannels[keyChannel] = view;
+      newTimesChannels[keyChannel] =  Math.trunc( view );
     });
     return newTimesChannels;
   }
