@@ -45,11 +45,10 @@ class FixJsonDate {
 
       count++;
     }
+    
     j.unshift(["Horário","CNNBRASIL","GLOBONEWS","RECORDNEWS","JOVEMPANNEWS","BANDNEWS"]);
-
     const stringJson = JSON.stringify(j);
-    console.log(j)
-//    fs.writeFile(urlJsonFile, stringJson, 'utf8', metric.JsonErrors);
+    fs.writeFile(urlJsonFile, stringJson, 'utf8', metric.JsonErrors);
     return j;
   }
 }
