@@ -2,9 +2,18 @@ import React from "react";
 export const ContextReducer = React.createContext();
 
 export const initialUserState = {
-    ibope: [],
-    youtube: [],
-    total: []
+    ibope: [
+      ['Horário', 'CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
+      ['00:00', 0, 0, 0, 0, 0]
+    ],
+    youtube: [
+      ['Horário', 'CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
+      ['00:00', 0, 0, 0, 0, 0]
+    ],
+    total: [
+      ['Horário', 'CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
+      ['00:00', 0, 0, 0, 0, 0]
+    ]
 };
 
 export const AdminReducer = (state, action) => {

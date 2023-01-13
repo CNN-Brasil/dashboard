@@ -75,7 +75,7 @@ export default props => {
         setInterval(() => {
             getIbope(dispatch)
             getYoutube(dispatch)
-            getTotal(dispatch)
+            //getTotal(dispatch)
         }, 60000)
     }, [])
 
@@ -86,7 +86,7 @@ export default props => {
     const renderPorcentage = (num1, num2) => {
         if(num1, num2) {
             let _numTotal = ((num2 / num1) - 1) * 100;
-
+            console.log('_numTotal ', _numTotal)
             if(_numTotal < 0) {
                 return 'negative'
             } else {
