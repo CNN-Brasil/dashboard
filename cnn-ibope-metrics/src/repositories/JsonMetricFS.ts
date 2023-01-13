@@ -10,6 +10,7 @@ class JsonMetricFS implements IJsonMetric {
 
     let a;
     let newChannel: number[] = [];
+    
     let channelsData = JSON.parse(json);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
