@@ -11,7 +11,7 @@ class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<void> {
 
     const url: any = params.url;
-    const browser = await puppeteer.launch({headless: false });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     await page.setDefaultNavigationTimeout(0);
@@ -58,7 +58,7 @@ class RubBotPuppeteerIbope implements IRunBot {
           }));
 
           const getValues = ".dataTable.desktop > div:last-child";
-          await page.waitForSelector(getValues, { timeout: 1 });
+          await page.waitForSelector(getValues);
           await page.waitForTimeout(30000);
 
           const data = await page.evaluate(getValues => {

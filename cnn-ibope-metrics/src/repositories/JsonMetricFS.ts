@@ -5,7 +5,7 @@ class JsonMetricFS implements IJsonMetric {
 
   SaveJsonYoutube(params: IJsonMetricDTO): void {
     const { archive, json } = params;
-    const urlJsonFile = `${__dirname}\\..\\json\\${archive}.json`;
+    const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
 
     let a;
@@ -36,7 +36,7 @@ class JsonMetricFS implements IJsonMetric {
   SaveJsonIbope(params: IJsonMetricDTO): void {
     try {
       const { archive, json } = params;
-      const urlJsonFile = `${__dirname}\\..\\json\\${archive}.json`;
+      const urlJsonFile = `${__dirname}/../json/${archive}.json`;
       const getJsonValueFile = fs.readFileSync(urlJsonFile);
       let channelsData = JSON.parse(json);
       let getJson = JSON.parse(getJsonValueFile.toString());
@@ -104,7 +104,7 @@ class JsonMetricFS implements IJsonMetric {
   }
 
   GetJson(archive: string): string {
-    const urlJsonFile = `${__dirname}\\..\\json\\${archive}.json`;
+    const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
     return getJsonValueFile.toString();
   }

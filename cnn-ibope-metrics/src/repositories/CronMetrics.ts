@@ -53,7 +53,6 @@ class CronMetrics implements ICronMetrics {
         }), "view": 0
       };
 
-
       const stringChannels = JSON.stringify([obj]);
       console.log("PASSO 5")
       this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
@@ -66,16 +65,16 @@ class CronMetrics implements ICronMetrics {
   }
 
   RunCron(): void {
-    // youtube.schedule('* * * * *', () => {
-    //   console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
-    //     hour12: false,
-    //     hour: "numeric",
-    //     minute: "numeric",
-    //     second: "numeric"
-    //   }));
+    youtube.schedule('* * * * *', () => {
+      console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+      }));
 
-    //   this.CronRunBotYoutube();
-    // });
+      this.CronRunBotYoutube();
+    });
 
     this.CronRunBotIbope();
 
