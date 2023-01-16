@@ -20,7 +20,7 @@ class RubBotPuppeteerIbope implements IRunBot {
     try {
       await page.waitForSelector("[for='TOSCheckBox']");
       await page.waitForSelector("[for='saveInfoCheckbox']");
-      await page.waitForSelector("[type='submit']"); 
+      await page.waitForSelector("[type='submit']");
 
       const saveCheckbox = await page.$$("[for='saveInfoCheckbox']");
       const TOS = await page.$$("[for='TOSCheckBox']");
@@ -29,7 +29,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       // await page.type("[name='username']", "henrique.simoes@cnnbrasil.com.br");
       // await page.waitForTimeout(1000);
       // await page.type("[name='password']", "CNNrt2023!");
-      
+
       await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
       await page.waitForTimeout(1000);
       await page.type("[name='password']", "fsfbI0rHLv1%");
@@ -44,7 +44,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       try {
 
         ibope.schedule('* * * * *', async () => {
-          
+
           console.log('Minute Ibope: ' + new Date().toLocaleTimeString('pt-BR', {
             hour12: false,
             hour: "numeric",

@@ -79,6 +79,10 @@ class CronMetrics implements ICronMetrics {
 
     this.CronRunBotIbope();
 
+    const fixJsonDate: any = new FixJsonDate();
+    fixJsonDate.fixJsonDate('ibope-metric');
+    fixJsonDate.fixJsonDate('youtube-metric');
+
     jsonValid.schedule('*/2 * * * *', () => {
       console.log('Minute Json Valid: ' + new Date().toLocaleTimeString('pt-BR', {
         hour12: false,
@@ -86,10 +90,8 @@ class CronMetrics implements ICronMetrics {
         minute: "numeric",
         second: "numeric"
       }));
-      
-      const fixJsonDate:any = new FixJsonDate();
-      fixJsonDate.fixJsonDate('ibope-metric');
-      fixJsonDate.fixJsonDate('youtube-metric');
+
+
     });
   }
 }
