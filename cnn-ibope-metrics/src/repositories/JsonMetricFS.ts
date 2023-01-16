@@ -74,7 +74,7 @@ class JsonMetricFS implements IJsonMetric {
         fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
         return;
       }
-      
+
       const newTimesChannels = this.returnArrayTimes(channelsData, getJson);
       const arrayJoin = getJson.concat([newTimesChannels]);
       const stringJson = JSON.stringify(arrayJoin);
@@ -92,10 +92,75 @@ class JsonMetricFS implements IJsonMetric {
     return 'Save';
   }
 
-  GetJson(archive: string): string {
-    const urlJsonFile = `${__dirname}/../json/${archive}.json`;
-    const getJsonValueFile = fs.readFileSync(urlJsonFile);
-    return getJsonValueFile.toString();
+  GetJson(archive: string): object {
+
+    let object: [
+      "Horário",
+      "CNNBRASIL",
+      "GLOBONEWS",
+      "RECORDNEWS",
+      "JOVEMPANNEWS",
+      "BANDNEWS"
+    ] = [
+      "Horário",
+      "CNNBRASIL",
+      "GLOBONEWS",
+      "RECORDNEWS",
+      "JOVEMPANNEWS",
+      "BANDNEWS"
+    ];
+
+    let youtubeFile: string = `${__dirname}/../json/youtube-metric.json`;
+    let ibopeFile: string = `${__dirname}/../json/ibope-metric.json`;
+
+    youtubeFile = fs.readFileSync(youtubeFile).toString();
+    ibopeFile = fs.readFileSync(ibopeFile).toString();
+
+    let youtube = JSON.parse(youtubeFile);
+    let ibope = JSON.parse(ibopeFile);
+    let youtubeModified = [];
+
+    const youtubeFilter = youtube.splice(1);
+    const ibopeFilter = ibope.splice(1);
+    let filter = youtubeFilter;
+    
+    (archive === 'ibope-metric') ? filter = ibopeFilter : filter = youtubeFilter;
+
+    filter.forEach((elementA: any, key: number) => {
+
+      const horaA = elementA[0];
+
+      let CNN = elementA[1];
+      let GLOBONEWS = elementA[2];
+      let Record = elementA[3];
+      let JOVEMPAN = elementA[4];
+      let bandnews = elementA[5]
+
+      for (let index = 0; index < ibopeFilter.length; index++) {
+        const elementB = ibopeFilter[index];
+        const horaB = elementB[0];
+        let CNNB = elementB[1];
+        let GLOBONEWSB = elementB[2];
+        let RecordB = elementB[3];
+        let JOVEMPANB = elementB[4];
+        let bandnewsB = elementB[5]
+
+        if (horaA === horaB) {
+          elementA[1] = Math.trunc(CNN);
+          elementA[2] = Math.trunc(GLOBONEWS);
+          elementA[3] = Math.trunc(Record);
+          elementA[4] = Math.trunc(JOVEMPAN);
+          elementA[5] = Math.trunc(bandnews);
+          youtubeModified.push(elementA)
+          continue;
+        }
+      }
+
+    })
+
+    youtubeModified.unshift(object);
+    return youtubeModified;
+
   }
 
   returnArrayTimes(a: [], b: string[]) {

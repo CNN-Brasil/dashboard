@@ -6,7 +6,7 @@ interface IJsonMetricDTO {
 interface IJsonMetric {
   SaveJsonIbope(params: IJsonMetricDTO): void;
   SaveJsonYoutube(params: IJsonMetricDTO): void;
-  GetJson(archive: string): string;
+  GetJson(archive: string): object;
   JsonErrors(err: string): string
 }
 

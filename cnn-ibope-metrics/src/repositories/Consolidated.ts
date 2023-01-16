@@ -21,9 +21,6 @@ class Consolidated implements Consolidated {
 
     let ibope: any = jsonMetric.GetJson(archive[0].toString());
     let youtube: any = jsonMetric.GetJson(archive[1].toString());
-    ibope = JSON.parse(ibope.toString());
-    youtube = JSON.parse(youtube.toString())
-  
 
     let youtubeModified = [];
     const youtubeFilter = youtube.splice(1)
