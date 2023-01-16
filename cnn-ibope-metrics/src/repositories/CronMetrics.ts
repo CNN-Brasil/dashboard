@@ -66,16 +66,16 @@ class CronMetrics implements ICronMetrics {
   }
 
   RunCron(): void {
-    youtube.schedule('* * * * *', () => {
-      console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
-      }));
+    // youtube.schedule('* * * * *', () => {
+    //   console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
+    //     hour12: false,
+    //     hour: "numeric",
+    //     minute: "numeric",
+    //     second: "numeric"
+    //   }));
 
-      this.CronRunBotYoutube();
-    });
+    //   this.CronRunBotYoutube();
+    // });
 
     this.CronRunBotIbope();
 
