@@ -31,13 +31,13 @@ class RubBotPuppeteerIbope implements IRunBot {
       const TOS = await page.$$("[for='TOSCheckBox']");
       const submit = await page.$$("[type='submit']");
 
-      // await page.type("[name='username']", "henrique.simoes@cnnbrasil.com.br");
-      // await page.waitForTimeout(1000);
-      // await page.type("[name='password']", "CNNrt2023!");
-
-      await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
+      await page.type("[name='username']", "henrique.simoes@cnnbrasil.com.br");
       await page.waitForTimeout(1000);
-      await page.type("[name='password']", "fsfbI0rHLv1%");
+      await page.type("[name='password']", "CNNrt2023!");
+
+      // await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
+      // await page.waitForTimeout(1000);
+      // await page.type("[name='password']", "fsfbI0rHLv1%");
       await page.waitForTimeout(1000);
       await saveCheckbox[0].click();
       await page.waitForTimeout(1000);
@@ -47,7 +47,6 @@ class RubBotPuppeteerIbope implements IRunBot {
       await page.waitForTimeout(1000);
 
       try {
-
         ibope.schedule('* * * * *', async () => {
 
           console.log('Minute Ibope: ' + new Date().toLocaleTimeString('pt-BR', {

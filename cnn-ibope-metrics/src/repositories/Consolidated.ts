@@ -23,14 +23,13 @@ class Consolidated implements Consolidated {
     let youtube: any = jsonMetric.GetJson(archive[1].toString());
     ibope = JSON.parse(ibope.toString());
     youtube = JSON.parse(youtube.toString())
- 
+  
+
+    let youtubeModified = [];
     const youtubeFilter = youtube.splice(1)
     const ibopeFilter   = ibope.splice(1)
-    
-    let youtubeModified = youtubeFilter;
-    let ibopeModified = ibopeFilter;
-
-    youtubeModified.forEach((elementA: any) => {
+  
+    youtubeFilter.forEach((elementA: any, key: number) => {
       const horaA = elementA[0];
 
       let CNN = elementA[1];
@@ -39,8 +38,8 @@ class Consolidated implements Consolidated {
       let JOVEMPAN = elementA[4];
       let bandnews = elementA[5]
 
-      for (let index = 0; index < ibopeModified.length; index++) {
-        const elementB = ibopeModified[index];
+      for (let index = 0; index < ibopeFilter.length; index++) {
+        const elementB = ibopeFilter[index];
         const horaB = elementB[0];
         let CNNB = elementB[1];
         let GLOBONEWSB = elementB[2];
@@ -54,9 +53,11 @@ class Consolidated implements Consolidated {
           elementA[3] =  Math.trunc(Record + RecordB);
           elementA[4] =  Math.trunc(JOVEMPAN + JOVEMPANB);
           elementA[5] = Math.trunc(bandnews + bandnewsB);
+          youtubeModified.push(elementA)
           continue;
         }
       }
+      
     })
 
     youtubeModified.unshift(object);

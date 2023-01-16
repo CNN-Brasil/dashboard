@@ -1,13 +1,8 @@
 import { IRunBot, IRunBotParamsDTO } from "../interfaces/IRunBot";
 import puppeteer from 'puppeteer';
 
-var startTime = performance.now();
 class RunBotPuppeteer implements IRunBot {
-
-
   async RunBot(params: IRunBotParamsDTO): Promise<object> {
-
-    console.log(`Call to doSomething took START ${startTime} milliseconds`)
     const { url, key } = params;
     const browser = await puppeteer.launch();
     const pageInit = await browser.newPage();
@@ -19,7 +14,6 @@ class RunBotPuppeteer implements IRunBot {
 
     await pageInit.goto(url);
     await pageInit.content();
-    console.log("PASSO 2")
 
     if (0 === (await pageInit.$$(selectLive)).length) {
       await browser.close();
@@ -42,7 +36,6 @@ class RunBotPuppeteer implements IRunBot {
     }, selectLive);
 
     if (0 === newPage.length) {
-
       await browser.close();
       return {
         "time": new Date().toLocaleTimeString('pt-BR', {
@@ -61,20 +54,10 @@ class RunBotPuppeteer implements IRunBot {
       **/
       if (pageLive) {
 
-        console.log("PASSO 3")
         await pageInit.goto(pageLive);
-
-        console.log("PASSO 3.1")
         await pageInit.bringToFront();
-
-        console.log("PASSO 3.2")
         let endTime = performance.now();
-
-        console.log(`Call to doSomething took END ${endTime} milliseconds`);
-
         await pageInit.waitForSelector(resultsViews, { timeout: 0 });
-        
-        console.log("PASSO 3.3");
 
         /**
           *  get total views youtube live
@@ -87,10 +70,6 @@ class RunBotPuppeteer implements IRunBot {
         }, resultsViews, index++);
 
         arrayViews.push(view);
-      } else {
-        console.log(`Call to doSomething took ${startTime} milliseconds`)
-        console.log(pageLive);
-        console.log("PASSO 3.1 NOT PAGE")
       }
     }
 
@@ -105,9 +84,6 @@ class RunBotPuppeteer implements IRunBot {
       minute: "numeric"
     })}", "view": ${parseInt(view)} }`)
 
-    await browser.close();
-    console.log("PASSO 4")
-    console.log(json);
     return json;
   }
 }
