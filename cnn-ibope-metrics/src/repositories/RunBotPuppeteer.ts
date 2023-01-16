@@ -56,7 +56,6 @@ class RunBotPuppeteer implements IRunBot {
 
         await pageInit.goto(pageLive);
         await pageInit.bringToFront();
-        let endTime = performance.now();
         await pageInit.waitForSelector(resultsViews, { timeout: 0 });
 
         /**
@@ -83,6 +82,7 @@ class RunBotPuppeteer implements IRunBot {
       hour: "numeric",
       minute: "numeric"
     })}", "view": ${parseInt(view)} }`)
+    await browser.close();
 
     return json;
   }

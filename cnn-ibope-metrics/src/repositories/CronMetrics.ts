@@ -39,8 +39,7 @@ class CronMetrics implements ICronMetrics {
         'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
         'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
       }
-
-      console.log("PASSO 1")
+      
       for await (const [key, value] of Object.entries(channels)) {
         const result: any = await youtubeClass.RunBot({ url: value.url, key: key });
         obj[key] = result;
@@ -54,7 +53,6 @@ class CronMetrics implements ICronMetrics {
       };
 
       const stringChannels = JSON.stringify([obj]);
-      console.log("PASSO 5")
       this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
 
 

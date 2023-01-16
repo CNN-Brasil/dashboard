@@ -11,7 +11,7 @@ class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<void> {
 
     const url: any = params.url;
-    const browser = await puppeteer.launch({headless:false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     await page.setDefaultNavigationTimeout(0);
@@ -67,9 +67,6 @@ class RubBotPuppeteerIbope implements IRunBot {
               let title = anchor.querySelectorAll('.tableHeader td div');
               let data = anchor.querySelectorAll('.tableRow.type1');
               let time = document.querySelectorAll('#row-headers tr');
-
-              console.log(title);
-
               let channelObjArr = [];
               let payTVObjArr = [];
 
@@ -124,7 +121,6 @@ class RubBotPuppeteerIbope implements IRunBot {
               return objtableArr;
             });
           }, getValues);
-          console.log(data);
 
           this.jsonMetric.SaveJsonIbope({ json: JSON.stringify(this.MountJson(data)), archive: 'ibope-metric' });
         });
