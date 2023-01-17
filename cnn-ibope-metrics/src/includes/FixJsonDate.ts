@@ -34,7 +34,7 @@ class FixJsonDate {
         const Dtoday = new Date(timeRecorrent);
         const time = ('0' + Dtoday.getHours()).substr(-2) + ':' + ('0' + Dtoday.getMinutes()).substr(-2);
 
-        const lastTime = new Date(+yyyy, +mm, +dd, jsonCopy[jsonCopy.length - 1][0].split(':')[0], jsonCopy[jsonCopy.length - 1][0].split(':')[1]).getTime();
+        const lastTime = new Date(+yyyy, +mm, +dd, j[j.length - 1][0].split(':')[0], j[j.length - 1][0].split(':')[1]).getTime();
         const timeEnd = new Date(+yyyy, +mm, +dd, el[0].split(':')[0], el[0].split(':')[1]).getTime();
 
         if (el[0] !== time) {
@@ -45,9 +45,11 @@ class FixJsonDate {
           console.log('false')
           controllerWhile = false;
         }
+        console.log('aqui')
 
         count++;
       }
+      console.log('end')
     }
     j.unshift(["Horário", "CNNBRASIL", "GLOBONEWS", "RECORDNEWS", "JOVEMPANNEWS", "BANDNEWS"]);
     const stringJson = JSON.stringify(j);
