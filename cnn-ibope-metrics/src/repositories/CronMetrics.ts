@@ -76,7 +76,7 @@ class CronMetrics implements ICronMetrics {
 
     this.CronRunBotIbope();
 
-    jsonValid.schedule('*/2 * * * *', () => {
+    jsonValid.schedule('*/30 * * * * *', () => {
       console.log('Minute Json Valid: ' + new Date().toLocaleTimeString('pt-BR', {
         hour12: false,
         hour: "numeric",
