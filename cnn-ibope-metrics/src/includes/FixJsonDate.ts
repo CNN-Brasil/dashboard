@@ -11,6 +11,7 @@ class FixJsonDate {
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
+    console.log(getJson.length);
     if (361 < getJson.length) {
       getJson.splice(1, 1);
     }
