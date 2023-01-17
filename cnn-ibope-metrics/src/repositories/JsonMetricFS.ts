@@ -1,5 +1,6 @@
 import { IJsonMetric, IJsonMetricDTO } from '../interfaces/IJsonMetric';
 import fs from 'fs';
+import { RubBotPuppeteerIbope } from './RunBotPuppeteerIbope';
 
 class JsonMetricFS implements IJsonMetric {
 
@@ -34,7 +35,7 @@ class JsonMetricFS implements IJsonMetric {
       const { archive, json } = params;
       const urlJsonFile = `${__dirname}/../json/${archive}.json`;
       const getJsonValueFile = fs.readFileSync(urlJsonFile);
-      let channelsData = JSON.parse(json);
+      let channelsData:any = JSON.parse(json);
       let getJson = JSON.parse(getJsonValueFile.toString());
 
       Object.freeze(getJson);
@@ -81,7 +82,8 @@ class JsonMetricFS implements IJsonMetric {
       fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
 
     } catch (error) {
-      console.log(error)
+      const ibopeClass = new RubBotPuppeteerIbope();
+      //ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     }
   }
 

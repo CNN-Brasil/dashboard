@@ -11,14 +11,14 @@ class RubBotPuppeteerIbope implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<void> {
 
     const url: any = params.url;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
     await page.setDefaultNavigationTimeout(0);
     await page.goto(url, { waitUntil: 'load', timeout: 0 });
 
     browser.on('disconnected', async () => {
-      console.log('aqui')
+      console.log('aqui');
       await this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     });
 
@@ -36,7 +36,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       await page.type("[name='password']", "CNNrt2023!");
 
       // await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
-      // await page.waitForTimeout(1000);
+      // await page.waitForTimeoutcd(1000);
       // await page.type("[name='password']", "fsfbI0rHLv1%");
       await page.waitForTimeout(1000);
       await saveCheckbox[0].click();
@@ -57,8 +57,6 @@ class RubBotPuppeteerIbope implements IRunBot {
           }));
 
           const getValues = ".dataTable.desktop > div:last-child";
-          await page.waitForSelector(getValues);
-          await page.waitForTimeout(30000);
 
           const data = await page.evaluate(getValues => {
 
@@ -122,19 +120,23 @@ class RubBotPuppeteerIbope implements IRunBot {
             });
           }, getValues);
 
+          if (0 === data.length) {
+            console.error('data empty');
+            browser.close();
+            return;
+          }
+
           this.jsonMetric.SaveJsonIbope({ json: JSON.stringify(this.MountJson(data)), archive: 'ibope-metric' });
         });
 
       } catch (error) {
         console.error('error');
         browser.close();
-        this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
       }
 
     } catch (error) {
       console.error('error');
       browser.close();
-      this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     }
   }
 
