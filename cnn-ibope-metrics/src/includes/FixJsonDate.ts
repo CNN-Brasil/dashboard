@@ -23,8 +23,7 @@ class FixJsonDate {
     const j: any = getJson.splice(1);
     let count = 0;
     let controllerWhile = true;
-    let jsonCopy = j;
-
+ 
     if (1 < j.length) {
       while (controllerWhile) {
         const el = j[count];
@@ -35,17 +34,18 @@ class FixJsonDate {
         const time = ('0' + Dtoday.getHours()).substr(-2) + ':' + ('0' + Dtoday.getMinutes()).substr(-2);
 
         const lastTime = new Date(+yyyy, +mm, +dd, j[j.length - 1][0].split(':')[0], j[j.length - 1][0].split(':')[1]).getTime();
-        const timeEnd = new Date(+yyyy, +mm, +dd, el[0].split(':')[0], el[0].split(':')[1]).getTime();
 
         if (el[0] !== time) {
           j.splice(count, 0, [time, j[count - 1][1], j[count - 1][2], j[count - 1][3], j[count - 1][4], j[count - 1][5]]);
         }
-        
+
+        const timeEnd = new Date(+yyyy, +mm, +dd, j[count][0].split(':')[0], j[count][0].split(':')[1]).getTime();
+  
         if (timeEnd === lastTime) {
           console.log('false')
           controllerWhile = false;
         }
-        console.log('aqui')
+        
 
         count++;
       }
