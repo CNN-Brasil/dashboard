@@ -5,12 +5,13 @@ class FixJsonDate {
 
   fixJsonDate(archive: string) {
 
+    console.log(1)
     const metric = new JsonMetricFS();
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
-    if (362 < getJson.length) {
+    if (361 < getJson.length) {
       getJson.splice(1, 1);
     }
     
@@ -22,8 +23,9 @@ class FixJsonDate {
     const j: any = getJson.splice(1);
     let count = 0;
     let controllerWhile = true;
+    let jsonCopy = j;
 
-    if (0 > getJson.length) {
+    if (1 < j.length) {
       while (controllerWhile) {
         const el = j[count];
         const currentDate = new Date(+yyyy, +mm, +dd, j[0][0].split(':')[0], j[0][0].split(':')[1]);
@@ -32,7 +34,7 @@ class FixJsonDate {
         const Dtoday = new Date(timeRecorrent);
         const time = ('0' + Dtoday.getHours()).substr(-2) + ':' + ('0' + Dtoday.getMinutes()).substr(-2);
 
-        const lastTime = new Date(+yyyy, +mm, +dd, j[j.length - 1][0].split(':')[0], j[j.length - 1][0].split(':')[1]).getTime();
+        const lastTime = new Date(+yyyy, +mm, +dd, jsonCopy[jsonCopy.length - 1][0].split(':')[0], jsonCopy[jsonCopy.length - 1][0].split(':')[1]).getTime();
         const timeEnd = new Date(+yyyy, +mm, +dd, el[0].split(':')[0], el[0].split(':')[1]).getTime();
 
         if (el[0] !== time) {
@@ -40,6 +42,7 @@ class FixJsonDate {
         }
         
         if (timeEnd === lastTime) {
+          console.log('false')
           controllerWhile = false;
         }
 
