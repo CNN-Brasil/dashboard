@@ -260,6 +260,11 @@ export const SubTitle = styled.h4`
         justify-content: center;
     `}
 
+    ${props => props.marginShare && css`
+        margin: 30px 0 20px 0;
+        justify-content: center;    
+    `}
+
     svg {
         margin-right: 20px;
     }
@@ -545,4 +550,71 @@ export const Clock = styled.div`
     @media (min-width: 1920px) {
         display: flex;
     }
+`
+
+export const ContentGraphic = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+export const Graphic = styled.div`
+    width: 80px;
+    height: 80px;
+    margin: 15px 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+
+    background: ${props => props.bg}
+`
+
+export const Slice = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+`
+
+export const SliceOne = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip: rect(0 80px 40px 0);
+    transform: rotate(${props => props.transf1}deg);
+    background: ${props => props.bg2};
+`
+export const SliceTwo = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip: rect(0 40px 80px 0);
+    transform: rotate(${props=> props.transf2}deg);
+    background: ${props => props.bg3};
+`
+
+export const PorcentageGraphic = styled.div`
+    position: absolute;
+    border-radius: 50%;
+    background-color: #fff;
+    top: 7px;
+    left: 7px;
+    width: 66px;
+    height: 66px;
+    background: #fff;
+`
+
+export const PorcentageGraphicSpan = styled.span`
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 66px;
+    color: #000;
+
 `

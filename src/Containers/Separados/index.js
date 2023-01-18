@@ -30,7 +30,14 @@ import {
     ContentIcon,
     ContentLogo,
     Porcentage,
-    Clock
+    Clock,
+    Graphic,
+    Slice,
+    SliceOne,
+    SliceTwo,
+    PorcentageGraphic,
+    PorcentageGraphicSpan,
+    ContentGraphic
 } from './styles'
 
 import {ContextReducer} from "../../reducer/AdminReducer";
@@ -55,7 +62,7 @@ import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
 import {ReactComponent as IcoClock} from '../../assets/clock.svg';
 import { Chart } from "react-google-charts";
 
-import {getIbope, getTotal, getYoutube} from '../../actions/ReviewsAction.js'
+import {getIbope, getTotal, getYoutube, getShare} from '../../actions/ReviewsAction.js'
 
 
 export default props => {
@@ -68,14 +75,16 @@ export default props => {
     const [activeInfo, setActiveInfo] = useState(false)
 
     useEffect(() => {
+        getTotal(dispatch)
         getIbope(dispatch)
         getYoutube(dispatch)
-        getTotal(dispatch)
+        getShare(dispatch)
 
         setInterval(() => {
+            getTotal(dispatch)
             getIbope(dispatch)
             getYoutube(dispatch)
-            //getTotal(dispatch)
+            getShare(dispatch)
         }, 60000)
     }, [])
 
@@ -86,7 +95,7 @@ export default props => {
     const renderPorcentage = (num1, num2) => {
         if(num1, num2) {
             let _numTotal = ((num2 / num1) - 1) * 100;
-            console.log('_numTotal ', _numTotal)
+
             if(_numTotal < 0) {
                 return 'negative'
             } else {
@@ -339,6 +348,44 @@ export default props => {
                                 <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[5]) : '0'} UV </strong> {(state.total.at(-1) && state.total.at(-1)[5] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[5], state?.total?.at(-2)[5])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[5], state?.total?.at(-2)[5])}%</Porcentage>}</InfoNumbers>
                             </InfoGeral>
                         </Info>
+                        <SubTitle marginShare>Share por canal</SubTitle>
+                        <ContentGraphic>
+                            <Graphic bg={state.share[1] && state.share[1][0] < 50 ? '#CC0000' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][0] < 50 ? (state.share[1][0] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][0] < 50 ? '#C4C4C4' : '#CC0000'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][0] < 50 ? 0 : (state.share[1][0] / 100 * 360)} bg3={state.share[1] && state.share[1][0] < 50 ? '#C4C4C4' : '#CC0000'}></SliceTwo>
+                                <PorcentageGraphic>
+                                    <PorcentageGraphicSpan>{state.share[1] && state.share[1][0]}%</PorcentageGraphicSpan>
+                                </PorcentageGraphic>
+                            </Graphic>
+                            <Graphic bg={state.share[1] && state.share[1][1] < 50 ? '#1770C6' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][1] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][1] < 50 ? '#C4C4C4' : '#1770C6'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][1] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][1] < 50 ? '#C4C4C4' : '#1770C6'}></SliceTwo>
+                                <PorcentageGraphic>
+                                    <PorcentageGraphicSpan>{state.share[1] && state.share[1][1]}%</PorcentageGraphicSpan>
+                                </PorcentageGraphic>
+                            </Graphic>
+                            <Graphic bg={state.share[1] && state.share[1][2] < 50 ? '#489624' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][2] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][2] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceTwo>
+                                <PorcentageGraphic>
+                                    <PorcentageGraphicSpan>{state.share[1] && state.share[1][2]}%</PorcentageGraphicSpan>
+                                </PorcentageGraphic>
+                            </Graphic>
+                            <Graphic bg={state.share[1] && state.share[1][3] < 50 ? '#8C8C8C' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][3] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][3] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceTwo>
+                                <PorcentageGraphic>
+                                    <PorcentageGraphicSpan>{state.share[1] && state.share[1][3]}%</PorcentageGraphicSpan>
+                                </PorcentageGraphic>
+                            </Graphic>
+                            <Graphic bg={state.share[1] && state.share[1][4] < 50 ? '#FFB800' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][4] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][4] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceTwo>
+                                <PorcentageGraphic>
+                                    <PorcentageGraphicSpan>{state.share[1] && state.share[1][4]}%</PorcentageGraphicSpan>
+                                </PorcentageGraphic>
+                            </Graphic>
+                        </ContentGraphic>
                     </Infos>
                     </Grid>
                 </Body>

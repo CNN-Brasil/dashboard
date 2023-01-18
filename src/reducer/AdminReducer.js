@@ -14,6 +14,10 @@ export const initialUserState = {
       ['Horário', 'CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
       ['00:00', 0, 0, 0, 0, 0]
     ],
+    share: [
+        ['CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
+        [22, 0, 0, 0, 0]
+      ],
     isLogged: false
 };
 
@@ -49,6 +53,16 @@ export const AdminReducer = (state, action) => {
                 }
             })
             return { ...state, total:_total};
+
+        case 'GET_SHARE':
+            const _share = [];
+
+            action.payload.filter((el) => {
+                if(el !== null) {
+                    _share.push(el)
+                }
+            })
+            return { ...state, share:_share};
         case 'SET_LOGIN':
             return {...state, isLogged: action.payload}
         default:
