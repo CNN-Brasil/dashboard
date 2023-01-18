@@ -83,7 +83,7 @@ class JsonMetricFS implements IJsonMetric {
         }
 
         if (0 === count) {
-          if (arrCopy[verify] !== newTimesChannels) {
+          if (arrCopy[verify][0] !== newTimesChannels[0]) {
              arrCopy[position] = newTimesChannels;
           }
         }
