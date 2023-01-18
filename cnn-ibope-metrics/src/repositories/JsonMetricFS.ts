@@ -41,11 +41,11 @@ class JsonMetricFS implements IJsonMetric {
 
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
-
-    console.log(json)
-
+  
+    console.log(json);
 
     let channelsData: any = JSON.parse(json);
+    //any = //[{"RECORDNEWS":{"share":[7994.7912799999995,7709.263020000001],"time":["12:45","12:46"]}},{"CNNBRASIL":{"share":[7994.7912799999995,0],"time":["12:45","12:46"]}},{"BANDNEWS":{"share":[0,0],"time":["12:45","12:46"]}},{"GLOBONEWS":{"share":[19986.978199999998,19273.15755],"time":["12:45","12:46"]}},{"JOVEMPANNEWS":{"share":[0,0],"time":["12:45","12:46"]}}]//JSON.parse(json);
 
     let getJson = JSON.parse(getJsonValueFile.toString());
 
@@ -60,7 +60,6 @@ class JsonMetricFS implements IJsonMetric {
       const end = channelsData[0].RECORDNEWS.share.length;
 
       while (whileEnd) {
-        let position: number = getJson.length - count;
         let verify: number = getJson.length - 1;
 
         const newTimesChannels: any[] = [];
@@ -74,30 +73,32 @@ class JsonMetricFS implements IJsonMetric {
           newTimesChannels[0] = time;
           newTimesChannels[keyChannel] = Math.trunc(view);
         });
-
-        if (arrCopy[position]) {
-          if (arrCopy[position][0] === newTimesChannels[0]) {
-            arrCopy.concat([this.returnArrayTimes(channelsData, getJson)]);
-            arrCopy[position] = newTimesChannels;
-          }
+        
+        const timeActual = new Date(`02-02-2023 ${arrCopy[verify][0]}`).getTime();
+        const newTime = new Date(`02-02-2023 ${newTimesChannels[0]}`).getTime();
+        const current = new Date(`02-02-2023 ${arrCopy[arrCopy.length - 1][0]}`).getTime();
+        const nextTime = new Date(`02-02-2023 ${newTimesChannels[0]}`).getTime() + 1 * 60000;
+        
+        if (newTime === timeActual) {
+          arrCopy[verify] = newTimesChannels;
+        } else if (newTime > current && newTime > timeActual) {
+          arrCopy.splice(arrCopy.length-count+1, 0, newTimesChannels)
+        } else if (nextTime > timeActual) {
+          arrCopy.splice(arrCopy.length-1, 0, newTimesChannels)
         }
 
-        const nextTime = new Date(`02-02-2023 ${arrCopy[verify][0]}`).getTime() + 1 * 60000;
-        const timeActual = new Date(`02-02-2023 ${newTimesChannels[0]}`).getTime();
-
-        if (count === 0) {
-          arrCopy[position] = newTimesChannels;
-        }
-
-        count++;
+        console.log(arrCopy[arrCopy.length - 1][0]);
+        console.log(arrCopy[verify][0]);
+        count++
 
         if (count === end) {
           whileEnd = false;
         }
+        
       }
 
-      if (361 < getJson.length) {
-        getJson.splice(1, 1);
+      if (361 < arrCopy.length) {
+        arrCopy.splice(1, 1);
       }
 
       const stringJson = JSON.stringify(arrCopy);
