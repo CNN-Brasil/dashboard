@@ -82,10 +82,11 @@ class JsonMetricFS implements IJsonMetric {
           }
         }
 
-        if (0 === count) {
-          if (arrCopy[verify][0] !== newTimesChannels[0]) {
-             arrCopy[position] = newTimesChannels;
-          }
+        const nextTime = new Date(`02-02-2023 ${arrCopy[verify][0]}`).getTime() + 1 * 60000;
+        const timeActual = new Date(`02-02-2023 ${newTimesChannels[0]}`).getTime();
+
+        if (nextTime === timeActual) {
+          arrCopy[verify + 1] = newTimesChannels;
         }
 
         count++;
