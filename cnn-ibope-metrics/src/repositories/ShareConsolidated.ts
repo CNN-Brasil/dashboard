@@ -22,13 +22,14 @@ class ShareConsolidated {
             });
 
             let final = [
+                [
                 "Horário",
                 "CNNBRASIL",
                 "GLOBONEWS",
                 "RECORDNEWS",
                 "JOVEMPANNEWS",
                 "BANDNEWS"
-            ].concat([map]);
+            ]].concat([map]);
             return final;
         } catch (error) {
             object = [{ message: 'Error in object' }];
