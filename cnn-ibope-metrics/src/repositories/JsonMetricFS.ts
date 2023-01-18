@@ -26,65 +26,79 @@ class JsonMetricFS implements IJsonMetric {
     });
 
     getJson = getJson.concat(a);
+
+    if (361 < getJson.length) {
+      getJson.splice(1, 1);
+    }
+
     getJson = JSON.stringify(getJson);
     fs.writeFile(urlJsonFile, getJson, 'utf8', this.JsonErrors);
   }
 
   SaveJsonIbope(params: IJsonMetricDTO): void {
-    try {
-      const { archive, json } = params;
-      const urlJsonFile = `${__dirname}/../json/${archive}.json`;
-      const getJsonValueFile = fs.readFileSync(urlJsonFile);
-      let channelsData:any = JSON.parse(json);
-      let getJson = JSON.parse(getJsonValueFile.toString());
 
+    const { archive, json } = params;
+
+    const urlJsonFile = `${__dirname}/../json/${archive}.json`;
+    const getJsonValueFile = fs.readFileSync(urlJsonFile);
+    let channelsData: any = JSON.parse(json);
+    let getJson = JSON.parse(getJsonValueFile.toString());
+
+    Object.freeze(getJson);
+    let arrCopy: any[] = [...getJson];
+
+    if (getJson.length > 6) {
+
+      let whileEnd = true;
+      let count: number = 0;
       Object.freeze(getJson);
-      let arrCopy: any[] = [...getJson];
+      const end = channelsData[0].RECORDNEWS.share.length;
 
-      if (getJson.length > 6) {
+      while (whileEnd) {
+        let position: number = getJson.length - count;
+        const newTimesChannels: any[] = [];
+        const countShare = count;
 
-        let whileEnd = true;
-        let count: number = 0;
-        Object.freeze(getJson);
-        const end = channelsData[0].RECORDNEWS.share.length;
+        channelsData.forEach((element: any, index: any) => {
+          const c: any = (Object.keys(channelsData[index]) as (keyof typeof channelsData[])[]);
+          let keyChannel = getJson[0].indexOf(c.toString());
+          const view = element[c].share[countShare];
+          const time = element[c].time[countShare];
+          newTimesChannels[0] = time;
+          newTimesChannels[keyChannel] = Math.trunc(view);
+        });
 
-        while (whileEnd) {
-          let position: number = getJson.length - count;
-          const newTimesChannels: any[] = [];
-          const countShare = count;
-
-          channelsData.forEach((element: any, index: any) => {
-            const c: any = (Object.keys(channelsData[index]) as (keyof typeof channelsData[])[]);
-            let keyChannel = getJson[0].indexOf(c.toString());
-            const view = element[c].share[countShare];
-            const time = element[c].time[countShare];
-            newTimesChannels[0] = time;
-            newTimesChannels[keyChannel] = Math.trunc(view);
-          });
-
-          arrCopy.concat([this.returnArrayTimes(channelsData, getJson)]);
-          arrCopy[position] = newTimesChannels;
-          count++;
-
-          if (count === end) {
-            whileEnd = false;
+        if (arrCopy[position]) {
+          if (arrCopy[position][0] === newTimesChannels[0]) {
+            arrCopy.concat([this.returnArrayTimes(channelsData, getJson)]);
+            arrCopy[position] = newTimesChannels;
           }
         }
 
-        const stringJson = JSON.stringify(arrCopy);
-        fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
-        return;
+        if (0 === count) {
+          arrCopy[position] = newTimesChannels;
+        }
+
+        count++;
+
+        if (count === end) {
+          whileEnd = false;
+        }
       }
 
-      const newTimesChannels = this.returnArrayTimes(channelsData, getJson);
-      const arrayJoin = getJson.concat([newTimesChannels]);
-      const stringJson = JSON.stringify(arrayJoin);
-      fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
+      if (361 < getJson.length) {
+        getJson.splice(1, 1);
+      }
 
-    } catch (error) {
-      const ibopeClass = new RubBotPuppeteerIbope();
-      //ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
+      const stringJson = JSON.stringify(arrCopy);
+      fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
+      return;
     }
+
+    const newTimesChannels = this.returnArrayTimes(channelsData, getJson);
+    const arrayJoin = getJson.concat([newTimesChannels]);
+    const stringJson = JSON.stringify(arrayJoin);
+    fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
   }
 
   JsonErrors(err: any): string {
@@ -104,13 +118,13 @@ class JsonMetricFS implements IJsonMetric {
       "JOVEMPANNEWS",
       "BANDNEWS"
     ] = [
-      "Horário",
-      "CNNBRASIL",
-      "GLOBONEWS",
-      "RECORDNEWS",
-      "JOVEMPANNEWS",
-      "BANDNEWS"
-    ];
+        "Horário",
+        "CNNBRASIL",
+        "GLOBONEWS",
+        "RECORDNEWS",
+        "JOVEMPANNEWS",
+        "BANDNEWS"
+      ];
 
     let youtubeFile: string = `${__dirname}/../json/youtube-metric.json`;
     let ibopeFile: string = `${__dirname}/../json/ibope-metric.json`;
@@ -125,7 +139,7 @@ class JsonMetricFS implements IJsonMetric {
     const youtubeFilter = youtube.splice(1);
     const ibopeFilter = ibope.splice(1);
     let filter = youtubeFilter;
-    
+
     (archive === 'ibope-metric') ? filter = ibopeFilter : filter = youtubeFilter;
 
     filter.forEach((elementA: any, key: number) => {

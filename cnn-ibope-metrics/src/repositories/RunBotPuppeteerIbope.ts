@@ -38,6 +38,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
       await page.waitForTimeout(1000);
       await page.type("[name='password']", "fsfbI0rHLv1%");
+
       await page.waitForTimeout(1000);
       await saveCheckbox[0].click();
       await page.waitForTimeout(1000);
@@ -57,11 +58,11 @@ class RubBotPuppeteerIbope implements IRunBot {
           }));
 
           const getValues = ".dataTable.desktop > div:last-child";
-
+          await page.waitForTimeout(30000);
+          
           const data = await page.evaluate(getValues => {
 
-            return [...document.querySelectorAll(getValues)].map(anchor => {
-
+            return [...document.querySelectorAll(getValues)].map((anchor) => {
               let title = anchor.querySelectorAll('.tableHeader td div');
               let data = anchor.querySelectorAll('.tableRow.type1');
               let time = document.querySelectorAll('#row-headers tr');
