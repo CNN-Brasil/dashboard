@@ -1,6 +1,6 @@
 export const getIbope = (dispatch) => {
-    let _url = 'http://localhost:9999/view/ibope';
-
+    let _url = window.location;
+    _url = `${_url}/view/ibope`;
     var requestOptions = {
         method: 'GET',
         mode:"cors"
@@ -17,7 +17,8 @@ export const getIbope = (dispatch) => {
 }
 
 export const getYoutube = (dispatch) => {
-    let _url = 'http://localhost:9999/view/youtube';
+    let _url = window.location;
+    _url = `${_url}/view/youtube`;
 
     var requestOptions = {
         method: 'GET',
@@ -35,7 +36,8 @@ export const getYoutube = (dispatch) => {
 }
 
 export const getTotal = (dispatch) => {
-    let _url = 'http://localhost:9999/view/consolidated';
+    let _url = window.location;
+    _url = `${_url}/view/consolidated`;
 
     var requestOptions = {
         method: 'GET',
