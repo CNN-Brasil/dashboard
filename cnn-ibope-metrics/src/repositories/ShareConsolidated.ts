@@ -5,17 +5,31 @@ class ShareConsolidated {
     private consolidated = new Consolidated();
 
     GetShareJson(archive: String[]): object {
-        let object:object[];
+        let object: any;
         try {
             object = this.consolidated.GetConsolidated(archive);
-            let endPostion:any = object.at(-1);
-            endPostion =  endPostion.splice(0,0);
-            
-            let result = endPostion.reduce((a:any, b:any) => {
+            let i:number = object.length - 1;
+            let endPostion = [...object[i]];
+            endPostion = endPostion.splice(1);
+
+            let result:any = endPostion.reduce((a: any, b: any) => {
                 return a + b;
             });
 
-            return { result };
+            let map:any = endPostion.map((a: number, b: number) => {
+                const resultSum:any = a / parseInt(result) * 100
+                return parseFloat(parseFloat(resultSum).toFixed(2));
+            });
+
+            let final = [
+                "Horário",
+                "CNNBRASIL",
+                "GLOBONEWS",
+                "RECORDNEWS",
+                "JOVEMPANNEWS",
+                "BANDNEWS"
+            ].concat([map]);
+            return final;
         } catch (error) {
             object = [{ message: 'Error in object' }];
             return object;
