@@ -1,5 +1,5 @@
 export const getIbope = (dispatch) => {
-    let _url = "https://ytib.cnnbrasil.com.br:9999/";
+    let _url = "https://ytib.cnnbrasil.com.br:9999";
     _url = `${_url}/view/ibope`;
     var requestOptions = {
         method: 'GET',
@@ -17,7 +17,7 @@ export const getIbope = (dispatch) => {
 }
 
 export const getYoutube = (dispatch) => {
-    let _url = "https://ytib.cnnbrasil.com.br:9999/";
+    let _url = "https://ytib.cnnbrasil.com.br:9999";
     _url = `${_url}/view/youtube`;
 
     var requestOptions = {
@@ -36,7 +36,7 @@ export const getYoutube = (dispatch) => {
 }
 
 export const getTotal = (dispatch) => {
-    let _url = "https://ytib.cnnbrasil.com.br:9999/";
+    let _url = "https://ytib.cnnbrasil.com.br:9999";
     _url = `${_url}/view/consolidated`;
 
     var requestOptions = {
@@ -55,7 +55,7 @@ export const getTotal = (dispatch) => {
 }
 
 export const getShare = (dispatch) => {
-    let _url = 'https://ytib.cnnbrasil.com.br:9999/';
+    let _url = 'https://ytib.cnnbrasil.com.br:9999';
     _url = `${_url}/view/shareConsolidated`;
     
     var requestOptions = {
