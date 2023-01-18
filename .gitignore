@@ -4,7 +4,7 @@
 cnn-ibope.code-workspace
 /node_modules
 /cnn-ibope-metrics/node_modules
-/cnn-ibope-metrics/src/json
+./cnn-ibope-metrics/src/*.json
 /.pnp
 .idea
 .pnp.js
