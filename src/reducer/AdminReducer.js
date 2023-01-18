@@ -13,7 +13,8 @@ export const initialUserState = {
     total: [
       ['Horário', 'CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
       ['00:00', 0, 0, 0, 0, 0]
-    ]
+    ],
+    isLogged: false
 };
 
 export const AdminReducer = (state, action) => {
@@ -48,6 +49,8 @@ export const AdminReducer = (state, action) => {
                 }
             })
             return { ...state, total:_total};
+        case 'SET_LOGIN':
+            return {...state, isLogged: action.payload}
         default:
             return state;
     }

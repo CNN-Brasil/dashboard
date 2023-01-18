@@ -52,3 +52,12 @@ export const getTotal = (dispatch) => {
     })
 }
 
+export const setLogin = (dispatch, value) => {
+
+    localStorage.setItem('isLogged', true)
+
+    dispatch({
+        type: "SET_LOGIN",
+        payload: value
+    })
+}
