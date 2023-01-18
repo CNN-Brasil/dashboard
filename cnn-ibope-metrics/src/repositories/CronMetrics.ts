@@ -19,7 +19,7 @@ class CronMetrics implements ICronMetrics {
       const ibopeClass = new RubBotPuppeteerIbope();
       const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     } catch (error) {
-      object = { message: "Error Ibope" };
+      object = { message: error };
       console.log(object);
     }
   }
