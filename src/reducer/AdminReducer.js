@@ -16,7 +16,7 @@ export const initialUserState = {
     ],
     share: [
         ['CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
-        [22, 0, 0, 0, 0]
+        [0, 0, 0, 0, 0]
       ],
     isLogged: false
 };
