@@ -41,7 +41,12 @@ class JsonMetricFS implements IJsonMetric {
 
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
+
+    console.log(json)
+
+
     let channelsData: any = JSON.parse(json);
+
     let getJson = JSON.parse(getJsonValueFile.toString());
 
     Object.freeze(getJson);
@@ -56,6 +61,8 @@ class JsonMetricFS implements IJsonMetric {
 
       while (whileEnd) {
         let position: number = getJson.length - count;
+        let verify: number = getJson.length - 1;
+
         const newTimesChannels: any[] = [];
         const countShare = count;
 
@@ -76,7 +83,9 @@ class JsonMetricFS implements IJsonMetric {
         }
 
         if (0 === count) {
-          arrCopy[position] = newTimesChannels;
+          if (arrCopy[verify] !== newTimesChannels) {
+             arrCopy[position] = newTimesChannels;
+          }
         }
 
         count++;
