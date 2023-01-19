@@ -528,6 +528,16 @@ export const Porcentage = styled.div`
             margin-right: 5px;
         }
     `}
+
+    ${props => props.porcentange === 'same' && css `
+        &:before {
+            content: '';
+            width: 10px;
+            height: 3px;
+            margin-right: 5px;
+            background-color: #FFB800;
+        }
+    `}
 `
 
 export const Clock = styled.div`

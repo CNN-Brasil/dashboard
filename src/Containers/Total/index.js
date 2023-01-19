@@ -89,8 +89,10 @@ export default props => {
     const renderPorcentage = (num1, num2) => {
             if(num1, num2) {
                 let _numTotal = ((num1 / num2) - 1) * 100;
-
-                if(_numTotal < 0) {
+                
+                if(_numTotal === 0) {
+                    return 'same'
+                } else if (_numTotal < 0) {
                     return 'negative'
                 } else {
                     return 'positive'
@@ -283,6 +285,7 @@ export default props => {
                             <InfoGeral>
                                 <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[1]) : '0'}  UV {(state.youtube.at(-1) && state.youtube.at(-1)[1] > 0) && <Porcentage porcentange={state.youtube.at(-1) && renderPorcentage(state?.youtube?.at(-1)[1], state?.youtube?.at(-2)[1])}>{state.youtube.at(-1) && renderTotal(state?.youtube?.at(-1)[1], state?.youtube?.at(-2)[1])}%</Porcentage>} </InfoNumbers>
                                 <InfoNumbers border>Ibope {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[1]) : '0'} UV {(state.ibope.at(-1) && state.ibope.at(-1)[1] > 0) && <Porcentage porcentange={state.ibope.at(-1) && renderPorcentage(state?.ibope?.at(-1)[1], state?.ibope?.at(-2)[1])}>{state.ibope.at(-1) && renderTotal(state?.ibope?.at(-1)[1], state?.ibope?.at(-2)[1])}%</Porcentage>} </InfoNumbers>
+
                                 <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[1]) : '0'} UV</strong> {(state.total.at(-1) && state.total.at(-1)[1] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[1], state?.total?.at(-2)[1])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[1], state?.total?.at(-2)[1])}%</Porcentage>} </InfoNumbers>
                             </InfoGeral>
                         </Info>

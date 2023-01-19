@@ -488,11 +488,11 @@ export const Porcentage = styled.div`
     font-size: 12px;
     font-weight: 700;
     height: 20px;
-    line-height: 20px;
     margin-right: 20px;
     padding: 0 5px;
     display: flex;
     align-items: center;
+    justify-content: center;
 
     ${props => props.porcentange === 'positive' && css `
         &:before {
@@ -515,6 +515,16 @@ export const Porcentage = styled.div`
             border-right: 5px solid transparent;
             border-top: 5px solid #CC0000;
             margin-right: 5px;
+        }
+    `}
+
+    ${props => props.porcentange === 'same' && css `
+        &:before {
+            content: '';
+            width: 10px;
+            height: 3px;
+            margin-right: 5px;
+            background-color: #FFB800;
         }
     `}
 `

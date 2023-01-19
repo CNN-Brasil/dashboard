@@ -96,7 +96,9 @@ export default props => {
         if(num1, num2) {
             let _numTotal = ((num1 / num2) - 1) * 100;
 
-            if(_numTotal < 0) {
+            if(_numTotal === 0) {
+                return 'same'
+            } else if (_numTotal < 0) {
                 return 'negative'
             } else {
                 return 'positive'
