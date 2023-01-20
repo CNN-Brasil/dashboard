@@ -41,12 +41,10 @@ class JsonMetricFS implements IJsonMetric {
 
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
-  
+
     console.log(json);
 
     let channelsData: any = JSON.parse(json);
-    //any = //[{"RECORDNEWS":{"share":[7994.7912799999995,7709.263020000001],"time":["12:45","12:46"]}},{"CNNBRASIL":{"share":[7994.7912799999995,0],"time":["12:45","12:46"]}},{"BANDNEWS":{"share":[0,0],"time":["12:45","12:46"]}},{"GLOBONEWS":{"share":[19986.978199999998,19273.15755],"time":["12:45","12:46"]}},{"JOVEMPANNEWS":{"share":[0,0],"time":["12:45","12:46"]}}]//JSON.parse(json);
-
     let getJson = JSON.parse(getJsonValueFile.toString());
 
     Object.freeze(getJson);
@@ -73,18 +71,39 @@ class JsonMetricFS implements IJsonMetric {
           newTimesChannels[0] = time;
           newTimesChannels[keyChannel] = Math.trunc(view);
         });
-        
-        const timeActual = new Date(`02-02-2023 ${arrCopy[verify][0]}`).getTime();
-        const newTime = new Date(`02-02-2023 ${newTimesChannels[0]}`).getTime();
-        const current = new Date(`02-02-2023 ${arrCopy[arrCopy.length - 1][0]}`).getTime();
-        const nextTime = new Date(`02-02-2023 ${newTimesChannels[0]}`).getTime() + 1 * 60000;
-        
+
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+
+        let date: any = `${mm}/${dd}/${yyyy}`;
+
+        let dateLasted: any = new Date(new Date(date).setDate(new Date(date).getDate() + 1));
+        const ddLasted = String(dateLasted.getDate()).padStart(2, '0');
+        const mmLasted = String(dateLasted.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyyLasted = dateLasted.getFullYear();
+        dateLasted = `${mmLasted}/${ddLasted}/${yyyyLasted}`;
+
+        let nextTime = (new Date(`${date} ${newTimesChannels[0]}`).getTime() + 1 * 60000) / 1000;
+        let newTime = new Date(`${date} ${newTimesChannels[0]}`).getTime() / 1000;
+        let current = new Date(`${date} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
+        let timeActual = new Date(`${date} ${arrCopy[verify][0]}:00`).getTime() / 1000;
+
+        if (newTimesChannels[0] >= "00:00" && newTimesChannels[0] <= "00:05" && arrCopy[arrCopy.length - 1][0] >= "23:59") {
+          console.log('aui')
+          newTime = new Date(`${dateLasted} ${newTimesChannels[0]}`).getTime() / 1000;
+        }
+
         if (newTime === timeActual) {
+          console.log("aqui1");
           arrCopy[verify] = newTimesChannels;
         } else if (newTime > current && newTime > timeActual) {
-          arrCopy.splice(arrCopy.length-count+1, 0, newTimesChannels)
+          console.log("aqui2");
+          arrCopy.splice(arrCopy.length - count + 1, 0, newTimesChannels)
         } else if (nextTime > timeActual) {
-          arrCopy.splice(arrCopy.length-1, 0, newTimesChannels)
+          console.log("aqui3");
+          arrCopy.splice(arrCopy.length - 1, 0, newTimesChannels)
         }
 
         console.log(arrCopy[arrCopy.length - 1][0]);
@@ -94,7 +113,7 @@ class JsonMetricFS implements IJsonMetric {
         if (count === end) {
           whileEnd = false;
         }
-        
+
       }
 
       if (361 < arrCopy.length) {
