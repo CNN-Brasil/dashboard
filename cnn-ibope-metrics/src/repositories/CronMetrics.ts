@@ -34,17 +34,17 @@ class CronMetrics implements ICronMetrics {
 
       const channels =
       {
-        // 'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
+        'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
         'JOVEMPANNEWS': { url: 'https://www.youtube.com/@jovempannews' },
-        // 'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
-        // 'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
-        'JOVEMPANNEWSPNI': { url: 'https://www.youtube.com/@ospingosnosis' },
+        'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
+        'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
+        'OSPINGOSNOSIS': { url: 'https://www.youtube.com/@ospingosnosis' },
       }
-
+      
       for await (const [key, value] of Object.entries(channels)) {
         let result: any = await youtubeClass.RunBot({ url: value.url, key: key });
 
-        if ('JOVEMPANNEWSPNI' === key) {
+        if ('OSPINGOSNOSIS' === key) {
           obj['JOVEMPANNEWS'].view = result.view + obj['JOVEMPANNEWS'].view;
         }
 
