@@ -34,16 +34,24 @@ class CronMetrics implements ICronMetrics {
 
       const channels =
       {
-        'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
+        // 'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
         'JOVEMPANNEWS': { url: 'https://www.youtube.com/@jovempannews' },
-        'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
-        'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
+        // 'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
+        // 'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
+        'JOVEMPANNEWSPNI': { url: 'https://www.youtube.com/@ospingosnosis' },
       }
-      
+
       for await (const [key, value] of Object.entries(channels)) {
-        const result: any = await youtubeClass.RunBot({ url: value.url, key: key });
+        let result: any = await youtubeClass.RunBot({ url: value.url, key: key });
+
+        if ('JOVEMPANNEWSPNI' === key) {
+          obj['JOVEMPANNEWS'].view = result.view + obj['JOVEMPANNEWS'].view;
+        }
+
         obj[key] = result;
+        delete obj.JOVEMPANNEWSPNI;
       }
+
       obj['GLOBONEWS'] = {
         "time": new Date().toLocaleTimeString('pt-BR', {
           hour12: false,
@@ -54,8 +62,7 @@ class CronMetrics implements ICronMetrics {
 
       const stringChannels = JSON.stringify([obj]);
       this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
-
-
+      
       return JSON.parse(stringChannels);
     } catch (error) {
       return object = { message: error };
@@ -63,18 +70,19 @@ class CronMetrics implements ICronMetrics {
   }
 
   RunCron(): void {
-    youtube.schedule('* * * * *', () => {
-      console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
-      }));
+    this.CronRunBotYoutube();
+    // youtube.schedule('* * * * *', () => {
+    //   console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
+    //     hour12: false,
+    //     hour: "numeric",
+    //     minute: "numeric",
+    //     second: "numeric"
+    //   }));
 
-      this.CronRunBotYoutube();
-    });
+    //   this.CronRunBotYoutube();
+    // });
 
-    this.CronRunBotIbope();
+    //this.CronRunBotIbope();
   }
 }
 

@@ -6,7 +6,7 @@ class RunBotPuppeteer implements IRunBot {
 
     try {
       const { url, key } = params;
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({ headless: false});
       const pageInit = await browser.newPage();
 
       const selectLive = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
@@ -16,6 +16,8 @@ class RunBotPuppeteer implements IRunBot {
 
       await pageInit.goto(url);
       await pageInit.content();
+
+      await pageInit.waitForTimeout(5000);
 
       if (0 === (await pageInit.$$(selectLive)).length) {
         await browser.close();
@@ -58,6 +60,7 @@ class RunBotPuppeteer implements IRunBot {
 
           await pageInit.goto(pageLive);
           await pageInit.bringToFront();
+          await pageInit.waitForTimeout(7000);
           await pageInit.waitForSelector(resultsViews, { timeout: 0 });
 
           /**
