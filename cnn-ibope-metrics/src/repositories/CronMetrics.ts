@@ -7,7 +7,6 @@ import { FixJsonDate } from "../includes/FixJsonDate";
 const youtube = require('node-cron');
 const jsonValid = require('node-cron');
 
-
 class CronMetrics implements ICronMetrics {
 
   private jsonMetric = new JsonMetricFS();
@@ -70,19 +69,18 @@ class CronMetrics implements ICronMetrics {
   }
 
   RunCron(): void {
-    this.CronRunBotYoutube();
-    // youtube.schedule('* * * * *', () => {
-    //   console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
-    //     hour12: false,
-    //     hour: "numeric",
-    //     minute: "numeric",
-    //     second: "numeric"
-    //   }));
+    youtube.schedule('* * * * *', () => {
+      console.log('Minute Youtube: ' + new Date().toLocaleTimeString('pt-BR', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+      }));
 
-    //   this.CronRunBotYoutube();
-    // });
+      this.CronRunBotYoutube();
+    });
 
-    //this.CronRunBotIbope();
+    this.CronRunBotIbope();
   }
 }
 
