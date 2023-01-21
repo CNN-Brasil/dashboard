@@ -5,8 +5,8 @@ class RunBotPuppeteer implements IRunBot {
   async RunBot(params: IRunBotParamsDTO): Promise<any> {
 
     try {
-      const { url, key } = params;
-      const browser = await puppeteer.launch({ headless: false});
+      const { url } = params;
+      const browser = await puppeteer.launch();
       const pageInit = await browser.newPage();
 
       const selectLive = '#contents ytd-video-renderer.ytd-channel-featured-content-renderer #thumbnail';
