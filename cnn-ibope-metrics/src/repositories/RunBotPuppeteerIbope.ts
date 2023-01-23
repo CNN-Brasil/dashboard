@@ -55,7 +55,7 @@ class RubBotPuppeteerIbope implements IRunBot {
 
           const getValues = ".dataTable.desktop > div:last-child";
           await page.waitForTimeout(40000);
-          
+
           const data = await page.evaluate(getValues => {
 
             return [...document.querySelectorAll(getValues)].map((anchor) => {
@@ -91,22 +91,20 @@ class RubBotPuppeteerIbope implements IRunBot {
                     payTVArray.push(payTV);
                   }
 
-                  if ("TOTALPAYTV" !== nameChannel) {
-                    const channelObjs = ` "${share}" `;
-                    arrayShare.push(channelObjs);
+                  const channelObjs = ` "${share}" `;
+                  arrayShare.push(channelObjs);
 
-                    const timeObjs = ` "${hours}" `;
-                    arrayTime.push(timeObjs);
-                  }
+                  const timeObjs = ` "${hours}" `;
+                  arrayTime.push(timeObjs);
                 }
-                
+
                 if (data2) {
                   let ShareConsolidated = data2.querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
                   let hoursConsolidated = time[data.length].querySelector('td span')?.textContent;
-  
+
                   const channelObjs = ` "${ShareConsolidated}" `;
                   arrayShare.push(channelObjs);
-                    
+
                   const timeObjs = ` "${hoursConsolidated}" `;
                   arrayTime.push(timeObjs);
 
@@ -116,11 +114,9 @@ class RubBotPuppeteerIbope implements IRunBot {
                   }
                 }
 
-                if ("TOTALPAYTV" !== nameChannel) {
-                  let channelObjData = ` { "${nameChannel}": { "share": [ ${arrayShare} ], "time": [ ${arrayTime} ] } } `;
-                  const channelObjs = JSON.parse(channelObjData);
-                  channelObjArr.push(channelObjs);
-                }
+                let channelObjData = ` { "${nameChannel}": { "share": [ ${arrayShare} ], "time": [ ${arrayTime} ] } } `;
+                const channelObjs = JSON.parse(channelObjData);
+                channelObjArr.push(channelObjs);
 
                 if ("TOTALPAYTV" === nameChannel) {
                   let payTVObj = ` { "payTV": [ ${payTVArray} ] } `;
@@ -139,7 +135,8 @@ class RubBotPuppeteerIbope implements IRunBot {
             browser.close();
             return;
           }
-
+          console.log(JSON.stringify(data));
+          console.log('ibope')
           this.jsonMetric.SaveJsonIbope({ json: JSON.stringify(this.MountJson(data)), archive: 'ibope-metric' });
         });
 
@@ -187,10 +184,15 @@ class RubBotPuppeteerIbope implements IRunBot {
             let arrTime: string[] = [];
             (Object.keys(element) as (keyof typeof element)[]).forEach((keyChannel: any, d) => {
               channnelShare.payTV.forEach((sharePayTV: string, indexs: number) => {
-                const views: any = converterDataChannel.CalculationChannel(sharePayTV, element[keyChannel].share[indexs]);
+                let views: any;
+                const viewChannel = converterDataChannel.CalculationChannel(sharePayTV, element[keyChannel].share[indexs]);
+                const viewPayTv = converterDataChannel.CalculateLinkedIndividuals(sharePayTV);
+                ("TOTALPAYTV" === keyChannel) ? views = viewPayTv : views = viewChannel
+
                 arrViews.push(views);
                 arrTime.push(`"${element[keyChannel].time[indexs]}"`);
               });
+
               ibopeFinal.push(JSON.parse(`{ "${keyChannel}": { "share" : [${arrViews}], "time": [${arrTime}] }  }`));
             });
           });

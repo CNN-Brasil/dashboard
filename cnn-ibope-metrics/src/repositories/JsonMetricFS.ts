@@ -1,6 +1,5 @@
 import { IJsonMetric, IJsonMetricDTO } from '../interfaces/IJsonMetric';
 import fs from 'fs';
-import { RubBotPuppeteerIbope } from './RunBotPuppeteerIbope';
 
 class JsonMetricFS implements IJsonMetric {
 
@@ -148,14 +147,16 @@ class JsonMetricFS implements IJsonMetric {
       "GLOBONEWS",
       "RECORDNEWS",
       "JOVEMPANNEWS",
-      "BANDNEWS"
+      "BANDNEWS",
+      "TOTALPAYTV"
     ] = [
         "Horário",
         "CNNBRASIL",
         "GLOBONEWS",
         "RECORDNEWS",
         "JOVEMPANNEWS",
-        "BANDNEWS"
+        "BANDNEWS",
+        "TOTALPAYTV"
       ];
 
     let youtubeFile: string = `${__dirname}/../json/youtube-metric.json`;

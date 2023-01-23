@@ -8,28 +8,29 @@ class ShareConsolidated {
         let object: any;
         try {
             object = this.consolidated.GetConsolidated(archive);
-            let i:number = object.length - 1;
+            let i: number = object.length - 1;
             let endPostion = [...object[i]];
             endPostion = endPostion.splice(1);
 
-            let result:any = endPostion.reduce((a: any, b: any) => {
+            let result: any = endPostion.reduce((a: any, b: any) => {
                 return a + b;
             });
 
-            let map:any = endPostion.map((a: number, b: number) => {
-                const resultSum:any = a / parseInt(result) * 100
+            let map: any = endPostion.map((a: number, b: number) => {
+                const resultSum: any = a / parseInt(result) * 100
                 return parseFloat(parseFloat(resultSum).toFixed(2));
             });
 
             let final = [
                 [
-                "Horário",
-                "CNNBRASIL",
-                "GLOBONEWS",
-                "RECORDNEWS",
-                "JOVEMPANNEWS",
-                "BANDNEWS"
-            ]].concat([map]);
+                    "Horário",
+                    "CNNBRASIL",
+                    "GLOBONEWS",
+                    "RECORDNEWS",
+                    "JOVEMPANNEWS",
+                    "BANDNEWS",
+                    "TOTALPAYTV"
+                ]].concat([map]);
             return final;
         } catch (error) {
             object = [{ message: 'Error in object' }];
