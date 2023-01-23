@@ -55,7 +55,7 @@ export const Container = styled.div `
 export const ContentGraph = styled.div`
     display: flex;
     flex-flow: column;
-    width: 820px;
+    width: 75%;
     
     @media(min-width: 1920px) {
         width: 75%;
@@ -69,7 +69,7 @@ export const ContentGraph = styled.div`
 
 export const Grid = styled.div`
     display: flex;
-    max-width: 1280px;
+    max-width: 100%;
     padding: 0 20px;
     width: 100%;
     align-items: center;
@@ -242,7 +242,7 @@ export const Body = styled.div`
 ` 
 
 export const Infos = styled.div`
-    width: 370px;
+    width: 22%;
 
     @media(min-width: 1920px) {
         width: 22%;
