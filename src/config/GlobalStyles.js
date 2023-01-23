@@ -30,6 +30,10 @@ const GlobalStyles = createGlobalStyle`
     ${props => props.themes === 'dark' && css`
       background-color: #0C0C0C;
     `}
+
+    body iframe {
+      display: none;
+    }
 }
 
   input:not([type="checkbox"]),

@@ -238,11 +238,15 @@ export const Infos = styled.div`
 
     @media(min-width: 1920px) {
         width: 20%;
+        position: sticky;
+        top: 20px;
+        right: 0;
     }
 
     @media(max-width: 768px) {
         width: 100%;
         padding: 0;
+        position: relative;
     }
 `
 
@@ -490,7 +494,7 @@ export const Porcentage = styled.div`
     height: 20px;
     margin-right: 20px;
     padding: 0 5px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 

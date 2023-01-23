@@ -180,6 +180,7 @@ export default props => {
                 2: { color: '#489624' },
                 3: { color: '#8C8C8C' },
                 4: { color: '#FFB800' },
+                5: { color: '#16C5D0' },
           }
         };
 
@@ -243,6 +244,10 @@ export default props => {
                                 <strong></strong>
                                 <TypesSpan>Band News</TypesSpan>                                
                             </Types>
+                            <Types bg='#16C5D0'>
+                                <strong></strong>
+                                <TypesSpan>Pay TV</TypesSpan>                                
+                            </Types>
                         </Content>
                         <Content>
                             <Clock>
@@ -270,7 +275,7 @@ export default props => {
                     <Grid align='start'>
                     <ContentGraph id='graph'>
                         <Graph>
-                            <SubTitle>{ball ? <IbopeDark /> : <Ibope />} Gráfico de Usuários únicos (UV) • Horário do acesso (H)</SubTitle>
+                            <SubTitle>{ball ? <IbopeDark /> : <Ibope />} Gráfico de Usuários únicos () • Horário do acesso (H)</SubTitle>
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
@@ -282,7 +287,7 @@ export default props => {
                                 </GraphContent>
                         </Graph>
                         <Graph>
-                            <SubTitle>{ball ? <YoutubeDark /> : <Youtube />}Gráfico de Usuários únicos (UV) • Horário do acesso (H)</SubTitle>
+                            <SubTitle>{ball ? <YoutubeDark /> : <Youtube />}Gráfico de Usuários únicos () • Horário do acesso (H)</SubTitle>
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
@@ -301,9 +306,9 @@ export default props => {
                                 {ball ? <CNNLogo /> : <CNNLogoWhite />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[1]) : '0'}  UV {(state.youtube.at(-1) && state.youtube.at(-1)[1] > 0) && <Porcentage porcentange={state.youtube.at(-1) && renderPorcentage(state?.youtube?.at(-1)[1], state?.youtube?.at(-2)[1])}>{state.youtube.at(-1) && renderTotal(state?.youtube?.at(-1)[1], state?.youtube?.at(-2)[1])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers border>Ibope {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[1]) : '0'} UV {(state.ibope.at(-1) && state.ibope.at(-1)[1] > 0) && <Porcentage porcentange={state.ibope.at(-1) && renderPorcentage(state?.ibope?.at(-1)[1], state?.ibope?.at(-2)[1])}>{state.ibope.at(-1) && renderTotal(state?.ibope?.at(-1)[1], state?.ibope?.at(-2)[1])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[1]) : '0'} UV</strong> {(state.total.at(-1) && state.total.at(-1)[1] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[1], state?.total?.at(-2)[1])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[1], state?.total?.at(-2)[1])}%</Porcentage>} </InfoNumbers>
+                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[1]) : '0'}</InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[1]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[1]) : '0'} </strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -313,8 +318,8 @@ export default props => {
                             </InfoLogo>
                             <InfoGeral>
                                 <InfoNumbers border>Não tem canal no Youtube </InfoNumbers>
-                                <InfoNumbers border>Ibope {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[2]) : '0'} UV {(state.ibope.at(-1) && state.ibope.at(-1)[2] > 0) && <Porcentage porcentange={state.ibope.at(-1) && renderPorcentage(state?.ibope?.at(-1)[2], state?.ibope?.at(-2)[2])}>{state.ibope.at(-1) && renderTotal(state?.ibope?.at(-1)[2], state?.ibope?.at(-2)[2])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[2]) : '0'} UV </strong> {(state.total.at(-1) && state.total.at(-1)[2] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[2], state?.total?.at(-2)[2])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[2], state?.total?.at(-2)[2])}%</Porcentage>} </InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[2]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[2]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -323,9 +328,9 @@ export default props => {
                                 {ball ? <RecordNewsLogoDark /> : <RecordNewsLogo />}
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[3]) : '0'}  UV {(state.youtube.at(-1) && state.youtube.at(-1)[3] > 0) && <Porcentage porcentange={state.youtube.at(-1) && renderPorcentage(state?.youtube?.at(-1)[3], state?.youtube?.at(-2)[3])}>{state.youtube.at(-1) && renderTotal(state?.youtube?.at(-1)[3], state?.youtube?.at(-2)[3])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers border>Ibope {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[3]) : '0'} UV {(state.ibope.at(-1) && state.ibope.at(-1)[3] > 0) && <Porcentage porcentange={state.ibope.at(-1) && renderPorcentage(state?.ibope?.at(-1)[3], state?.ibope?.at(-2)[3])}>{state.ibope.at(-1) && renderTotal(state?.ibope?.at(-1)[3], state?.ibope?.at(-2)[3])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[3]) : '0'} UV </strong> {(state.total.at(-1) && state.total.at(-1)[3] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[3], state?.total?.at(-2)[3])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[3], state?.total?.at(-2)[3])}%</Porcentage>} </InfoNumbers>
+                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[3]) : '0'}</InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[3]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[3]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -334,9 +339,9 @@ export default props => {
                                 <JPNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[4]) : '0'}  UV {(state.youtube.at(-1) && state.youtube.at(-1)[4] > 0) && <Porcentage porcentange={state.youtube.at(-1) && renderPorcentage(state?.youtube?.at(-1)[4], state?.youtube?.at(-2)[4])}>{state.youtube.at(-1) && renderTotal(state?.youtube?.at(-1)[4], state?.youtube?.at(-2)[4])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers border>Ibope {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[4]) : '0'} UV {(state.ibope.at(-1) && state.ibope.at(-1)[4] > 0) && <Porcentage porcentange={state.ibope.at(-1) && renderPorcentage(state?.ibope?.at(-1)[4], state?.ibope?.at(-2)[4])}>{state.ibope.at(-1) && renderTotal(state?.ibope?.at(-1)[4], state?.ibope?.at(-2)[4])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[4]) : '0'} UV </strong> {(state.total.at(-1) && state.total.at(-1)[4] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[4], state?.total?.at(-2)[4])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[4], state?.total?.at(-2)[4])}%</Porcentage>} </InfoNumbers>
+                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[4]) : '0'}</InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[4]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[4]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -345,9 +350,9 @@ export default props => {
                                 <BandNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[5]) : '0'}  UV {(state.youtube.at(-1) && state.youtube.at(-1)[5] > 0) && <Porcentage porcentange={state.youtube.at(-1) && renderPorcentage(state?.youtube?.at(-1)[5], state?.youtube?.at(-2)[5])}>{state.youtube.at(-1) && renderTotal(state?.youtube?.at(-1)[5], state?.youtube?.at(-2)[5])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers border>Ibope {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[5]) : '0'} UV {(state.ibope.at(-1) && state.ibope.at(-1)[5] > 0) && <Porcentage porcentange={state.ibope.at(-1) && renderPorcentage(state?.ibope?.at(-1)[5], state?.ibope?.at(-2)[5])}>{state.ibope.at(-1) && renderTotal(state?.ibope?.at(-1)[5], state?.ibope?.at(-2)[5])}%</Porcentage>} </InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[5]) : '0'} UV </strong> {(state.total.at(-1) && state.total.at(-1)[5] > 0) && <Porcentage porcentange={state.total.at(-1) && renderPorcentage(state?.total?.at(-1)[5], state?.total?.at(-2)[5])}>{state.total.at(-1) && renderTotal(state?.total?.at(-1)[5], state?.total?.at(-2)[5])}%</Porcentage>}</InfoNumbers>
+                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[5]) : '0'}</InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[5]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[5]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
                     </Infos>

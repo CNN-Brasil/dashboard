@@ -502,7 +502,7 @@ export const Porcentage = styled.div`
     line-height: 20px;
     margin-right: 20px;
     padding: 0 5px;
-    display: flex;
+    display: none;
     align-items: center;
 
     ${props => props.porcentange === 'positive' && css `

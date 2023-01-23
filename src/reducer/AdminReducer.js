@@ -21,6 +21,8 @@ export const initialUserState = {
     isLogged: false
 };
 
+
+
 export const AdminReducer = (state, action) => {
     switch (action.type) {
         case 'GET_IBOPE':
