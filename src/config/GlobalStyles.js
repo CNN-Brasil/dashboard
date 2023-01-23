@@ -12,7 +12,6 @@ const GlobalStyles = createGlobalStyle`
   #root {
     background-color: #F8F9FA;
     height: 100vh;
-    zoom: .9;
 
   }
 
