@@ -30,6 +30,14 @@ export const Container = styled.div `
             color: #fff;
         }
 
+        ${ContentIcon} {
+            svg {
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+
         ${Clock} {
             p {
                 color: #fff;
@@ -258,6 +266,14 @@ export const SubTitle = styled.h4`
     display: flex;
     align-items: center;
 
+    ${props => props.kantar && css`
+        svg {
+            path {
+                fill: #fff !important;
+            }
+        }    
+    `}
+        
 
     ${props => props.margin && css`
         margin-bottom: 40px;
@@ -271,6 +287,7 @@ export const SubTitle = styled.h4`
 
     svg {
         margin-right: 20px;
+        max-width: 100px;
     }
 
     @media(max-width: 768px) {

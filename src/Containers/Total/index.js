@@ -57,6 +57,8 @@ import {ReactComponent as IcoInfo} from '../../assets/ico-info.svg';
 import {ReactComponent as IcoClock} from '../../assets/clock.svg';
 import {ReactComponent as Youtube} from '../../assets/youtube.svg';
 import {ReactComponent as YoutubeDark} from '../../assets/youtube_dark.svg';
+import {ReactComponent as Kantar} from '../../assets/kantar_light.svg';
+import {ReactComponent as KantarDark} from '../../assets/kantar_dark.svg';
 import { Chart } from "react-google-charts";
 import {getTotal, getIbope, getYoutube, getShare} from '../../actions/ReviewsAction.js'
 
@@ -297,7 +299,7 @@ export default props => {
                                 </GraphContent>
                         </Graph>
                         <Graph>
-                            <SubTitle>Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
+                            <SubTitle kantar={ball}>{ball ? <Kantar /> : <Kantar />}Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
