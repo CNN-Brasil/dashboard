@@ -7,7 +7,6 @@ import { FixJsonDate } from "../includes/FixJsonDate";
 const youtube = require('node-cron');
 const jsonValid = require('node-cron');
 
-
 class CronMetrics implements ICronMetrics {
 
   private jsonMetric = new JsonMetricFS();
@@ -38,12 +37,20 @@ class CronMetrics implements ICronMetrics {
         'JOVEMPANNEWS': { url: 'https://www.youtube.com/@jovempannews' },
         'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
         'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
+        'OSPINGOSNOSIS': { url: 'https://www.youtube.com/@ospingosnosis' },
       }
       
       for await (const [key, value] of Object.entries(channels)) {
-        const result: any = await youtubeClass.RunBot({ url: value.url, key: key });
+        let result: any = await youtubeClass.RunBot({ url: value.url, key: key });
+
+        if ('OSPINGOSNOSIS' === key) {
+          obj['JOVEMPANNEWS'].view = result.view + obj['JOVEMPANNEWS'].view;
+        }
+
         obj[key] = result;
+        delete obj.JOVEMPANNEWSPNI;
       }
+
       obj['GLOBONEWS'] = {
         "time": new Date().toLocaleTimeString('pt-BR', {
           hour12: false,
@@ -54,8 +61,7 @@ class CronMetrics implements ICronMetrics {
 
       const stringChannels = JSON.stringify([obj]);
       this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
-
-
+      
       return JSON.parse(stringChannels);
     } catch (error) {
       return object = { message: error };

@@ -61,6 +61,7 @@ class RubBotPuppeteerIbope implements IRunBot {
             return [...document.querySelectorAll(getValues)].map((anchor) => {
               let title = anchor.querySelectorAll('.tableHeader td div');
               let data = anchor.querySelectorAll('.tableRow.type1');
+              let data2 = anchor.querySelector('.tableRow.type2');
               let time = document.querySelectorAll('#row-headers tr');
               let channelObjArr = [];
               let payTVObjArr = [];
@@ -96,6 +97,22 @@ class RubBotPuppeteerIbope implements IRunBot {
 
                     const timeObjs = ` "${hours}" `;
                     arrayTime.push(timeObjs);
+                  }
+                }
+                
+                if (data2) {
+                  let ShareConsolidated = data2.querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
+                  let hoursConsolidated = time[data.length].querySelector('td span')?.textContent;
+  
+                  const channelObjs = ` "${ShareConsolidated}" `;
+                  arrayShare.push(channelObjs);
+                    
+                  const timeObjs = ` "${hoursConsolidated}" `;
+                  arrayTime.push(timeObjs);
+
+                  if ("TOTALPAYTV" === nameChannel) {
+                    const payTV = ` ${ShareConsolidated} `;
+                    payTVArray.push(payTV);
                   }
                 }
 
