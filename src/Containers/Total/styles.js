@@ -245,7 +245,7 @@ export const Infos = styled.div`
     width: 370px;
 
     @media(min-width: 1920px) {
-        width: 20%;
+        width: 22%;
         position: sticky;
         top: 20px;
         right: 0;
@@ -265,14 +265,6 @@ export const SubTitle = styled.h4`
     display: block;
     display: flex;
     align-items: center;
-
-    ${props => props.kantar && css`
-        svg {
-            path {
-                fill: #fff !important;
-            }
-        }    
-    `}
         
 
     ${props => props.margin && css`

@@ -171,7 +171,8 @@ export default props => {
                 right: 40
             },
             vAxis: {    
-                format: 'decimal',
+                format: 'short',
+                scaleType: 'log',
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',
