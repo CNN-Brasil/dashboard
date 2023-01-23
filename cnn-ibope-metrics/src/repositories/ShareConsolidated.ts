@@ -11,7 +11,8 @@ class ShareConsolidated {
             let i: number = object.length - 1;
             let endPostion = [...object[i]];
             endPostion = endPostion.splice(1);
-
+            endPostion = endPostion.splice(0,5);
+            
             let result: any = endPostion.reduce((a: any, b: any) => {
                 return a + b;
             });
@@ -29,7 +30,6 @@ class ShareConsolidated {
                     "RECORDNEWS",
                     "JOVEMPANNEWS",
                     "BANDNEWS",
-                    "TOTALPAYTV"
                 ]].concat([map]);
             return final;
         } catch (error) {
