@@ -325,7 +325,7 @@ export default props => {
                         </Graph>
                     </ContentGraph>
                     <Infos id='infos'>
-                        <SubTitle margin>Espectadores Únicos</SubTitle>
+                        <SubTitle margin>Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
                         <Info>
                             <InfoLogo>
                                 {ball ? <CNNLogo /> : <CNNLogoWhite />}
@@ -381,7 +381,7 @@ export default props => {
                             </InfoGeral>
                         </Info>
 
-                        <SubTitle marginShare>Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
+                        <SubTitle marginShare>Share por Canal</SubTitle>
                         <ContentGraphic>
                             <Graphic bg={state.share[1] && state.share[1][0] < 50 ? '#CC0000' : '#C4C4C4'}>
                                 <SliceOne transf1={state.share[1] && state.share[1][0] < 50 ? (state.share[1][0] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][0] < 50 ? '#C4C4C4' : '#CC0000'}></SliceOne>
