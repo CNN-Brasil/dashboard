@@ -288,7 +288,7 @@ export default props => {
                     <Grid align='start'>
                     <ContentGraph id='graph'>
                         <Graph>
-                            <SubTitle>Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
+                            <SubTitle>Espectadores Únicos</SubTitle>
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
@@ -300,7 +300,7 @@ export default props => {
                                 </GraphContent>
                         </Graph>
                         <Graph>
-                            <SubTitle kantar={ball}>{ball ? <Kantar /> : <Kantar />}Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
+                            <SubTitle kantar={ball}>{ball ? <Kantar /> : <Kantar />}Espectadores Únicos</SubTitle>
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
@@ -312,7 +312,7 @@ export default props => {
                                 </GraphContent>
                         </Graph>
                         <Graph>
-                            <SubTitle>{ball ? <YoutubeDark /> : <Youtube />}Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
+                            <SubTitle>{ball ? <YoutubeDark /> : <Youtube />}Espectadores Únicos</SubTitle>
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
@@ -381,7 +381,7 @@ export default props => {
                             </InfoGeral>
                         </Info>
 
-                        <SubTitle marginShare>Share por canal</SubTitle>
+                        <SubTitle marginShare>Espectadores Únicos - {state.total.at(-1) && state.total.at(-1)[0]} - {renderDate()}</SubTitle>
                         <ContentGraphic>
                             <Graphic bg={state.share[1] && state.share[1][0] < 50 ? '#CC0000' : '#C4C4C4'}>
                                 <SliceOne transf1={state.share[1] && state.share[1][0] < 50 ? (state.share[1][0] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][0] < 50 ? '#C4C4C4' : '#CC0000'}></SliceOne>
