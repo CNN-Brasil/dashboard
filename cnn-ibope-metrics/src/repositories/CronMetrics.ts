@@ -59,14 +59,6 @@ class CronMetrics implements ICronMetrics {
         }), "view": 0
       };
 
-      obj['TOTALPAYTV'] = {
-        "time": new Date().toLocaleTimeString('pt-BR', {
-          hour12: false,
-          hour: "numeric",
-          minute: "numeric"
-        }), "view": 0
-      };
-
       const stringChannels = JSON.stringify([obj]);
       this.jsonMetric.SaveJsonYoutube({ json: stringChannels, archive: 'youtube-metric' });
 

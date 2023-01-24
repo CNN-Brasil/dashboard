@@ -147,16 +147,14 @@ class JsonMetricFS implements IJsonMetric {
       "GLOBONEWS",
       "RECORDNEWS",
       "JOVEMPANNEWS",
-      "BANDNEWS",
-      "TOTALPAYTV"
+      "BANDNEWS"
     ] = [
         "Horário",
         "CNNBRASIL",
         "GLOBONEWS",
         "RECORDNEWS",
         "JOVEMPANNEWS",
-        "BANDNEWS",
-        "TOTALPAYTV"
+        "BANDNEWS"
       ];
 
     let youtubeFile: string = `${__dirname}/../json/youtube-metric.json`;

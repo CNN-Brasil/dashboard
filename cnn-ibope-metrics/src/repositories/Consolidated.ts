@@ -9,16 +9,14 @@ class Consolidated implements Consolidated {
       "GLOBONEWS",
       "RECORDNEWS",
       "JOVEMPANNEWS",
-      "BANDNEWS",
-      "TOTALPAYTV"
+      "BANDNEWS"
     ] = [
         "Horário",
         "CNNBRASIL",
         "GLOBONEWS",
         "RECORDNEWS",
         "JOVEMPANNEWS",
-        "BANDNEWS",
-        "TOTALPAYTV"
+        "BANDNEWS"
       ];
 
     let ibope: any = jsonMetric.GetJson(archive[0].toString());
@@ -36,7 +34,6 @@ class Consolidated implements Consolidated {
       let Record = elementA[3];
       let JOVEMPAN = elementA[4];
       let bandnews = elementA[5];
-      let TOTALPAYTV = elementA[6];
 
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
@@ -46,7 +43,6 @@ class Consolidated implements Consolidated {
         let RecordB = elementB[3];
         let JOVEMPANB = elementB[4];
         let bandnewsB = elementB[5];
-        let TOTALPAYTVB = elementB[6];
 
         if (horaA === horaB) {
           elementA[1] = Math.trunc(CNN + CNNB);
@@ -54,7 +50,7 @@ class Consolidated implements Consolidated {
           elementA[3] = Math.trunc(Record + RecordB);
           elementA[4] = Math.trunc(JOVEMPAN + JOVEMPANB);
           elementA[5] = Math.trunc(bandnews + bandnewsB);
-          elementA[6] = Math.trunc(TOTALPAYTV + TOTALPAYTVB);
+          
           youtubeModified.push(elementA)
           continue;
         }
