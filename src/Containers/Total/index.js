@@ -172,7 +172,6 @@ export default props => {
             },
             vAxis: {    
                 format: 'short',
-                scaleType: 'log',
                 textStyle : {
                     fontSize : 18,
                     color: ball ? '#fff' : '#464646',
@@ -193,7 +192,6 @@ export default props => {
                 2: { color: '#489624' },
                 3: { color: '#8C8C8C' },
                 4: { color: '#FFB800' },
-                5: { color: '#16C5D0' },
           }
         };
 
@@ -256,10 +254,6 @@ export default props => {
                             <Types bg='#FFB800'>
                                 <strong></strong>
                                 <TypesSpan>Band News</TypesSpan>                                
-                            </Types>
-                            <Types bg='#16C5D0'>
-                                <strong></strong>
-                                <TypesSpan>Pay TV</TypesSpan>                                
                             </Types>
                         </Content>
                         <Content>
