@@ -322,7 +322,8 @@ export const Info = styled.div`
 
 export const InfoGeral = styled.div`
     position: relative;
-
+    width: 100%;
+    
     @media(min-width: 1920px) {
         min-width: 70%;
     }
