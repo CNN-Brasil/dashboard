@@ -265,6 +265,14 @@ export const SubTitle = styled.h4`
     display: block;
     display: flex;
     align-items: center;
+
+    ${props => props.kantar && css`
+        svg {
+            path {
+                fill: #fff !important;
+            }
+        }
+    `}
         
 
     ${props => props.margin && css`
