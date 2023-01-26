@@ -369,7 +369,7 @@ export default props => {
                                 <BandNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[5]) : '0'}</InfoNumbers>
+                                <InfoNumbers border>Não tem canal no Youtube </InfoNumbers>
                                 <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[5]) : '0'}</InfoNumbers>
                                 <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[5]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
