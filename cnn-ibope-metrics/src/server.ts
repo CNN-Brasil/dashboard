@@ -1,7 +1,8 @@
 import express from "express";
 import { routes } from "./routes";
-const fs = require("fs");
+require("./teste.ts");
 
+const fs = require("fs");
 const cors = require('cors')
 const app  = express();
 const port = process.env.PORT || 9999;
