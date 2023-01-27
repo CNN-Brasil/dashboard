@@ -35,7 +35,6 @@ class CronMetrics implements ICronMetrics {
       {
         'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
         'JOVEMPANNEWS': { url: 'https://www.youtube.com/@jovempannews' },
-        'BANDNEWS': { url: 'https://www.youtube.com/@RadioBandNewsFM' },
         'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
         'OSPINGOSNOSIS': { url: 'https://www.youtube.com/@ospingosnosis' },
       }
@@ -52,6 +51,14 @@ class CronMetrics implements ICronMetrics {
       }
 
       obj['GLOBONEWS'] = {
+        "time": new Date().toLocaleTimeString('pt-BR', {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric"
+        }), "view": 0
+      };
+
+      obj['BANDNEWS'] = {
         "time": new Date().toLocaleTimeString('pt-BR', {
           hour12: false,
           hour: "numeric",
