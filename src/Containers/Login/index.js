@@ -31,8 +31,9 @@ export default props => {
                     <h1>DASHBOARD</h1>
                     <h3>ytib.cnnbrasil.com.br</h3>
                     <form onSubmit={handleSubmit}>
-                        {error && <p>Token inválido</p>}
-                        <input type="text" placeholder='Digite seu token' />
+                        {error && <p>Login inválido</p>}
+                        <input type="text" placeholder='Email: ' />
+                        <input type="passwaord" placeholder='Senha: ' />
                         <input type="submit" value="Entrar" />
                     </form>
                 </Content>

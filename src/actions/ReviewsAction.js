@@ -65,7 +65,6 @@ export const getShare = (dispatch) => {
 
     fetch(_url, requestOptions).then(async (response) => {
         let resp = await response.json();
-        console.log('resp ', resp);
         dispatch({
             type: "GET_SHARE",
             payload: resp
@@ -73,12 +72,21 @@ export const getShare = (dispatch) => {
     })
 }
 
-export const setLogin = (dispatch, value) => {
+export const setLogin = (dispatch) => {
+    let _url = 'https://ytib.cnnbrasil.com.br:9999';
+    _url = `${_url}/authenticate`;
+    
+    var requestOptions = {
+        method: 'POST',
+        mode:"cors"
+    };
 
-    localStorage.setItem('isLogged', true)
-
-    dispatch({
-        type: "SET_LOGIN",
-        payload: value
+    fetch(_url, requestOptions).then(async (response) => {
+        let resp = await response.json();
+        console.log('resp ', resp);
+        dispatch({
+            type: "SET_lOGIN",
+            payload: resp
+        })
     })
 }

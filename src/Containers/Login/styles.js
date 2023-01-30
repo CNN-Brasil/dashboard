@@ -34,6 +34,7 @@ export const Content = styled.div`
         width: 400px;
         font-size: 22px;
         padding: 0 20px;
+        margin-bottom: 20px;
 
     }
 
