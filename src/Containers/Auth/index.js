@@ -9,8 +9,8 @@ const { isLogged } = config;
 const Auth = () => {
 
     const {state} = useContext(ContextReducer)
-
-    if(state.login.status === 201 && state.login.credential) {
+    console.log('log ', localStorage.getItem('isLogged'))
+    if(localStorage.getItem('isLogged') === 'false' || localStorage.getItem('isLogged') === null) {
         return <Navigate to={"/"} />
     }
 

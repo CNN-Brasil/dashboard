@@ -72,20 +72,28 @@ export const getShare = (dispatch) => {
     })
 }
 
-export const setLogin = (dispatch) => {
+export const setLogin = (dispatch, value) => {
+    console.log(value)
     let _url = 'https://ytib.cnnbrasil.com.br:9999';
     _url = `${_url}/authenticate`;
     
     var requestOptions = {
         method: 'POST',
-        mode:"cors"
+        mode:"cors",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: value.email,
+            pass: value.pass
+        })
     };
 
     fetch(_url, requestOptions).then(async (response) => {
         let resp = await response.json();
-        console.log('resp ', resp);
+        localStorage.setItem('isLogged', resp.credential)
         dispatch({
-            type: "SET_lOGIN",
+            type: "SET_LOGIN",
             payload: resp
         })
     })
