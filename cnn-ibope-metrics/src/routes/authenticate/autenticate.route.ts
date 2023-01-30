@@ -3,7 +3,7 @@ import { authenticateUserController } from '../../useCase/authenticate';
 
 const authenticateUser = Router();
 
-authenticateUser.get("/", (req, res) => {
+authenticateUser.post("/", (req, res) => {
     authenticateUserController.handler(req, res);
 });
 
