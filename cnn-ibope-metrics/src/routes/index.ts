@@ -4,6 +4,7 @@ import { cronInit } from "./cronInit/croninit.route";
 import { ibopeInit } from "./ibope/ibope.routes";
 import { consolidated } from "./consolidated/consolidated.routes";
 import { shareConsolidated } from "./shareConsolidated/shareConsolidated.routes";
+import { authenticateUser } from "./authenticate/autenticate.route";
 
 const routes = Router();
 
@@ -12,5 +13,6 @@ routes.use("/cron", cronInit);
 routes.use("/view", ibopeInit);
 routes.use("/view", consolidated);
 routes.use("/view", shareConsolidated);
+routes.use("/authenticate", authenticateUser);
 
 export { routes }
