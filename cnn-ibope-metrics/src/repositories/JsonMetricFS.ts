@@ -112,7 +112,7 @@ class JsonMetricFS implements IJsonMetric {
 
         count++
 
-        if (count === end) {
+        if (count === end || 0 === end) {
           whileEnd = false;
         }
       }
