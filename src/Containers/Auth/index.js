@@ -9,8 +9,8 @@ const { isLogged } = config;
 const Auth = () => {
 
     const {state} = useContext(ContextReducer)
-
-    if(!localStorage.getItem('isLogged')) {
+    console.log('log ', localStorage.getItem('isLogged'))
+    if(localStorage.getItem('isLogged') === 'false' || localStorage.getItem('isLogged') === null) {
         return <Navigate to={"/"} />
     }
 

@@ -14,14 +14,21 @@ export default props => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(e.target[0].value === 'Fpvw0y463q') {
-            setLogin(dispatch, true)
-        } else {
+        setLogin(dispatch, {
+            email: e.target[0].value,
+            pass: e.target[1].value
+        })
+
+        if(!state.login.credential) {
             setError(true)
+        } else {
+            setError(false)
         }
     }
 
-    if(state.isLogged || localStorage.getItem('isLogged')) {
+    console.log('log 2 ', localStorage.getItem('isLogged'))
+
+    if(localStorage.getItem('isLogged') === 'true') {
         return <Navigate to={'/total'} />
     } else {
         return (
@@ -31,8 +38,9 @@ export default props => {
                     <h1>DASHBOARD</h1>
                     <h3>ytib.cnnbrasil.com.br</h3>
                     <form onSubmit={handleSubmit}>
-                        {error && <p>Token inválido</p>}
-                        <input type="text" placeholder='Digite seu token' />
+                        {error && <p>Login inválido</p>}
+                        <input type="text" placeholder='Email: ' />
+                        <input type="password" placeholder='Senha: ' />
                         <input type="submit" value="Entrar" />
                     </form>
                 </Content>

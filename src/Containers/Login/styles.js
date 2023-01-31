@@ -29,11 +29,13 @@ export const Content = styled.div`
         margin-bottom: 40px;
     }
 
-    input[type="text"] {
+    input[type="text"],
+    input[type="password"]{
         height: 50px;
         width: 400px;
         font-size: 22px;
         padding: 0 20px;
+        margin-bottom: 20px;
 
     }
 
@@ -47,7 +49,7 @@ export const Content = styled.div`
         border-radius: 5px;
         background-color: #CC0000;
         border-color: transparent;
-        margin-top: 40px;
+        ma,rgin-top: 40px;
         cursor: pointer;
     }
  

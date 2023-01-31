@@ -18,7 +18,10 @@ export const initialUserState = {
         ['CNN Brasil', 'Globo News', 'Jovem Pan News', 'Band News', 'Record News'],
         [0, 0, 0, 0, 0]
       ],
-    isLogged: false
+    login: {
+        credential: false,
+        status: null
+    }
 };
 
 
@@ -65,8 +68,8 @@ export const AdminReducer = (state, action) => {
                 }
             })
             return { ...state, share:_share};
-        case 'SET_LOGIN':
-            return {...state, isLogged: action.payload}
+        case 'SET_LOGIN':   
+            return {...state, login: action.payload}
         default:
             return state;
     }
