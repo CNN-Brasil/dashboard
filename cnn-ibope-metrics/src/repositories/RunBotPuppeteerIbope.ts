@@ -19,6 +19,7 @@ class RubBotPuppeteerIbope implements IRunBot {
 
     browser.on('disconnected', async () => {
       console.log('aqui');
+      task.stop();
       await this.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     });
 
@@ -44,7 +45,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       await page.waitForTimeout(1000);
 
       try {
-        ibope.schedule('* * * * *', async () => {
+        var task = ibope.schedule('* * * * *', async () => {
 
           console.log('Minute Ibope: ' + new Date().toLocaleTimeString('pt-BR', {
             hour12: false,
@@ -145,11 +146,13 @@ class RubBotPuppeteerIbope implements IRunBot {
 
       } catch (error) {
         console.error('error');
+        task.stop();
         browser.close();
       }
 
     } catch (error) {
       console.error('error');
+      task.stop();
       browser.close();
     }
   }
