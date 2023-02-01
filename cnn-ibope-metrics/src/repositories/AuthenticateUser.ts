@@ -46,7 +46,6 @@ class AuthenticateUser {
             });
 
           });
-          client.unbind();
         });
       });
 
