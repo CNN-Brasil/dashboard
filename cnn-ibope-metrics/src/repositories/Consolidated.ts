@@ -1,5 +1,10 @@
 import { JsonMetricFS } from "./JsonMetricFS";
 
+/** 
+ * Sum data collected from youtube and kantar ibope
+ * Project: API for loaded the data of audience
+ * Definitions by: Sergio Sposito
+ */
 class Consolidated implements Consolidated {
   GetConsolidated(archive: String[]): any {
     const jsonMetric = new JsonMetricFS();

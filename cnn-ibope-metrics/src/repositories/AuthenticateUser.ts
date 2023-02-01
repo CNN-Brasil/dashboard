@@ -1,4 +1,3 @@
-
 const ldap = require('ldapjs');
 
 class AuthenticateUser {
@@ -9,14 +8,20 @@ class AuthenticateUser {
       if (0 === pass.length) {
         throw new Error("Empty password");
       }
-      
+
       const SUFFIX: string = 'DC=cnnbrasil,DC=com,DC=br';
       const userAdmin: string = email
       const passAdmin: string = pass;
       const client = ldap.createClient({
-        url: ['ldap://10.111.140.3']
+        url: ['ldap://10.111.140.3'],
+        reconnect: true,
       });
-      
+
+      client.on('error', (err: any) => {
+        console.debug('connection failed, retrying 1');
+        client.destroy();
+      });
+
       return new Promise((resolve, reject) => {
 
         client.bind(userAdmin, passAdmin, (err: any, res: any, next: any) => {
@@ -33,13 +38,15 @@ class AuthenticateUser {
           client.search(SUFFIX, opts, (err: any, res: any, next: any) => {
 
             if (err) {
-              return resolve({ credential: false, status: 20233  });
+              return resolve({ credential: false, status: 20233 });
             }
 
             res.on('searchEntry', async (entry: any) => {
               return resolve({ credential: true, status: 201 });
             });
+
           });
+          client.unbind();
         });
       });
 
@@ -50,7 +57,3 @@ class AuthenticateUser {
 }
 
 export { AuthenticateUser }
-
-
-
-

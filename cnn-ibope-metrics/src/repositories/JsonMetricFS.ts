@@ -88,7 +88,7 @@ class JsonMetricFS implements IJsonMetric {
         let current = new Date(`${date} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
         let timeActual = new Date(`${date} ${arrCopy[verify][0]}`).getTime() / 1000;
 
-        if (newTimesChannels[0] >= "00:00" && newTimesChannels[0] <= "00:05" && arrCopy[arrCopy.length - 1][0] >= "23:59") {
+        if (newTimesChannels[0] >= "00:00" && arrCopy[arrCopy.length - 1][0] >= "23:59") {
           newTime = new Date(`${dateLasted} ${newTimesChannels[0]}`).getTime() / 1000;
         }
 

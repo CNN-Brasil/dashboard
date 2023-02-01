@@ -1,5 +1,10 @@
 import fs from 'fs';
 import { JsonMetricFS } from '../repositories/JsonMetricFS';
+/** 
+ * Case the puppeteer return null, add last data saved
+ * Project: API for loaded the data of audience
+ * Definitions by: Sergio Sposito
+ */
 
 class FixJsonDate {
 

@@ -43,7 +43,7 @@ class RubBotPuppeteerIbope implements IRunBot {
       await page.waitForTimeout(1000);
       await submit[0].click();
       await page.waitForTimeout(1000);
-
+      
       try {
         var task = ibope.schedule('* * * * *', async () => {
 

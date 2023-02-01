@@ -2,10 +2,8 @@ import { ICronMetrics } from "../interfaces/ICronMetrics";
 import { JsonMetricFS } from "./JsonMetricFS";
 import { RunBotPuppeteer } from "./RunBotPuppeteer";
 import { RubBotPuppeteerIbope } from "./RunBotPuppeteerIbope";
-import { FixJsonDate } from "../includes/FixJsonDate";
 
 const youtube = require('node-cron');
-const jsonValid = require('node-cron');
 
 class CronMetrics implements ICronMetrics {
 
@@ -16,7 +14,7 @@ class CronMetrics implements ICronMetrics {
 
     try {
       const ibopeClass = new RubBotPuppeteerIbope();
-      const objIbope = await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
+      await ibopeClass.RunBot({ url: 'https://www.realtimebrasil.com/', key: '' });
     } catch (error) {
       object = { message: error };
       console.log(object);

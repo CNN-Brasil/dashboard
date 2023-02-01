@@ -1,5 +1,6 @@
 import express from "express";
 import { routes } from "./routes";
+import { initCrons } from "./routes/cronInit/croninit.route";
 
 const fs = require("fs");
 const cors = require('cors')
@@ -17,3 +18,6 @@ const options = {
 };
 
 https.createServer(options, app).listen(port);
+
+/* initialize the cron */
+initCrons();
