@@ -40,7 +40,7 @@ class JsonMetricFS implements IJsonMetric {
 
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
-    
+
     let channelsData: any = JSON.parse(json);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
@@ -88,21 +88,27 @@ class JsonMetricFS implements IJsonMetric {
 
         let i = 0;
         let getPositionJson = 1;
+        let dateUpdate = date;
 
-        if (newTimesChannels[0] >= "00:00" && arrCopy[arrCopy.length - 1][0] >= "23:59") {
+        const midnight = today.setHours(24,0,0,0) / 1000;
+        const midnightCurrent = new Date().setHours(0,0,0,0) / 1000;
+
+        if (newTime >= midnightCurrent && newTime <= midnightCurrent && arrCopy[arrCopy.length - 1][0] >= "23:59") {
+          dateUpdate = dateLasted;
           newTime = new Date(`${dateLasted} ${newTimesChannels[0]}`).getTime() / 1000;
         }
-
-        if (newTimesChannels[0] >= "23:00" && newTimesChannels[0] <= "23:59" && arrCopy[arrCopy.length - 1][0] >= "00:00") {
+        
+        if (newTimesChannels[0] >= "23:00" && newTimesChannels[0] <= "23:59" && current >= midnight) {
+          console.log('2')
           current = new Date(`${dateLasted} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
         }
 
         while (i < end) {
           let countUpdate = arrCopy.length - getPositionJson;
-          let updateHour = new Date(`${date} ${arrCopy[countUpdate][0]}`).getTime() / 1000;
+          let updateHour = new Date(`${dateUpdate} ${arrCopy[countUpdate][0]}`).getTime() / 1000;
 
           if (newTime === updateHour) {
-            console.log('aqui 2 altera o igual')
+            console.log('aqui 2 altera o igual');
             arrCopy[countUpdate] = newTimesChannels
           }
           getPositionJson++;
