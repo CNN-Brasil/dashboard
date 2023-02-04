@@ -36,6 +36,13 @@ class ConverterDataChannel {
     let per: number = linkedIndividuals - (linkedIndividuals * withoutDuplicationYoutube);
     return per;
   }
+
+  //Novo calculo
+  Calculation(shareChannel: string): number {
+    const households:number = parseFloat(shareChannel) * this.individualsNumber;
+    const individualsByChannel:number = households * this.numberIndividualsHousehold
+    return Math.trunc(individualsByChannel);
+  }
 }
 
 export { ConverterDataChannel }

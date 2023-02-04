@@ -23,11 +23,11 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 const options = {
-  key: fs.readFileSync(`${__dirname}/cnnbrasil-(1).key`),
+  key: fs.readFileSync(`${__dirname}/cnnbrasil(1).key`),
   cert: fs.readFileSync(`${__dirname}/cnnbrasil.crt`)
 };
 
 https.createServer(options, app).listen(port);
 
 /* Initialize the cron */
-//initCrons();
+initCrons();

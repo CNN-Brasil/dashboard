@@ -37,7 +37,6 @@ class JsonMetricFS implements IJsonMetric {
   SaveJsonIbope(params: IJsonMetricDTO): void {
 
     const { archive, json } = params;
-
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
 
@@ -82,6 +81,12 @@ class JsonMetricFS implements IJsonMetric {
         const yyyyLasted = dateLasted.getFullYear();
         dateLasted = `${mmLasted}/${ddLasted}/${yyyyLasted}`;
 
+        let dateBefore: any = new Date(new Date(date).setDate(new Date(date).getDate() - 1));
+        const dddateBefore = String(dateBefore.getDate()).padStart(2, '0');
+        const mmdateBefore = String(dateBefore.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyydateBefore = dateBefore.getFullYear();
+        dateBefore = `${mmdateBefore}/${dddateBefore}/${yyyydateBefore}`;
+
         let newTime = new Date(`${date} ${newTimesChannels[0]}`).getTime() / 1000;
         let current = new Date(`${date} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
         let timeActual = new Date(`${date} ${arrCopy[verify][0]}`).getTime() / 1000;
@@ -90,16 +95,17 @@ class JsonMetricFS implements IJsonMetric {
         let getPositionJson = 1;
         let dateUpdate = date;
 
-        const midnight = today.setHours(24,0,0,0) / 1000;
-        const midnightCurrent = new Date().setHours(0,0,0,0) / 1000;
+        const midnightCurrent = new Date().setHours(0, 0, 0, 0) / 1000;
+        const midnightCurrentEnd = new Date().setHours(0, 59, 0, 0) / 1000;
 
-        if (newTime >= midnightCurrent && newTime <= midnightCurrent && arrCopy[arrCopy.length - 1][0] >= "23:59") {
-          dateUpdate = dateLasted;
+        if (newTime >= midnightCurrent && newTime <= midnightCurrentEnd) {
+          console.log('aqui 0');
           newTime = new Date(`${dateLasted} ${newTimesChannels[0]}`).getTime() / 1000;
+          dateUpdate = dateLasted;
         }
-        
-        if (newTimesChannels[0] >= "23:00" && newTimesChannels[0] <= "23:59" && current >= midnight) {
-          console.log('2')
+
+        if (current >= midnightCurrent && current <= midnightCurrentEnd) {
+          console.log('aqui 1');
           current = new Date(`${dateLasted} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
         }
 
@@ -115,7 +121,7 @@ class JsonMetricFS implements IJsonMetric {
           i++
         }
 
-        if (newTime > current && newTime > timeActual && newTime) {
+        if (newTime > current && newTime > timeActual) {
           console.log('aqui 3 add ' + newTimesChannels[0])
           arrCopy.splice(arrCopy.length + 1, 0, newTimesChannels)
         }
@@ -196,11 +202,6 @@ class JsonMetricFS implements IJsonMetric {
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
         const horaB = elementB[0];
-        let CNNB = elementB[1];
-        let GLOBONEWSB = elementB[2];
-        let RecordB = elementB[3];
-        let JOVEMPANB = elementB[4];
-        let bandnewsB = elementB[5]
 
         if (horaA === horaB) {
           elementA[1] = Math.trunc(CNN);

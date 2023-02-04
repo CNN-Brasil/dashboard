@@ -84,7 +84,7 @@ class RubBotPuppeteerIbope implements IRunBot {
 
                 for (let index = 0; index < data.length; index++) {
                   const element = data[index];
-                  let share = element.querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
+                  let share = element.querySelectorAll('td')[indexs].querySelectorAll('span')[0]?.textContent ?? '';
                   let hours = time[index].querySelector('td span')?.textContent;
 
                   if ("TOTALPAYTV" === nameChannel) {
@@ -102,7 +102,7 @@ class RubBotPuppeteerIbope implements IRunBot {
                 }
                 
                 if (data2) {
-                  let ShareConsolidated = data2.querySelectorAll('td')[indexs].querySelectorAll('span')[1]?.textContent?.replace('%', '') ?? '';
+                  let ShareConsolidated = data2.querySelectorAll('td')[indexs].querySelectorAll('span')[0]?.textContent ?? '';
                   let hoursConsolidated = time[data.length].querySelector('td span')?.textContent;
   
                   const channelObjs = ` "${ShareConsolidated}" `;
@@ -140,7 +140,7 @@ class RubBotPuppeteerIbope implements IRunBot {
             browser.close();
             return;
           }
-
+          
           this.jsonMetric.SaveJsonIbope({ json: JSON.stringify(this.MountJson(data)), archive: 'ibope-metric' });
         });
 
@@ -190,7 +190,7 @@ class RubBotPuppeteerIbope implements IRunBot {
             let arrTime: string[] = [];
             (Object.keys(element) as (keyof typeof element)[]).forEach((keyChannel: any, d) => {
               channnelShare.payTV.forEach((sharePayTV: string, indexs: number) => {
-                const views: any = converterDataChannel.CalculationChannel(sharePayTV, element[keyChannel].share[indexs]);
+                const views: any = converterDataChannel.Calculation(element[keyChannel].share[indexs]);
                 arrViews.push(views);
                 arrTime.push(`"${element[keyChannel].time[indexs]}"`);
               });
