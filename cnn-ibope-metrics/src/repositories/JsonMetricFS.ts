@@ -21,7 +21,7 @@ class JsonMetricFS implements IJsonMetric {
         a = [];
 
         let keyChannel = getJson[0].indexOf(key.toString());
-        newChannel[0] = element['CNNBRASIL'].time;
+        newChannel[0] = this.convertDateStrftime.convertDate(element['CNNBRASIL'].time);
         newChannel[keyChannel] = Math.trunc(element[key].view);
         a.push(newChannel);
       });
@@ -42,9 +42,8 @@ class JsonMetricFS implements IJsonMetric {
     const { archive, json } = params;
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
-    const midnightCurrent = new Date().setHours(0, 0, 0, 0) / 1000;
 
-    let channelsData: any = JSON.parse(json);;
+    let channelsData: any = JSON.parse(json);
     let getJson = JSON.parse(getJsonValueFile.toString());
 
     Object.freeze(getJson);
@@ -69,31 +68,25 @@ class JsonMetricFS implements IJsonMetric {
         newTimesChannels[keyChannel] = Math.trunc(view);
       });
 
-      let newTime = newTimesChannels[0];
-      let current = arrCopy[arrCopy.length - 1][0];
-      let timeActual = arrCopy[verify][0];
+      const newTime = newTimesChannels[0] * 1000;
+      const current = parseInt(arrCopy[arrCopy.length - 1][0]) * 1000;
+      const timeActual = arrCopy[verify][0] * 1000;
 
       let i = 0;
       let getPositionJson = 1;
 
-      if (current >= midnightCurrent && this.convertDateStrftime.getDiffBetweenHours(current, newTime) >= 23) {
-        count++;
-        if (count === end || 0 === end) {
-          whileEnd = false;
-        }
-        continue;
-      }
-
       while (i < end) {
-        if (arrCopy.length > 1) {
-          let countUpdate = arrCopy.length - getPositionJson;
-          let updateHour = arrCopy[countUpdate][0];
+        const countUpdate = arrCopy.length - getPositionJson;
+
+        if (arrCopy.length > 1 && Math.sign(countUpdate) === 1) {
+          const updateHour = arrCopy[countUpdate][0] * 1000;
 
           if (newTime === updateHour) {
             arrCopy[countUpdate] = newTimesChannels
           }
-          getPositionJson++;
         }
+
+        getPositionJson++;
         i++
       }
 
@@ -101,9 +94,10 @@ class JsonMetricFS implements IJsonMetric {
         arrCopy.push(newTimesChannels)
       }
 
-      if (newTime > current && newTime > timeActual) {
-        console.log('Time Already')
-        arrCopy.splice(arrCopy.length + 1, 0, newTimesChannels)
+      console.log(this.convertDateStrftime.getDiffBetweenHours(current, newTime));
+
+      if (newTime > current && newTime > timeActual && this.convertDateStrftime.getDiffBetweenHours(current, newTime) < 0.1) {
+        arrCopy.splice(arrCopy.length, 0, newTimesChannels)
       }
 
       count++
@@ -119,8 +113,6 @@ class JsonMetricFS implements IJsonMetric {
 
     const stringJson = JSON.stringify(arrCopy);
     fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
-    return;
-
   }
 
   JsonErrors(err: any): string {
@@ -165,31 +157,34 @@ class JsonMetricFS implements IJsonMetric {
     (archive === 'ibope-metric') ? filter = ibopeFilter : filter = youtubeFilter;
 
     filter.forEach((elementA: any, key: number) => {
-      
+
       const horaA = elementA[0];
 
       let CNN = elementA[1];
       let GLOBONEWS = elementA[2];
       let Record = elementA[3];
       let JOVEMPAN = elementA[4];
-      let bandnews = elementA[5]
+      let bandnews = elementA[5];
 
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
         const horaB = elementB[0];
 
         if (horaA === horaB) {
+          const hour    = ("0" + new Date(horaA * 1000).getHours()).slice(-2);
+          const minutes = ("0" + new Date(horaA * 1000).getMinutes()).slice(-2);
+
+          elementA[0] = `${hour}:${minutes}`;
           elementA[1] = Math.trunc(CNN);
           elementA[2] = Math.trunc(GLOBONEWS);
           elementA[3] = Math.trunc(Record);
           elementA[4] = Math.trunc(JOVEMPAN);
           elementA[5] = Math.trunc(bandnews);
-          youtubeModified.push(elementA)
+          youtubeModified.push(elementA);
           continue;
         }
       }
-
-    })
+    });
 
     youtubeModified.unshift(object);
     return youtubeModified;

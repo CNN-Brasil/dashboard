@@ -17,11 +17,14 @@ class ConvertDateStrftime {
   }
 
   getDiffBetweenHours(current: number, newTime: number): number {
-    const currentDiff = new Date(current * 1000).getHours();
-    const newTimeDiff = new Date(newTime * 1000).getHours();
-    const hourDiff = (currentDiff - newTimeDiff);
+ 
+    const currentDiff = new Date(current);
+    const newTimeDiff = new Date(newTime);
 
-    return hourDiff;
+    const differenceInTime = newTimeDiff.getTime() - currentDiff.getTime();     
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    
+    return differenceInDays;
   }
 
 }
