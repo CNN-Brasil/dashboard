@@ -5,7 +5,7 @@ class ConverterDataChannel {
 
   constructor() {
     this.individualsNumber = parseFloat("26808336");
-    this.numberIndividualsHousehold = parseFloat("1.67");
+    this.numberIndividualsHousehold = parseFloat("1.6749");
   }
 
   //CÁLCULO DE DOMICÍLIOS LIGADOS
@@ -38,10 +38,17 @@ class ConverterDataChannel {
   }
 
   //Novo calculo
-  Calculation(shareChannel: string): number {
+  Calculation(shareChannel: string, keyChannel: string): number {
+    //1.14 = numero medio de pessoas por domicilio em news
+    //1.6749 = fator de correção anatel x Kantar
     const households:number = parseFloat(shareChannel) * this.individualsNumber;
-    const individualsByChannel:number = households * this.numberIndividualsHousehold
-    return Math.trunc(individualsByChannel);
+    const individualsByChannel:number = households * 1.14;
+    const result = individualsByChannel * this.numberIndividualsHousehold;
+  
+    if (keyChannel !== "GLOBONEWS") {
+      return this.RemoveDuplicityYoutube(result / 1000);
+    }
+    return result / 1000;
   }
 }
 
