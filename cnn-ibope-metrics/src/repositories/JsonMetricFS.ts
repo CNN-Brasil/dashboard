@@ -1,7 +1,10 @@
 import { IJsonMetric, IJsonMetricDTO } from '../interfaces/IJsonMetric';
 import fs from 'fs';
+import { ConvertDateStrftime } from '../includes/ConvertDateStrftime';
 
 class JsonMetricFS implements IJsonMetric {
+
+  private convertDateStrftime = new ConvertDateStrftime();
 
   SaveJsonYoutube(params: IJsonMetricDTO): void {
     const { archive, json } = params;
@@ -39,113 +42,85 @@ class JsonMetricFS implements IJsonMetric {
     const { archive, json } = params;
     const urlJsonFile = `${__dirname}/../json/${archive}.json`;
     const getJsonValueFile = fs.readFileSync(urlJsonFile);
+    const midnightCurrent = new Date().setHours(0, 0, 0, 0) / 1000;
 
-    let channelsData: any = JSON.parse(json);
+    let channelsData: any = JSON.parse(json);;
     let getJson = JSON.parse(getJsonValueFile.toString());
 
     Object.freeze(getJson);
+
     let arrCopy: any[] = [...getJson];
+    let whileEnd = true;
+    let count: number = 0;
 
-    if (getJson.length > 6) {
+    const end = channelsData[0].RECORDNEWS.share.length;
 
-      let whileEnd = true;
-      let count: number = 0;
+    while (whileEnd) {
+      let verify: number = getJson.length - 1;
+      const newTimesChannels: any[] = [];
+      const countShare = count;
 
-      Object.freeze(getJson);
-      const end = channelsData[0].RECORDNEWS.share.length;
+      channelsData.forEach((element: any, index: any) => {
+        const c: any = (Object.keys(channelsData[index]) as (keyof typeof channelsData[])[]);
+        let keyChannel = getJson[0].indexOf(c.toString());
+        const view = element[c].share[countShare];
+        const time = element[c].time[countShare];
+        newTimesChannels[0] = this.convertDateStrftime.convertDate(time);
+        newTimesChannels[keyChannel] = Math.trunc(view);
+      });
 
-      while (whileEnd) {
-        let verify: number = getJson.length - 1;
-        const newTimesChannels: any[] = [];
-        const countShare = count;
+      let newTime = newTimesChannels[0];
+      let current = arrCopy[arrCopy.length - 1][0];
+      let timeActual = arrCopy[verify][0];
 
-        channelsData.forEach((element: any, index: any) => {
-          const c: any = (Object.keys(channelsData[index]) as (keyof typeof channelsData[])[]);
-          let keyChannel = getJson[0].indexOf(c.toString());
-          const view = element[c].share[countShare];
-          const time = element[c].time[countShare];
-          newTimesChannels[0] = time;
-          newTimesChannels[keyChannel] = Math.trunc(view);
-        });
+      let i = 0;
+      let getPositionJson = 1;
 
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyy = today.getFullYear();
-
-        let date: any = `${mm}/${dd}/${yyyy}`;
-
-        let dateLasted: any = new Date(new Date(date).setDate(new Date(date).getDate() + 1));
-        const ddLasted = String(dateLasted.getDate()).padStart(2, '0');
-        const mmLasted = String(dateLasted.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyyLasted = dateLasted.getFullYear();
-        dateLasted = `${mmLasted}/${ddLasted}/${yyyyLasted}`;
-
-        let dateBefore: any = new Date(new Date(date).setDate(new Date(date).getDate() - 1));
-        const dddateBefore = String(dateBefore.getDate()).padStart(2, '0');
-        const mmdateBefore = String(dateBefore.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyydateBefore = dateBefore.getFullYear();
-        dateBefore = `${mmdateBefore}/${dddateBefore}/${yyyydateBefore}`;
-
-        let newTime = new Date(`${date} ${newTimesChannels[0]}`).getTime() / 1000;
-        let current = new Date(`${date} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
-        let timeActual = new Date(`${date} ${arrCopy[verify][0]}`).getTime() / 1000;
-
-        let i = 0;
-        let getPositionJson = 1;
-        let dateUpdate = date;
-
-        const midnightCurrent = new Date().setHours(0, 0, 0, 0) / 1000;
-        const midnightCurrentEnd = new Date().setHours(0, 59, 0, 0) / 1000;
-
-        if (newTime >= midnightCurrent && newTime <= midnightCurrentEnd) {
-          console.log('aqui 0');
-          newTime = new Date(`${dateLasted} ${newTimesChannels[0]}`).getTime() / 1000;
-          dateUpdate = dateLasted;
-        }
-
-        if (current >= midnightCurrent && current <= midnightCurrentEnd) {
-          console.log('aqui 1');
-          current = new Date(`${dateLasted} ${arrCopy[arrCopy.length - 1][0]}`).getTime() / 1000;
-        }
-
-        while (i < end) {
-          let countUpdate = arrCopy.length - getPositionJson;
-          let updateHour = new Date(`${dateUpdate} ${arrCopy[countUpdate][0]}`).getTime() / 1000;
-
-          if (newTime === updateHour) {
-            console.log('aqui 2 altera o igual');
-            arrCopy[countUpdate] = newTimesChannels
-          }
-          getPositionJson++;
-          i++
-        }
-
-        if (newTime > current && newTime > timeActual) {
-          console.log('aqui 3 add ' + newTimesChannels[0])
-          arrCopy.splice(arrCopy.length + 1, 0, newTimesChannels)
-        }
-
-        count++
-
+      if (current >= midnightCurrent && this.convertDateStrftime.getDiffBetweenHours(current, newTime) >= 23) {
+        count++;
         if (count === end || 0 === end) {
           whileEnd = false;
         }
+        continue;
       }
 
-      if (361 < arrCopy.length) {
-        arrCopy.splice(1, 1);
+      while (i < end) {
+        if (arrCopy.length > 1) {
+          let countUpdate = arrCopy.length - getPositionJson;
+          let updateHour = arrCopy[countUpdate][0];
+
+          if (newTime === updateHour) {
+            arrCopy[countUpdate] = newTimesChannels
+          }
+          getPositionJson++;
+        }
+        i++
       }
 
-      const stringJson = JSON.stringify(arrCopy);
-      fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
-      return;
+      if (arrCopy.length <= 1) {
+        arrCopy.push(newTimesChannels)
+      }
+
+      if (newTime > current && newTime > timeActual) {
+        console.log('Time Already')
+        arrCopy.splice(arrCopy.length + 1, 0, newTimesChannels)
+      }
+
+      count++
+
+      if (count === end || 0 === end) {
+        whileEnd = false;
+      }
     }
 
-    const newTimesChannels = this.returnArrayTimes(channelsData, getJson);
-    const arrayJoin = getJson.concat([newTimesChannels]);
-    const stringJson = JSON.stringify(arrayJoin);
+    if (361 < arrCopy.length) {
+      arrCopy.splice(1, 1);
+    }
+
+    const stringJson = JSON.stringify(arrCopy);
     fs.writeFile(urlJsonFile, stringJson, 'utf8', this.JsonErrors);
+    return;
+
   }
 
   JsonErrors(err: any): string {
@@ -190,7 +165,7 @@ class JsonMetricFS implements IJsonMetric {
     (archive === 'ibope-metric') ? filter = ibopeFilter : filter = youtubeFilter;
 
     filter.forEach((elementA: any, key: number) => {
-
+      
       const horaA = elementA[0];
 
       let CNN = elementA[1];
