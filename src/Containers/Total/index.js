@@ -392,22 +392,22 @@ export default props => {
                                 </PorcentageGraphic>
                             </Graphic>
                             <Graphic bg={state.share[1] && state.share[1][2] < 50 ? '#489624' : '#C4C4C4'}>
-                                <SliceOne transf1={state.share[1] && state.share[1][2] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceOne>
-                                <SliceTwo transf2={state.share[1] && state.share[1][2] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceTwo>
+                                <SliceOne transf1={state.share[1] && state.share[1][2] < 50 ? (state.share[1][2] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][2] < 50 ? 0 : (state.share[1][2] / 100 * 360)} bg3={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceTwo>
                                 <PorcentageGraphic>
                                     <PorcentageGraphicSpan>{state.share[1] && state.share[1][2]}%</PorcentageGraphicSpan>
                                 </PorcentageGraphic>
                             </Graphic>
                             <Graphic bg={state.share[1] && state.share[1][3] < 50 ? '#8C8C8C' : '#C4C4C4'}>
-                                <SliceOne transf1={state.share[1] && state.share[1][3] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceOne>
-                                <SliceTwo transf2={state.share[1] && state.share[1][3] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceTwo>
+                                <SliceOne transf1={state.share[1] && state.share[1][3] < 50 ? (state.share[1][3] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][3] < 50 ? 0 : (state.share[1][3] / 100 * 360)} bg3={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceTwo>
                                 <PorcentageGraphic>
                                     <PorcentageGraphicSpan>{state.share[1] && state.share[1][3]}%</PorcentageGraphicSpan>
                                 </PorcentageGraphic>
                             </Graphic>
                             <Graphic bg={state.share[1] && state.share[1][4] < 50 ? '#FFB800' : '#C4C4C4'}>
-                                <SliceOne transf1={state.share[1] && state.share[1][4] < 50 ? (state.share[1][1] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceOne>
-                                <SliceTwo transf2={state.share[1] && state.share[1][4] < 50 ? 0 : (state.share[1][1] / 100 * 360)} bg3={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceTwo>
+                                <SliceOne transf1={state.share[1] && state.share[1][4] < 50 ? (state.share[1][4] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][4] < 50 ? 0 : (state.share[1][4] / 100 * 360)} bg3={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceTwo>
                                 <PorcentageGraphic>
                                     <PorcentageGraphicSpan>{state.share[1] && state.share[1][4]}%</PorcentageGraphicSpan>
                                 </PorcentageGraphic>
