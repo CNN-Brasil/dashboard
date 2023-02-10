@@ -349,7 +349,7 @@ export default props => {
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
-                                    data={state.youtube.shift()}
+                                    data={state.youtube}
                                     width={mobile ? '1200px' : '100%'}
                                     height="400px"
                                     options={renderOptionsYT()} 
