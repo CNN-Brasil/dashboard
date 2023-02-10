@@ -186,6 +186,7 @@ class JsonMetricFS implements IJsonMetric {
         if (horaA === horaB) {
           const hour    = ("0" + new Date(horaA * 1000).getHours()).slice(-2);
           const minutes = ("0" + new Date(horaA * 1000).getMinutes()).slice(-2);
+          elementA[0] = `${hour}:${minutes}`;
           youtubeModified.push(elementA);
           continue;
         }
