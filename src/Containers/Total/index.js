@@ -197,6 +197,45 @@ export default props => {
 
         return options
     }
+
+    const renderOptionsYT = () => {
+        var options = {
+            legend: 'none',
+            curveType: "function",
+            backgroundColor:'transparent',
+            lineWidth: 3,
+            chartArea: {
+                width:"90%",
+                top: 40,
+                bottom: 40,
+                left: 100,
+                right: 40
+            },
+            vAxis: {    
+                format: 'short',
+                textStyle : {
+                    fontSize : 18,
+                    color: ball ? '#fff' : '#464646',
+                },
+                minValue: 0,
+            },
+            hAxis: {
+                format: 'long',
+                showTextEvery: 20,
+                textStyle : {
+                    fontSize : 18,
+                    color: ball ? '#fff' : '#464646',
+                }
+            },
+            series: {
+                0: { color: '#CC0000' },
+                1: { color: '#489624' },
+                2: { color: '#8C8C8C' },
+          }
+        };
+
+        return options
+    }
     
     return (
         <>
@@ -310,10 +349,10 @@ export default props => {
                             <GraphContent>
                                 <Chart
                                     chartType="LineChart"
-                                    data={state.youtube}
+                                    data={state.youtube.shift()}
                                     width={mobile ? '1200px' : '100%'}
                                     height="400px"
-                                    options={renderOptions()} 
+                                    options={renderOptionsYT()} 
                                     />
                             </GraphContent>
                         </Graph>
