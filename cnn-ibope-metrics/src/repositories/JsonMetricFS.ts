@@ -52,7 +52,7 @@ class JsonMetricFS implements IJsonMetric {
     let whileEnd = true;
     let count: number = 0;
 
-    const end = channelsData[0].CNNBRASIL.share.length;
+    const end = channelsData[0].RECORDNEWS.share.length;
 
     while (whileEnd) {
       let verify: number = getJson.length - 1;
