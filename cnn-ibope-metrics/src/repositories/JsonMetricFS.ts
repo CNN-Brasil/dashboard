@@ -52,7 +52,7 @@ class JsonMetricFS implements IJsonMetric {
     let whileEnd = true;
     let count: number = 0;
 
-    const end = channelsData[0].RECORDNEWS.share.length;
+    const end = channelsData[0].CNNBRASIL.share.length;
 
     while (whileEnd) {
       let verify: number = getJson.length - 1;
@@ -124,7 +124,7 @@ class JsonMetricFS implements IJsonMetric {
 
   GetJson(archive: string): object {
 
-    let object: [
+    let objectIbope: [
       "Horário",
       "CNNBRASIL",
       "GLOBONEWS",
@@ -139,6 +139,18 @@ class JsonMetricFS implements IJsonMetric {
         "JOVEMPANNEWS",
         "BANDNEWS"
       ];
+
+      let objectYoutube: [
+        "Horário",
+        "CNNBRASIL",
+        "RECORDNEWS",
+        "JOVEMPANNEWS",
+      ] = [
+          "Horário",
+          "CNNBRASIL",
+          "RECORDNEWS",
+          "JOVEMPANNEWS",
+        ];
 
     let youtubeFile: string = `${__dirname}/../json/youtube-metric.json`;
     let ibopeFile: string = `${__dirname}/../json/ibope-metric.json`;
@@ -155,6 +167,7 @@ class JsonMetricFS implements IJsonMetric {
     let filter = youtubeFilter;
 
     (archive === 'ibope-metric') ? filter = ibopeFilter : filter = youtubeFilter;
+    const object = (archive === 'ibope-metric') ? objectIbope : objectYoutube;
 
     filter.forEach((elementA: any, key: number) => {
 
@@ -170,16 +183,10 @@ class JsonMetricFS implements IJsonMetric {
         const elementB = ibopeFilter[index];
         const horaB = elementB[0];
 
+        console.log(elementA)
         if (horaA === horaB) {
           const hour    = ("0" + new Date(horaA * 1000).getHours()).slice(-2);
           const minutes = ("0" + new Date(horaA * 1000).getMinutes()).slice(-2);
-
-          elementA[0] = `${hour}:${minutes}`;
-          elementA[1] = Math.trunc(CNN);
-          elementA[2] = Math.trunc(GLOBONEWS);
-          elementA[3] = Math.trunc(Record);
-          elementA[4] = Math.trunc(JOVEMPAN);
-          elementA[5] = Math.trunc(bandnews);
           youtubeModified.push(elementA);
           continue;
         }
