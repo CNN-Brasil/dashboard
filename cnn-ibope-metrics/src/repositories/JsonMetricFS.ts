@@ -182,8 +182,7 @@ class JsonMetricFS implements IJsonMetric {
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
         const horaB = elementB[0];
-
-        console.log(elementA)
+        
         if (horaA === horaB) {
           const hour    = ("0" + new Date(horaA * 1000).getHours()).slice(-2);
           const minutes = ("0" + new Date(horaA * 1000).getMinutes()).slice(-2);
