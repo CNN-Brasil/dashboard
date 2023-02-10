@@ -35,10 +35,8 @@ class Consolidated implements Consolidated {
       const horaA = elementA[0];
 
       let CNN = elementA[1];
-      let GLOBONEWS = elementA[2];
-      let Record = elementA[3];
-      let JOVEMPAN = elementA[4];
-      let bandnews = elementA[5];
+      let Record = elementA[2];
+      let JOVEMPAN = elementA[3];
 
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
@@ -51,10 +49,10 @@ class Consolidated implements Consolidated {
 
         if (horaA === horaB) {
           elementA[1] = Math.trunc(CNN + CNNB);
-          elementA[2] = Math.trunc(GLOBONEWS + GLOBONEWSB);
+          elementA[2] = Math.trunc(0 + GLOBONEWSB);
           elementA[3] = Math.trunc(Record + RecordB);
           elementA[4] = Math.trunc(JOVEMPAN + JOVEMPANB);
-          elementA[5] = Math.trunc(bandnews + bandnewsB);
+          elementA[5] = Math.trunc(0 + bandnewsB);
           
           youtubeModified.push(elementA)
           continue;

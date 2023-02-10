@@ -38,17 +38,18 @@ class ConverterDataChannel {
   }
 
   //Novo calculo
-  Calculation(shareChannel: string, keyChannel: string): number {
+  CalculationNew(shTotal:string, shareChannel: string, keyChannel: string): number {
     //1.14 = numero medio de pessoas por domicilio em news
     //1.6749 = fator de correção anatel x Kantar
-    const households:number = parseFloat(shareChannel) * this.individualsNumber;
-    const individualsByChannel:number = households * 1.14;
-    const result = individualsByChannel * this.numberIndividualsHousehold;
-  
+
+    const households:number = ((parseFloat(shTotal) / 100) * (this.individualsNumber * 1.14));
+    const individualsByChannel:number = households * (parseFloat(shareChannel) / 100);
+    const individualsByChannelAnatel:number = individualsByChannel * 1.6749;
+
     if (keyChannel !== "GLOBONEWS") {
-      return this.RemoveDuplicityYoutube(result / 1000);
+      return this.RemoveDuplicityYoutube(individualsByChannelAnatel);
     }
-    return result / 1000;
+    return individualsByChannelAnatel;
   }
 }
 

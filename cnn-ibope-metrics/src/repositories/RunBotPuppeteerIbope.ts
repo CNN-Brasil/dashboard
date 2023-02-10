@@ -190,7 +190,7 @@ class RubBotPuppeteerIbope implements IRunBot {
             let arrTime: string[] = [];
             (Object.keys(element) as (keyof typeof element)[]).forEach((keyChannel: any, d) => {
               channnelShare.payTV.forEach((sharePayTV: string, indexs: number) => {
-                const views: any = converterDataChannel.Calculation(element[keyChannel].share[indexs], keyChannel);
+                const views: any = converterDataChannel.CalculationNew(sharePayTV, element[keyChannel].share[indexs], keyChannel);
                 arrViews.push(views);
                 arrTime.push(`"${element[keyChannel].time[indexs]}"`);
               });
