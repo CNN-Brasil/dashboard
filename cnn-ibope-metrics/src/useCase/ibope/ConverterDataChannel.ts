@@ -47,9 +47,9 @@ class ConverterDataChannel {
     const individualsByChannelAnatel:number = households * 1.6749;
 
     if (keyChannel !== "GLOBONEWS") {
-      return this.RemoveDuplicityYoutube(individualsByChannelAnatel) / 1000;
+      return this.RemoveDuplicityYoutube(individualsByChannelAnatel) / 100;
     }
-    return individualsByChannelAnatel / 1000;
+    return individualsByChannelAnatel / 100;
   }
 }
 
