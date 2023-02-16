@@ -34,7 +34,7 @@ class RubBotPuppeteerIbope implements IRunBot {
 
       await page.type("[name='username']", "pedro.sposito@cnnbrasil.com.br");
       await page.waitForTimeout(1000);
-      await page.type("[name='password']", "fsfbI0rHLv1%");
+      await page.type("[name='password']", "fsfbI0rHLv1%2");
 
       await page.waitForTimeout(1000);
       await saveCheckbox[0].click();
@@ -190,7 +190,7 @@ class RubBotPuppeteerIbope implements IRunBot {
             let arrTime: string[] = [];
             (Object.keys(element) as (keyof typeof element)[]).forEach((keyChannel: any, d) => {
               channnelShare.payTV.forEach((sharePayTV: string, indexs: number) => {
-                const views: any = converterDataChannel.CalculationNew(sharePayTV, element[keyChannel].share[indexs], keyChannel);
+                const views: any = converterDataChannel.CalculationNew(element[keyChannel].share[indexs], keyChannel);
                 arrViews.push(views);
                 arrTime.push(`"${element[keyChannel].time[indexs]}"`);
               });
