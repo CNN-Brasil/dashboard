@@ -189,9 +189,8 @@ export default props => {
             series: {
                 0: { color: '#CC0000' },
                 1: { color: '#1770C6' },
-                2: { color: '#489624' },
-                3: { color: '#8C8C8C' },
-                4: { color: '#FFB800' },
+                2: { color: '#8C8C8C' },
+                3: { color: '#FFB800' },
           }
         };
 
@@ -229,8 +228,7 @@ export default props => {
             },
             series: {
                 0: { color: '#CC0000' },
-                1: { color: '#489624' },
-                2: { color: '#8C8C8C' },
+                1: { color: '#8C8C8C' },
           }
         };
 
@@ -281,10 +279,6 @@ export default props => {
                             <Types bg='#1770C6'>
                                 <strong></strong>
                                 <TypesSpan>Globo News</TypesSpan>                                
-                            </Types>
-                            <Types bg='#489624'>
-                                <strong></strong>
-                                <TypesSpan>Record News</TypesSpan>                                
                             </Types>
                             <Types bg='#8C8C8C'>
                                 <strong></strong>
@@ -383,23 +377,12 @@ export default props => {
 
                         <Info>
                             <InfoLogo>
-                                {ball ? <RecordNewsLogoDark /> : <RecordNewsLogo />}
-                            </InfoLogo>
-                            <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[2]) : '0'}</InfoNumbers>
-                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[3]) : '0'}</InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[3]) : '0'}</strong></InfoNumbers>
-                            </InfoGeral>
-                        </Info>
-
-                        <Info>
-                            <InfoLogo>
                                 <JPNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
                                 <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[3]) : '0'}</InfoNumbers>
-                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[4]) : '0'}</InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[4]) : '0'}</strong></InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[3]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[3]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -409,8 +392,8 @@ export default props => {
                             </InfoLogo>
                             <InfoGeral>
                                 <InfoNumbers border>Não tem canal no Youtube </InfoNumbers>
-                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[5]) : '0'}</InfoNumbers>
-                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[5]) : '0'}</strong></InfoNumbers>
+                                <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[4]) : '0'}</InfoNumbers>
+                                <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[4]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>
                         </Info>
 
@@ -430,25 +413,18 @@ export default props => {
                                     <PorcentageGraphicSpan>{state.share[1] && state.share[1][1]}%</PorcentageGraphicSpan>
                                 </PorcentageGraphic>
                             </Graphic>
-                            <Graphic bg={state.share[1] && state.share[1][2] < 50 ? '#489624' : '#C4C4C4'}>
-                                <SliceOne transf1={state.share[1] && state.share[1][2] < 50 ? (state.share[1][2] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceOne>
-                                <SliceTwo transf2={state.share[1] && state.share[1][2] < 50 ? 0 : (state.share[1][2] / 100 * 360)} bg3={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#489624'}></SliceTwo>
+                            <Graphic bg={state.share[1] && state.share[1][2] < 50 ? '#8C8C8C' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][2] < 50 ? (state.share[1][2] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][2] < 50 ? 0 : (state.share[1][2] / 100 * 360)} bg3={state.share[1] && state.share[1][2] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceTwo>
                                 <PorcentageGraphic>
                                     <PorcentageGraphicSpan>{state.share[1] && state.share[1][2]}%</PorcentageGraphicSpan>
                                 </PorcentageGraphic>
                             </Graphic>
-                            <Graphic bg={state.share[1] && state.share[1][3] < 50 ? '#8C8C8C' : '#C4C4C4'}>
-                                <SliceOne transf1={state.share[1] && state.share[1][3] < 50 ? (state.share[1][3] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceOne>
-                                <SliceTwo transf2={state.share[1] && state.share[1][3] < 50 ? 0 : (state.share[1][3] / 100 * 360)} bg3={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#8C8C8C'}></SliceTwo>
+                            <Graphic bg={state.share[1] && state.share[1][3] < 50 ? '#FFB800' : '#C4C4C4'}>
+                                <SliceOne transf1={state.share[1] && state.share[1][3] < 50 ? (state.share[1][3] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#FFB800'}></SliceOne>
+                                <SliceTwo transf2={state.share[1] && state.share[1][3] < 50 ? 0 : (state.share[1][3] / 100 * 360)} bg3={state.share[1] && state.share[1][3] < 50 ? '#C4C4C4' : '#FFB800'}></SliceTwo>
                                 <PorcentageGraphic>
                                     <PorcentageGraphicSpan>{state.share[1] && state.share[1][3]}%</PorcentageGraphicSpan>
-                                </PorcentageGraphic>
-                            </Graphic>
-                            <Graphic bg={state.share[1] && state.share[1][4] < 50 ? '#FFB800' : '#C4C4C4'}>
-                                <SliceOne transf1={state.share[1] && state.share[1][4] < 50 ? (state.share[1][4] / 100 * 360+90) : 90} bg2={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceOne>
-                                <SliceTwo transf2={state.share[1] && state.share[1][4] < 50 ? 0 : (state.share[1][4] / 100 * 360)} bg3={state.share[1] && state.share[1][4] < 50 ? '#C4C4C4' : '#FFB800'}></SliceTwo>
-                                <PorcentageGraphic>
-                                    <PorcentageGraphicSpan>{state.share[1] && state.share[1][4]}%</PorcentageGraphicSpan>
                                 </PorcentageGraphic>
                             </Graphic>
                         </ContentGraphic>
