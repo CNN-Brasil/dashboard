@@ -234,7 +234,7 @@ export default props => {
 
         return options
     }
-    
+
     return (
         <>
             <Container themes={theme}>
@@ -380,7 +380,7 @@ export default props => {
                                 <JPNewsLogo />
                             </InfoLogo>
                             <InfoGeral>
-                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[3]) : '0'}</InfoNumbers>
+                                <InfoNumbers border>Youtube {state.youtube.at(-1) ? renderNumberWitchCommas(state.youtube.at(-1)[2]) : '0'}</InfoNumbers>
                                 <InfoNumbers border>Kantar {state.ibope.at(-1) ? renderNumberWitchCommas(state.ibope.at(-1)[3]) : '0'}</InfoNumbers>
                                 <InfoNumbers><strong>Total {state.total.at(-1) ? renderNumberWitchCommas(state.total.at(-1)[3]) : '0'}</strong></InfoNumbers>
                             </InfoGeral>

@@ -33,7 +33,7 @@ class Consolidated implements Consolidated {
       const horaA = elementA[0];
 
       let CNN = elementA[1];
-      let JOVEMPAN = elementA[3];
+      let JOVEMPAN = elementA[2];
 
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
