@@ -33,7 +33,6 @@ class CronMetrics implements ICronMetrics {
       {
         'CNNBRASIL': { url: 'https://www.youtube.com/@CNNbrasil' },
         'JOVEMPANNEWS': { url: 'https://www.youtube.com/@jovempannews' },
-        'RECORDNEWS': { url: 'https://www.youtube.com/@recordnews' },
         'OSPINGOSNOSIS': { url: 'https://www.youtube.com/@ospingosnosis' },
       }
 

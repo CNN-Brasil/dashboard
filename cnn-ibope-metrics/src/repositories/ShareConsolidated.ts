@@ -27,7 +27,6 @@ class ShareConsolidated {
                     "Horário",
                     "CNNBRASIL",
                     "GLOBONEWS",
-                    "RECORDNEWS",
                     "JOVEMPANNEWS",
                     "BANDNEWS",
                 ]].concat([map]);

@@ -52,7 +52,7 @@ class JsonMetricFS implements IJsonMetric {
     let whileEnd = true;
     let count: number = 0;
 
-    const end = channelsData[0].RECORDNEWS.share.length;
+    const end = channelsData[0].CNNBRASIL.share.length;
 
     while (whileEnd) {
       let verify: number = getJson.length - 1;
@@ -128,14 +128,12 @@ class JsonMetricFS implements IJsonMetric {
       "Horário",
       "CNNBRASIL",
       "GLOBONEWS",
-      "RECORDNEWS",
       "JOVEMPANNEWS",
       "BANDNEWS"
     ] = [
         "Horário",
         "CNNBRASIL",
         "GLOBONEWS",
-        "RECORDNEWS",
         "JOVEMPANNEWS",
         "BANDNEWS"
       ];
@@ -143,12 +141,10 @@ class JsonMetricFS implements IJsonMetric {
       let objectYoutube: [
         "Horário",
         "CNNBRASIL",
-        "RECORDNEWS",
         "JOVEMPANNEWS",
       ] = [
           "Horário",
           "CNNBRASIL",
-          "RECORDNEWS",
           "JOVEMPANNEWS",
         ];
 
@@ -172,13 +168,7 @@ class JsonMetricFS implements IJsonMetric {
     filter.forEach((elementA: any, key: number) => {
 
       const horaA = elementA[0];
-
-      let CNN = elementA[1];
-      let GLOBONEWS = elementA[2];
-      let Record = elementA[3];
-      let JOVEMPAN = elementA[4];
-      let bandnews = elementA[5];
-
+      
       for (let index = 0; index < ibopeFilter.length; index++) {
         const elementB = ibopeFilter[index];
         const horaB = elementB[0];
